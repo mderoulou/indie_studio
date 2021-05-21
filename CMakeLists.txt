@@ -28,9 +28,18 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 
 endif()
 
-# This is the main part:
+# -I
+include_directories(include)
+
+# File to compil
 
 add_executable(${PROJECT_NAME}
-                src/main.cpp)
-#set(raylib_VERBOSE 1)
+  src/main.cpp
+  src/raylib/Window.cpp
+  include/Error.hpp
+  include/rayLib.hpp
+  include/Window.hpp 
+)
+
+
 target_link_libraries(${PROJECT_NAME} raylib)

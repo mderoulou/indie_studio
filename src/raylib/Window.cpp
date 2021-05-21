@@ -1,0 +1,117 @@
+/*
+** EPITECH PROJECT, 2020
+** YEP Indie Studio
+** File description:
+** Raylib Window funct
+*/
+
+#include "Window.hpp"
+
+// Window functions
+
+rl::Window::Window(int width, int height, const std::string title)
+    :_width(width), _height(height), _title(title), _fps(120)
+{
+    InitWindow(width, height, title.c_str());
+    if (!IsWindowReady())
+        throw WindowError("Bad Initialization\n");
+    SetTargetFPS(_fps);
+    _cursorEnabled = true;
+}
+
+rl::Window::~Window()
+{
+    Close();
+}
+
+bool rl::Window::Close()
+{
+    return WindowShouldClose();
+}
+
+bool rl::Window::isReady()
+{
+    return IsWindowReady();
+}
+
+bool rl::Window::isFullscreen()
+{
+    return IsWindowFullscreen();
+}
+
+void rl::Window::setFullscreen()
+{
+    ToggleFullscreen();
+}
+
+void rl::Window::changeTitle(std::string title)
+{
+    SetWindowTitle(title.c_str());
+}
+
+void rl::Window::changeFps(int fps)
+{
+    _fps = fps;
+    SetTargetFPS(_fps);
+}
+
+void rl::Window::setPosition(int x, int y)
+{
+    SetWindowPosition(x, y);
+}
+
+int rl::Window::getFps()
+{
+    return GetFPS();
+}
+
+void rl::Window::setWindowSize(int width, int height)
+{
+    _width = width;
+    _height = height;
+
+    SetWindowSize(width, height);
+}
+
+// Cursor
+
+void rl::Window::showCursor()
+{
+    if (_cursorEnabled)
+        std::cerr << "Cursor already shown !" << std::endl;
+
+    ShowCursor();
+    _cursorEnabled = true;
+}
+
+void rl::Window::hideCursor()
+{
+    if (!_cursorEnabled)
+        std::cerr << "Cursor already hide !" << std::endl;
+    HideCursor();
+    _cursorEnabled = false;
+}
+
+void rl::Window::lockCursor()
+{
+    DisableCursor();
+}
+
+void rl::Window::unlockCursor()
+{
+    EnableCursor();
+}
+
+bool rl::Window::isCursorOnScreen()
+{
+    return IsCursorOnScreen();
+}
+
+// Draw Functions
+/*
+void rl::Window::clearBackground(const Color &color)
+{
+    ClearBackground(color);
+}
+
+*/
