@@ -12,6 +12,11 @@
 
 namespace rl {
 
+// Need this thing or it broke
+class Vec2;
+class Vec3;
+
+
 class Camera2d : public ::Camera2D
 {
     public:
