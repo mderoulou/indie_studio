@@ -40,9 +40,35 @@ rl::Camera3d::Camera3d(rl::Vec3 pos,
                     int proj)
     : ::Camera3D{pos, target, up, fovy, proj}
 {
+    _isStarted = false;
 }
 
 void rl::Camera3d::update()
 {
     UpdateCamera(this);
+}
+
+void rl::Camera3d::setCameraMode(int mode)
+{
+    SetCameraMode(*this, mode);
+}
+
+void rl::Camera3d::beginMode()
+{
+    if (_isStarted) {
+        TraceLog(LOG_WARNING, "3d Camera already began.");
+        return;
+    }
+    _isStarted = true;
+    BeginMode3D(*this);
+}
+
+void rl::Camera3d::endMode()
+{
+    if (!_isStarted) {
+        TraceLog(LOG_WARNING, "3d Camera already ended.");
+        return;
+    }
+    _isStarted = false;
+    EndMode3D();
 }

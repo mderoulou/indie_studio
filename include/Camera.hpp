@@ -33,6 +33,14 @@ class Camera3d : public ::Camera3D
         ~Camera3d() {};
 
         void update();
+
+        void setCameraMode(int mode);
+
+        void beginMode();
+        void endMode();
+
+    private:
+        bool _isStarted;
 };
 
 }
