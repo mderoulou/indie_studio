@@ -34,13 +34,17 @@ include_directories(include)
 # File to compil
 
 add_executable(${PROJECT_NAME}
-  src/main.cpp
-  src/raylib/Window.cpp
-  src/raylib/Color.cpp
-  include/Error.hpp
-  include/Color.hpp
-  include/rayLib.hpp
-  include/Window.hpp 
+include/Error.hpp
+include/Color.hpp
+include/Vector.hpp
+include/rayLib.hpp
+include/Window.hpp 
+include/Camera.hpp 
+src/raylib/Window.cpp
+src/raylib/Color.cpp
+src/raylib/Vector.cpp
+src/raylib/Camera.cpp
+src/main.cpp
 )
 
 

@@ -12,6 +12,7 @@
 
 #include <iostream>
 
+#include "Camera.hpp"
 #include "Color.hpp"
 #include "Error.hpp"
 #include "Window.hpp"
