@@ -12,6 +12,8 @@
 
 namespace rl {
 
+class Color;
+
 class Window
 {
     public:
@@ -44,7 +46,10 @@ class Window
         bool isCursorOnScreen();
 
         // Draw Functions
-        //void clearBackground(const Color &color);
+        void clearBackground(rl::Color color);
+        void beginDrawing();
+        void endDrawing();
+
     private:
 
         // Window properties

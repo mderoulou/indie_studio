@@ -15,8 +15,10 @@ namespace rl {
 class Color : public ::Color
 {
     public:
-        Color(int r, int g, int b, int alpha) : ::Color{r, g, b, alpha} {};
+        Color(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha);
+        Color();
         ~Color() {};
+
 };
 
 }

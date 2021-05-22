@@ -36,7 +36,9 @@ include_directories(include)
 add_executable(${PROJECT_NAME}
   src/main.cpp
   src/raylib/Window.cpp
+  src/raylib/Color.cpp
   include/Error.hpp
+  include/Color.hpp
   include/rayLib.hpp
   include/Window.hpp 
 )

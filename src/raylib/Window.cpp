@@ -77,17 +77,12 @@ void rl::Window::setWindowSize(int width, int height)
 
 void rl::Window::showCursor()
 {
-    if (_cursorEnabled)
-        std::cerr << "Cursor already shown !" << std::endl;
-
     ShowCursor();
     _cursorEnabled = true;
 }
 
 void rl::Window::hideCursor()
 {
-    if (!_cursorEnabled)
-        std::cerr << "Cursor already hide !" << std::endl;
     HideCursor();
     _cursorEnabled = false;
 }
@@ -108,10 +103,18 @@ bool rl::Window::isCursorOnScreen()
 }
 
 // Draw Functions
-/*
-void rl::Window::clearBackground(const Color &color)
+
+void rl::Window::clearBackground(rl::Color color)
 {
     ClearBackground(color);
 }
 
-*/
+void rl::Window::beginDrawing()
+{
+    BeginDrawing();
+}
+
+void rl::Window::endDrawing()
+{
+    EndDrawing();
+}

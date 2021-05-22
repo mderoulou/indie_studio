@@ -7,7 +7,12 @@
 
 #include "Color.hpp"
 
-Color::Color(int r, int g, int b, int alpha)
-    :_r(r),_g(g), _b(b), _alpha(alpha)
+rl::Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha)
+    : ::Color{r, g, b, alpha}
+{
+}
+
+rl::Color::Color()
+    : ::Color{0, 0, 0, 255}
 {
 }
