@@ -13,6 +13,7 @@
 #include <iostream>
 
 #include "Camera.hpp"
+#include "Vector.hpp"
 #include "Color.hpp"
 #include "Error.hpp"
 #include "Window.hpp"
