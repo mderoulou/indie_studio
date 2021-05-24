@@ -17,6 +17,7 @@
 #include "Vector.hpp"
 #include "Color.hpp"
 #include "Error.hpp"
+#include "Rectangle.hpp"
 #include "Window.hpp"
 
 #endif

@@ -37,6 +37,7 @@ add_executable(${PROJECT_NAME}
 include/Error.hpp
 include/Color.hpp
 include/Vector.hpp
+include/Mesh.hpp
 include/Image.hpp
 include/Rectangle.hpp
 include/rayLib.hpp
@@ -46,6 +47,7 @@ src/raylib/Window.cpp
 src/raylib/Color.cpp
 src/raylib/Image.cpp
 src/raylib/Vector.cpp
+src/raylib/Mesh.cpp
 src/raylib/Camera.cpp
 src/raylib/Rectangle.cpp
 src/main.cpp

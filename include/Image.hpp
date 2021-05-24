@@ -5,6 +5,9 @@
 ** Raylib Image Class
 */
 
+#ifndef RL_IMAGE_
+#define RL_IMAGE_
+
 #include "rayLib.hpp"
 
 namespace rl {
@@ -24,3 +27,5 @@ class Image
 };
 
 }
+
+#endif
