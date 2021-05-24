@@ -37,12 +37,14 @@ add_executable(${PROJECT_NAME}
 include/Error.hpp
 include/Color.hpp
 include/Vector.hpp
+include/Image.hpp
 include/Rectangle.hpp
 include/rayLib.hpp
 include/Window.hpp 
 include/Camera.hpp 
 src/raylib/Window.cpp
 src/raylib/Color.cpp
+src/raylib/Image.cpp
 src/raylib/Vector.cpp
 src/raylib/Camera.cpp
 src/raylib/Rectangle.cpp

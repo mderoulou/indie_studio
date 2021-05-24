@@ -44,6 +44,11 @@ void rl::Window::setFullscreen()
     ToggleFullscreen();
 }
 
+void rl::Window::setWindowIcon(rl::Image img)
+{
+    SetWindowIcon(img.getImg());
+}
+
 void rl::Window::changeTitle(std::string title)
 {
     SetWindowTitle(title.c_str());

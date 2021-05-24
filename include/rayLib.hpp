@@ -12,6 +12,7 @@
 
 #include <iostream>
 
+#include "Image.hpp"
 #include "Camera.hpp"
 #include "Vector.hpp"
 #include "Color.hpp"

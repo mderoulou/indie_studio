@@ -13,6 +13,7 @@
 namespace rl {
 
 class Color;
+class Image;
 
 class Window
 {
@@ -32,6 +33,7 @@ class Window
         bool Close();
         void changeTitle(std::string title);
         void changeFps(int fps);
+        void setWindowIcon(rl::Image img);
 
         int getFps();
         int getScreenWidth() const { return _width; };
