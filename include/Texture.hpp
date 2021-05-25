@@ -14,6 +14,7 @@ namespace rl {
 
 class Texture
 {
+    public:
     Texture(const std::string filename);
     Texture(rl::Image img); // Image data
     Texture(rl::Image img, int layout); // Cubemap
@@ -29,6 +30,8 @@ class Texture
     void drawPro(rl::Rectangle src, rl::Rectangle dest, rl::Vec2 origin, float rotation, rl::Color color);
     void drawPoly(rl::Vec2 center, rl::Vec2 *points, rl::Vec2 *textcoords, int pointsLen, rl::Color color);
     
+
+    ::Texture getTexture() const { return _texture;};
     private:
         ::Texture _texture;
 };
