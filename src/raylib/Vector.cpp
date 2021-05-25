@@ -21,7 +21,12 @@ rl::Vec2::Vec2(float x, float y)
 {
 }
 
-rl::Vec2::Vec2(Vec2 &vec)
+rl::Vec2::Vec2(const Vec2 &vec)
+    : ::Vector2{vec.x, vec.y}
+{
+}
+
+rl::Vec2::Vec2(const ::Vector2 vec)
     : ::Vector2{vec.x, vec.y}
 {
 }

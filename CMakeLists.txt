@@ -40,11 +40,15 @@ include/Vector.hpp
 include/Mesh.hpp
 include/Image.hpp
 include/Rectangle.hpp
+include/RenderTexture.hpp
+include/Font.hpp
 include/rayLib.hpp
 include/Window.hpp 
 include/Camera.hpp 
 src/raylib/Window.cpp
 src/raylib/Color.cpp
+src/raylib/RenderTexture.cpp
+src/raylib/Font.cpp
 src/raylib/Image.cpp
 src/raylib/Vector.cpp
 src/raylib/Mesh.cpp
