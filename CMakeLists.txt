@@ -41,6 +41,7 @@ include/Mesh.hpp
 include/Image.hpp
 include/Rectangle.hpp
 include/RenderTexture.hpp
+include/Model.hpp
 include/Font.hpp
 include/rayLib.hpp
 include/Window.hpp 
@@ -56,6 +57,7 @@ src/raylib/Image.cpp
 src/raylib/Vector.cpp
 src/raylib/Sound.cpp
 src/raylib/Music.cpp
+src/raylib/Model.cpp
 src/raylib/Shader.cpp
 src/raylib/Mesh.cpp
 src/raylib/Camera.cpp

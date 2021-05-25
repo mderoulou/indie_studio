@@ -21,5 +21,11 @@
 #include "Window.hpp"
 #include "RenderTexture.hpp"
 #include "Font.hpp"
+#include "Shader.hpp"
+#include "Mesh.hpp"
+#include "Model.hpp"
+
+#include "Music.hpp"
+#include "Sound.hpp"
 
 #endif
