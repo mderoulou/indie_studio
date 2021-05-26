@@ -42,6 +42,8 @@ class Vec4 : public ::Vector4
     public:
         Vec4();
         Vec4(float x1, float y1, float x2, float y2);
+        Vec4(const Vec4 &vec);
+        Vec4(const ::Vector4 &vec);
         ~Vec4() {};
 
         void drawLine(rl::Color color);

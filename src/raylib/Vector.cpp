@@ -65,6 +65,16 @@ rl::Vec4::Vec4(float x1, float y1, float x2, float y2)
 {
 }
 
+rl::Vec4::Vec4(const rl::Vec4 &vec)
+    : ::Vector4{vec.x, vec.y, vec.z, vec.w}
+{
+}
+
+rl::Vec4::Vec4(const ::Vector4 &vec)
+    : ::Vector4{vec.x, vec.y, vec.z, vec.w}
+{
+}
+
 void rl::Vec4::drawLine(rl::Color color)
 {
     DrawLine(x, y, z, w, color);
