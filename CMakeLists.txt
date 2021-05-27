@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
 project(bomberman)
 
+set(CMAKE_CXX_STANDARD 14)
+
 # Set this to the minimal version you want to support
 find_package(raylib 3.0 QUIET) # Let CMake search for a raylib-config.cmake
 
@@ -65,5 +67,6 @@ src/raylib/Rectangle.cpp
 src/main.cpp
 )
 
-
 target_link_libraries(${PROJECT_NAME} raylib)
+
+set(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
