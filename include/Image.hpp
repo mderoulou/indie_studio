@@ -14,6 +14,7 @@ namespace rl {
 
 class Color;
 class Vec4;
+class Rectangle;
 
 class Image
 {
