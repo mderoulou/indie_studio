@@ -32,4 +32,11 @@ class WindowError : public RaylibError
         : RaylibError(message, component) {};
 };
 
+class InvalidArgError : public RaylibError
+{
+    public:
+        InvalidArgError(std::string const &message, std::string const &component = "Argument Error")
+        : RaylibError(message, component) {};
+};
+
 #endif
