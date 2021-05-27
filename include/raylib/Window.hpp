@@ -52,6 +52,10 @@ class Window
         void beginDrawing();
         void endDrawing();
 
+        // Draw grid
+
+        void drawGrid();
+
     private:
 
         // Window properties
