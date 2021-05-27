@@ -123,3 +123,10 @@ void rl::Window::endDrawing()
 {
     EndDrawing();
 }
+
+// Grid
+
+void rl::Window::drawGrid()
+{
+    DrawGrid();
+}

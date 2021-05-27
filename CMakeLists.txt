@@ -31,26 +31,31 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 endif()
 
 # -I
-include_directories(include)
 
-# File to compil
+include_directories(include)
+include_directories(include/raylib)
+include_directories(include/entityComponent)
+
+# File to compile
 
 add_executable(${PROJECT_NAME}
-include/Error.hpp
-include/Color.hpp
-include/Vector.hpp
-include/Mesh.hpp
-include/Image.hpp
-include/Rectangle.hpp
-include/RenderTexture.hpp
-include/Model.hpp
-include/Font.hpp
-include/rayLib.hpp
-include/Window.hpp 
-include/Camera.hpp 
-include/Sound.hpp 
-include/Music.hpp 
-include/Shader.hpp
+include/entityComponent/Object.hpp
+include/raylib/Error.hpp
+include/raylib/Color.hpp
+include/raylib/Vector.hpp
+include/raylib/Mesh.hpp
+include/raylib/Image.hpp
+include/raylib/Rectangle.hpp
+include/raylib/RenderTexture.hpp
+include/raylib/Model.hpp
+include/raylib/Font.hpp
+include/raylib/rayLib.hpp
+include/raylib/Window.hpp 
+include/raylib/Camera.hpp 
+include/raylib/Sound.hpp 
+include/raylib/Music.hpp 
+include/raylib/Shader.hpp
+include/Indie.hpp
 src/raylib/Window.cpp
 src/raylib/Color.cpp
 src/raylib/RenderTexture.cpp
