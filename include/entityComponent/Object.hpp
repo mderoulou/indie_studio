@@ -10,6 +10,7 @@
 
 #include "rayLib.hpp"
 
+/*
 class IObject
 {
     public:
@@ -39,14 +40,14 @@ class Circle : public Object
 class Sphere : public Circle
 {
     public:
-}
+};
 
 class Square : public Object
 {
     public:
         rl::Vec2 size;
         rl::Texture texture;
-}
+};
 
 class Cube : public Object
 {
@@ -55,13 +56,14 @@ class Cube : public Object
         rl::Texture texture;
 
         bool _hasTexture;
-}
+};
 
 class Model : public Object
 {
     public:
         rl::Model model;
         rl::ModelAnimation anims;
-}
+};
+*/
 
 #endif
