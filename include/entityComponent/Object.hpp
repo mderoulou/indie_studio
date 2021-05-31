@@ -17,47 +17,35 @@ class IObject
     private:
 };
 
-class Object : public IObject
+// 2d object
+
+class Object2D : public IObject
 {
-    public:
-        rl::Vec3 pos;
-        rl::Color color;
+public:
+    rl::Vec2 pos;
+    rl::Color color;
 };
 
-class Line : public Object
+class Text : public Object2D
 {
-    public:
-        rl::Vec3 posSecond;
+public:
+    rl::Font font;
+    rl::Color color;
 };
 
-class Circle : public Object
+// 3d object
+
+class Object3D : public IObject
 {
-    public:
-        float r;
+public:
+    rl::Vec3 pos;
+    rl::Color color;
 };
 
-class Sphere : public Circle
+class Cube : public Object3D
 {
-    public:
-};
-
-class Square : public Object
-{
-    public:
-        rl::Vec2 size;
-};
-
-class Cube : public Object
-{
-    public:
-        rl::Vec3 size;
-};
-
-class Npc : public Object
-{
-    public:
-        rl::Model model;
-        rl::ModelAnimation anims;
+public:
+    rl::Vec3 size;
 };
 
 #endif

@@ -17,7 +17,6 @@ class Bomberman
         ~Bomberman();
 
         void launch();
-        void drawEntity() {};
     private:
         rl::Window *_win;
         rl::Camera3d *_cam;
@@ -25,6 +24,4 @@ class Bomberman
 
 };
 
-// To put in the entity manager :
-//        std::vector<std::shared_ptr<IObject>> objs;
 #endif

@@ -40,6 +40,7 @@ include_directories(include/entityComponent)
 
 add_executable(${PROJECT_NAME}
 include/entityComponent/Object.hpp
+include/entityComponent/Manager.hpp
 include/raylib/Error.hpp
 include/raylib/Color.hpp
 include/raylib/Vector.hpp
@@ -69,6 +70,7 @@ src/raylib/Model.cpp
 src/raylib/Shader.cpp
 src/raylib/Mesh.cpp
 src/raylib/Camera.cpp
+src/entityComponent/Manager.cpp
 src/raylib/Rectangle.cpp
 src/Bomberman.cpp
 src/main.cpp
