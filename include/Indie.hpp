@@ -8,7 +8,12 @@
 #ifndef INDIE_
 #define INDIE_
 
+#include <vector>
+#include <iostream>
+#include <memory>
+
 #include "Object.hpp"
 #include "rayLib.hpp"
+#include "Bomberman.hpp"
 
 #endif

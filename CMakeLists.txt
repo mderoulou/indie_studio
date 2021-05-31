@@ -56,6 +56,7 @@ include/raylib/Sound.hpp
 include/raylib/Music.hpp 
 include/raylib/Shader.hpp
 include/Indie.hpp
+include/Bomberman.hpp
 src/raylib/Window.cpp
 src/raylib/Color.cpp
 src/raylib/RenderTexture.cpp
@@ -69,6 +70,7 @@ src/raylib/Shader.cpp
 src/raylib/Mesh.cpp
 src/raylib/Camera.cpp
 src/raylib/Rectangle.cpp
+src/Bomberman.cpp
 src/main.cpp
 )
 
