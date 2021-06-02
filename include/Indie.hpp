@@ -15,6 +15,5 @@
 #include "Object.hpp"
 #include "rayLib.hpp"
 #include "Bomberman.hpp"
-#include "Manager.hpp"
 
 #endif

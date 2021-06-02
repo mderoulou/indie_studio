@@ -13,14 +13,13 @@
 class ComponentManager
 {
     public:
-        ComponentManager() {};
+        ComponentManager();
         ~ComponentManager();
 
         void addComponent(IObject *obj);
         void clearComponents();
 
-        void setPos();
-        void movePos();
+        void movementManager();
         void renderAll();
         void handleEvent();
 

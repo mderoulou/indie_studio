@@ -7,6 +7,10 @@
 
 #include "Manager.hpp"
 
+ComponentManager::ComponentManager()
+{
+}
+
 ComponentManager::~ComponentManager()
 {
     this->clearComponents();
@@ -22,14 +26,9 @@ void ComponentManager::clearComponents()
     _objs.clear();
 }
 
-void ComponentManager::setPos()
+void ComponentManager::movementManager()
 {
-
-}
-
-void ComponentManager::movePos()
-{
-
+    
 }
 
 void ComponentManager::renderAll()
