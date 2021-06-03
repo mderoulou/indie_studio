@@ -14,6 +14,10 @@ class IObject
 {
     public:
         virtual ~IObject() = default;
+        virtual void handleEvent() = 0;
+        virtual void move() = 0;
+        virtual void simulate() = 0;
+        virtual void render() = 0;
     private:
 };
 
@@ -45,7 +49,20 @@ public:
 class Cube : public Object3D
 {
 public:
+    Cube(rl::Vec3 pos, rl::Vec3 size, rl::Color color);
+
+    void handleEvent() override {};
+    void move() override {};
+    void simulate() override {};
+    void render() override;
+
     rl::Vec3 size;
+};
+
+class Brick : public Cube
+{
+public:
+    rl::Texture *texture;
 };
 
 #endif

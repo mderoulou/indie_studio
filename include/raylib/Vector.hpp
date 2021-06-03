@@ -34,6 +34,8 @@ class Vec3 : public ::Vector3
         Vec3(float x, float y, float z);
         ~Vec3() {};
 
+        void drawCube(rl::Vec3 size, rl::Color color);
+        void drawCubeWires(rl::Vec3 size, rl::Color color);
     private:
 };
 

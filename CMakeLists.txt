@@ -75,6 +75,8 @@ src/raylib/Shader.cpp
 src/raylib/Mesh.cpp
 src/raylib/Camera.cpp
 src/entityComponent/Manager.cpp
+src/entityComponent/Draw.cpp
+src/entityComponent/object/Cube.cpp
 src/raylib/Rectangle.cpp
 src/Bomberman.cpp
 src/main.cpp

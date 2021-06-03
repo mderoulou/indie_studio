@@ -22,6 +22,11 @@ rl::Color::Color(rl::Vec4 vec)
 {
 }
 
+rl::Color::Color(const rl::Color &color)
+    : ::Color{color.r, color.g, color.b, color.a}
+{
+}
+
 rl::Color::Color(int hexValue)
 {
     ::Color color = GetColor(hexValue);

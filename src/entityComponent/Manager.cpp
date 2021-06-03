@@ -33,7 +33,9 @@ void ComponentManager::movementManager()
 
 void ComponentManager::renderAll()
 {
-
+    for (auto obj : _objs) {
+        obj->render();
+    }
 }
 
 void ComponentManager::handleEvent()

@@ -15,6 +15,18 @@ Bomberman::Bomberman()
                             rl::Vec3(0.0f, 1.0f, 0.0f),
                             45.0f, 0);
     _font = new rl::Font();
+    _manager = new ComponentManager();
+
+    Cube *test = new Cube(rl::Vec3(0.0f, 0.0f, 0.0f),
+                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Color());
+
+    Cube *test2 = new Cube(rl::Vec3(0.0f, 0.0f, 5.0f),
+                            rl::Vec3(2.0f, 2.0f, 2.0f),
+                            rl::Color());
+
+    _manager->addComponent(test);
+    _manager->addComponent(test2);
 
     _win->changeFps(60);
 }
@@ -34,6 +46,8 @@ void Bomberman::launch()
         _font->drawFPS(5, 5);
 
         _cam->beginMode();
+
+        _manager->renderAll();
 
         _win->drawGrid();
 

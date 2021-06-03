@@ -51,6 +51,16 @@ rl::Vec3::Vec3(float x, float y, float z)
 {
 }
 
+void rl::Vec3::drawCube(rl::Vec3 size, rl::Color color)
+{ 
+    DrawCubeV(rl::Vec3(this->x, this->y, this->z), size, color);
+}
+
+void rl::Vec3::drawCubeWires(rl::Vec3 size, rl::Color color)
+{
+    DrawCubeWiresV(rl::Vec3(this->x, this->y, this->z), size, color);
+}
+
 /*
 **  Vector 3 Functions
 */
