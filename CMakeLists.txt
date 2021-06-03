@@ -51,6 +51,8 @@ include/raylib/RenderTexture.hpp
 include/raylib/Model.hpp
 include/raylib/Font.hpp
 include/raylib/rayLib.hpp
+include/raylib/Ray.hpp
+include/raylib/BoundingBox.hpp
 include/raylib/Window.hpp 
 include/raylib/Camera.hpp 
 include/raylib/Sound.hpp 
@@ -67,6 +69,8 @@ src/raylib/Vector.cpp
 src/raylib/Sound.cpp
 src/raylib/Music.cpp
 src/raylib/Model.cpp
+src/raylib/BoundingBox.cpp
+src/raylib/Ray.cpp
 src/raylib/Shader.cpp
 src/raylib/Mesh.cpp
 src/raylib/Camera.cpp

@@ -24,6 +24,8 @@
 #include "Shader.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
+#include "Ray.hpp"
+#include "BoundingBox.hpp"
 
 #include "Music.hpp"
 #include "Sound.hpp"
