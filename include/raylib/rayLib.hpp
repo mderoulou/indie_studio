@@ -18,6 +18,7 @@
 #include "Color.hpp"
 #include "Error.hpp"
 #include "Rectangle.hpp"
+#include "Texture.hpp"
 #include "Window.hpp"
 #include "RenderTexture.hpp"
 #include "Font.hpp"

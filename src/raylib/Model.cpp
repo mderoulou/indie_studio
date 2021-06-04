@@ -13,6 +13,7 @@
 
 rl::Model::Model(const std::string filename)
 {
+    std::cout << filename.c_str() << std::endl;
     _model = LoadModel(filename.c_str());
 }
 

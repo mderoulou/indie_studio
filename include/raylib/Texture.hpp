@@ -12,6 +12,8 @@
 
 namespace rl {
 
+class Image;
+
 class Texture
 {
     public:

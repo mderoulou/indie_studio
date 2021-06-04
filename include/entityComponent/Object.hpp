@@ -59,10 +59,17 @@ public:
     rl::Vec3 size;
 };
 
-class Brick : public Cube
+class Wall : public Cube
 {
 public:
+    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, std::string path, std::string texturePath);
+
+    void handleEvent() override {};
+    void move() override {};
+    void simulate() override {};
+    void render() override;
     rl::Texture *texture;
+    rl::Model *model;
 };
 
 #endif

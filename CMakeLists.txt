@@ -30,6 +30,10 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 
 endif()
 
+# Debug Mode
+
+set(CMAKE_BUILD_TYPE DEBUG)
+
 # -I
 
 include_directories(include)
@@ -44,6 +48,7 @@ include/entityComponent/Manager.hpp
 include/raylib/Error.hpp
 include/raylib/Color.hpp
 include/raylib/Vector.hpp
+include/raylib/Texture.hpp
 include/raylib/Mesh.hpp
 include/raylib/Image.hpp
 include/raylib/Rectangle.hpp
@@ -66,6 +71,7 @@ src/raylib/RenderTexture.cpp
 src/raylib/Font.cpp
 src/raylib/Image.cpp
 src/raylib/Vector.cpp
+src/raylib/Texture.cpp
 src/raylib/Sound.cpp
 src/raylib/Music.cpp
 src/raylib/Model.cpp
@@ -77,6 +83,7 @@ src/raylib/Camera.cpp
 src/entityComponent/Manager.cpp
 src/entityComponent/Draw.cpp
 src/entityComponent/object/Cube.cpp
+src/entityComponent/object/Wall.cpp
 src/raylib/Rectangle.cpp
 src/Bomberman.cpp
 src/main.cpp
