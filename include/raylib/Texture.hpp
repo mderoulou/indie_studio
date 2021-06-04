@@ -31,7 +31,7 @@ class Texture
     void drawTiled(rl::Rectangle src, rl::Rectangle dest, rl::Vec2 origin, float rotation, float scale, rl::Color color);
     void drawPro(rl::Rectangle src, rl::Rectangle dest, rl::Vec2 origin, float rotation, rl::Color color);
     void drawPoly(rl::Vec2 center, rl::Vec2 *points, rl::Vec2 *textcoords, int pointsLen, rl::Color color);
-    
+    void drawTexture(rl::Vec3 pos, rl::Vec3 size, rl::Color color);
 
     ::Texture getTexture() const { return _texture;};
     private:

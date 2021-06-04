@@ -8,15 +8,13 @@
 #include "Object.hpp"
 #include "Manager.hpp"
 
-Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, std::string path, std::string texturePath)
+Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color)
     : Cube(pos, size, color)
 {
-    model = new rl::Model(path);
-    texture = new rl::Texture(texturePath);
-    SetMaterialTexture(&model->getModel().materials[0], MAP_DIFFUSE, texture->getTexture());
+    _atlas = new rl::Texture("../assets/block/cubicmap_atlas.png");
 }
 
 void Wall::render()
 {
-    model->draw(pos, size.x, color);
+    _atlas->drawTexture(_pos, _size, _color);
 }

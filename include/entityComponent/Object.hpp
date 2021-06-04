@@ -26,15 +26,15 @@ class IObject
 class Object2D : public IObject
 {
 public:
-    rl::Vec2 pos;
-    rl::Color color;
+    rl::Vec2 _pos;
+    rl::Color _color;
 };
 
 class Text : public Object2D
 {
 public:
-    rl::Font font;
-    rl::Color color;
+    rl::Font _font;
+    rl::Color _color;
 };
 
 // 3d object
@@ -42,8 +42,8 @@ public:
 class Object3D : public IObject
 {
 public:
-    rl::Vec3 pos;
-    rl::Color color;
+    rl::Vec3 _pos;
+    rl::Color _color;
 };
 
 class Cube : public Object3D
@@ -56,20 +56,37 @@ public:
     void simulate() override {};
     void render() override;
 
-    rl::Vec3 size;
+    rl::Vec3 _size;
 };
 
 class Wall : public Cube
 {
 public:
-    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, std::string path, std::string texturePath);
+    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color);
 
     void handleEvent() override {};
     void move() override {};
     void simulate() override {};
     void render() override;
-    rl::Texture *texture;
-    rl::Model *model;
+
+    rl::Texture *_atlas;
+};
+
+class Player : public Object3D
+{
+public:
+    Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText); // load Specific texture
+    Player(rl::Vec3 pos, float scale, rl::Color color); // steve specific texture
+    ~Player();
+
+    void handleEvent() override {};
+    void move() override {};
+    void simulate() override {};
+    void render() override;
+
+    rl::Model *_model;
+    rl::Texture *_texture;
+    float _scale;
 };
 
 #endif

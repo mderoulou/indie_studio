@@ -10,13 +10,13 @@
 
 Cube::Cube(rl::Vec3 pos, rl::Vec3 size, rl::Color color)
 {
-    this->pos = rl::Vec3(pos);
-    this->size = rl::Vec3(size);
-    this->color = rl::Color(color);
+    this->_pos = rl::Vec3(pos);
+    this->_size = rl::Vec3(size);
+    this->_color = rl::Color(color);
 }
 
 void Cube::render()
 {
-    this->pos.drawCube(this->size, this->color);
+    this->_pos.drawCube(this->_size, this->_color);
 }
 
