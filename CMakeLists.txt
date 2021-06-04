@@ -13,7 +13,7 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 
   FetchContent_Declare(
     raylib
-    URL https://github.com/raysan5/raylib/archive/master.tar.gz
+    URL https://github.com/raysan5/raylib/archive/3.7.0.tar.gz
   )
 
   FetchContent_GetProperties(raylib)
@@ -84,6 +84,7 @@ src/entityComponent/Manager.cpp
 src/entityComponent/Draw.cpp
 src/entityComponent/object/Cube.cpp
 src/entityComponent/object/Wall.cpp
+src/entityComponent/object/Player.cpp
 src/raylib/Rectangle.cpp
 src/Bomberman.cpp
 src/main.cpp

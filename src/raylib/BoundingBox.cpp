@@ -9,7 +9,7 @@
 
 rl::BoundingBox::BoundingBox(rl::Mesh *mesh)
 {
-    _bd = GetMeshBoundingBox(mesh->getMesh());
+    _bd = MeshBoundingBox(mesh->getMesh());
 }
 
 rl::BoundingBox::BoundingBox(rl::Vec3 max, rl::Vec3 min)

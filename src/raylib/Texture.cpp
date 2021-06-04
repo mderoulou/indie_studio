@@ -68,3 +68,8 @@ void rl::Texture::drawPoly(rl::Vec2 center, rl::Vec2 *points, rl::Vec2 *textcoor
 {
     DrawTexturePoly(_texture, center, points, textcoords, pointsLen, color);
 }
+
+void rl::Texture::drawTexture(rl::Vec3 pos, rl::Vec3 size, rl::Color color)
+{
+    DrawCubeTexture(_texture, pos, size.x, size.y, size.z, color);
+}
