@@ -22,6 +22,7 @@ class Model
         ~Model();
 
         ::Model getModel() const { return _model ; };
+        void setMaterialTexture(int material, rl::Texture *texture);
 
         void draw(rl::Vec3 pos, float scale, rl::Color color);
         void drawEx(rl::Vec3 pos, rl::Vec3 rotaAxis, float rotaAngle, rl::Vec3 scale, rl::Color color);

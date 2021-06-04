@@ -46,6 +46,11 @@ void rl::Model::drawWiresEx(rl::Vec3 pos, rl::Vec3 rotaAxis, float rotaAngle, rl
     DrawModelWiresEx(_model, pos, rotaAxis, rotaAngle, scale, color);
 }
 
+void rl::Model::setMaterialTexture(int material, rl::Texture *texture)
+{
+    SetMaterialTexture(&_model.materials[material], MAP_DIFFUSE, texture->getTexture());
+}
+
 /**
  *  ModelAnimation Functions
  */
