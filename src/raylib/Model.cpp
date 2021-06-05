@@ -66,9 +66,9 @@ rl::ModelAnimation::~ModelAnimation()
     UnloadModelAnimations(_anims, _count);
 }
 
-void rl::ModelAnimation::update(rl::Model model, int anims, int frame)
+void rl::ModelAnimation::update(rl::Model *model, int anims, int frame)
 {
-    UpdateModelAnimation(model.getModel(), _anims[anims], frame);
+    UpdateModelAnimation(model->getModel(), _anims[anims], frame);
 }
 
 bool  rl::ModelAnimation::isModelAnimationValid(rl::Model model, int anims)

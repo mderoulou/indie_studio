@@ -19,7 +19,7 @@ class ComponentManager
         void addComponent(IObject *obj);
         void clearComponents();
 
-        void movementManager();
+        void simulate();
         void renderAll();
         void handleEvent();
 

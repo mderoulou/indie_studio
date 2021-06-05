@@ -26,9 +26,11 @@ void ComponentManager::clearComponents()
     _objs.clear();
 }
 
-void ComponentManager::movementManager()
+void ComponentManager::simulate()
 {
-    
+    for (auto obj : _objs) {
+        obj->simulate();
+    }
 }
 
 void ComponentManager::renderAll()

@@ -39,8 +39,10 @@ class ModelAnimation
         ModelAnimation(const std::string fileName, int *animsCount);
         ~ModelAnimation();
 
-        void update(rl::Model model, int anims, int frame);
+        void update(rl::Model *model, int anims, int frame);
         bool isModelAnimationValid(rl::Model model, int anims);
+
+        int getFrameCount(int anim) const { return _anims[anim].frameCount; };
     private:
         ::ModelAnimation *_anims;
         int _count;

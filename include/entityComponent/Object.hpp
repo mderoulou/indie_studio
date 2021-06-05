@@ -70,6 +70,7 @@ public:
     void render() override;
 
     rl::Texture *_atlas;
+    rl::Model *_model;
 };
 
 class Player : public Object3D
@@ -81,12 +82,14 @@ public:
 
     void handleEvent() override {};
     void move() override {};
-    void simulate() override {};
+    void simulate() override;
     void render() override;
 
     rl::Model *_model;
     rl::Texture *_texture;
+    rl::ModelAnimation *_anim;
     float _scale;
+    int _frame;
 };
 
 #endif
