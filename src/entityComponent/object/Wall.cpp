@@ -11,8 +11,8 @@
 Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color)
     : Cube(pos, size, color)
 {
-    _atlas = new rl::Texture("../assets/block/cubicmap_atlas.png");
-    rl::Mesh mesh(2.0f, 2.0f, 2.0f);
+    _atlas = new rl::Texture("../assets/block/stone-bricks.png");
+    rl::Mesh mesh(size.x, size.y, size.z);
 
     _model = new rl::Model(mesh);
     _model->setMaterialTexture(0, _atlas);

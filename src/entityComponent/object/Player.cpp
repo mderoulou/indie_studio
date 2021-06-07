@@ -24,13 +24,28 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color)
     _pos = rl::Vec3(pos);
     _color = rl::Color(color);
     _scale = scale;
-    _model = new rl::Model("../assets/steve-obj/steve.gltf");
+    _model = new rl::Model("../assets/steve-obj/steve.glb");
     _texture = new rl::Texture("../assets/steve-obj/player-name/skin.png");
     _model->setMaterialTexture(0, _texture);
     _frame = 0;
-    _anim = new rl::ModelAnimation("../assets/steve-obj/steve.gltf", &count);
+    _anim = new rl::ModelAnimation("../assets/steve-obj/steve.glb", &count);
 
 }
+/*
+Player::Player(rl::Vec3 pos, float scale, rl::Color color)
+{
+    int count = 0;
+
+    _pos = rl::Vec3(pos);
+    _color = rl::Color(color);
+    _scale = scale;
+    _model = new rl::Model("../assets/test/guy.iqm");
+    _texture = new rl::Texture("../assets/test/guytex.png");
+    _model->setMaterialTexture(0, _texture);
+    _frame = 0;
+    _anim = new rl::ModelAnimation("../assets/test/guyanim.iqm", &count);
+
+}*/
 
 Player::~Player()
 {

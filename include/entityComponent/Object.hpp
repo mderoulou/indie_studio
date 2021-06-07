@@ -57,6 +57,7 @@ public:
     void render() override;
 
     rl::Vec3 _size;
+    bool _isBreakable;
 };
 
 class Wall : public Cube
@@ -70,6 +71,20 @@ public:
     void render() override;
 
     rl::Texture *_atlas;
+    rl::Model *_model;
+};
+
+class Box : public Cube
+{
+public:
+    Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color);
+
+    void handleEvent() override {};
+    void move() override {};
+    void simulate() override {};
+    void render() override;
+
+    rl::Texture *_txt;
     rl::Model *_model;
 };
 

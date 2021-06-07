@@ -40,7 +40,7 @@ class ModelAnimation
         ~ModelAnimation();
 
         void update(rl::Model *model, int anims, int frame);
-        bool isModelAnimationValid(rl::Model model, int anims);
+        bool isModelAnimationValid(rl::Model *model, int anims);
 
         int getFrameCount(int anim) const { return _anims[anim].frameCount; };
     private:

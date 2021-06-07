@@ -71,7 +71,7 @@ void rl::ModelAnimation::update(rl::Model *model, int anims, int frame)
     UpdateModelAnimation(model->getModel(), _anims[anims], frame);
 }
 
-bool  rl::ModelAnimation::isModelAnimationValid(rl::Model model, int anims)
+bool  rl::ModelAnimation::isModelAnimationValid(rl::Model *model, int anims)
 {
-    return IsModelAnimationValid(model.getModel(), _anims[anims]);
+    return IsModelAnimationValid(model->getModel(), _anims[anims]);
 }
