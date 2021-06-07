@@ -15,7 +15,7 @@ class IObject
     public:
         virtual ~IObject() = default;
         virtual void handleEvent() = 0;
-        virtual void move() = 0;
+        virtual void move(rl::Vec3 newPos) = 0;
         virtual void simulate() = 0;
         virtual void render() = 0;
     private:
@@ -52,7 +52,7 @@ public:
     Cube(rl::Vec3 pos, rl::Vec3 size, rl::Color color);
 
     void handleEvent() override {};
-    void move() override {};
+    void move(rl::Vec3 newPos) override {};
     void simulate() override {};
     void render() override;
 
@@ -63,14 +63,14 @@ public:
 class Wall : public Cube
 {
 public:
-    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color);
+    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall);
 
     void handleEvent() override {};
-    void move() override {};
+    void move(rl::Vec3 newPos) override {};
     void simulate() override {};
     void render() override;
 
-    rl::Texture *_atlas;
+    rl::Texture *_texture;
     rl::Model *_model;
 };
 
@@ -80,7 +80,7 @@ public:
     Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color);
 
     void handleEvent() override {};
-    void move() override {};
+    void move(rl::Vec3 newPos) override {};
     void simulate() override {};
     void render() override;
 
@@ -96,7 +96,7 @@ public:
     ~Player();
 
     void handleEvent() override {};
-    void move() override {};
+    void move(rl::Vec3 newPos) override;
     void simulate() override;
     void render() override;
 
@@ -104,6 +104,7 @@ public:
     rl::Texture *_texture;
     rl::ModelAnimation *_anim;
     float _scale;
+    float _rotation;
     int _frame;
 };
 

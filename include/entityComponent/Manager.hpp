@@ -10,6 +10,8 @@
 
 #include "Indie.hpp"
 
+class Gamepad;
+
 class ComponentManager
 {
     public:
@@ -28,6 +30,7 @@ class ComponentManager
 
         void draw(IObject * obj);
         std::vector<IObject *> _objs;
+        Gamepad *_gp;
 };
 
 #endif
