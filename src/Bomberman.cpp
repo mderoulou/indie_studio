@@ -16,17 +16,11 @@ Bomberman::Bomberman()
                             45.0f, 0);
     _font = new rl::Font();
     _manager = new ComponentManager();
-
-    Wall *test3 = new Wall(rl::Vec3(0.0f, 0.0f, 7.0f),
-                            rl::Vec3(1.0f, 1.0f, 1.0f),
-                            rl::Color(255, 255, 255, 255));
-
-    _manager->addComponent(test3);
-
-    Player *player = new Player(rl::Vec3(1.0f, 1.0f, 1.0f), 0.8f, rl::Color(255, 255, 255, 255));
+    Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255));
 
     _manager->addComponent(player);
 
+    this->generateMap(10, 10);
     _win->changeFps(60);
 }
 
@@ -38,20 +32,54 @@ Bomberman::~Bomberman()
     delete _manager;
 }
 
+void Bomberman::generateMap(int x, int y)
+{
+    // Create the ground
+    for (int i = 0; i < x; i += 1) {
+        for (int j = 0; j < y; j += 1) {
+            _manager->addComponent(new Wall(rl::Vec3(i, -1.0f, j),
+                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Color(255, 255, 255, 255), true));
+        }
+    }
+
+    // Create the border X
+    for (int i = 0; i < x; i += 1) {
+        _manager->addComponent(new Wall(rl::Vec3(i, 0.0f, 0.0f),
+                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Color(255, 255, 255, 255), true));
+        _manager->addComponent(new Wall(rl::Vec3(i, 0.0f, y),
+                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Color(255, 255, 255, 255), true));
+    }
+
+    // Create the border Y
+    for (int i = 1; i < y; i += 1) {
+        _manager->addComponent(new Wall(rl::Vec3(0.0f, 0.0f, i),
+                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Color(255, 255, 255, 255), true));
+        _manager->addComponent(new Wall(rl::Vec3(x - 1, 0.0f, i),
+                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Color(255, 255, 255, 255), true));
+    }
+
+}
+
 void Bomberman::launch()
 {
     while (!_win->Close()) {
         _win->clearBackground(rl::Color(255, 255, 255, 255));
         _win->beginDrawing();
-        _font->drawFPS(5, 5);
+
+        _font->drawFPS(5, 25);
+
+        _manager->handleEvent();
+        _manager->simulate();
+
 
         _cam->beginMode();
-
-        //_manager->simulate();
-        _manager->renderAll();
-
         _win->drawGrid();
-
+        _manager->renderAll();
         _cam->endMode();
         _win->endDrawing();
     }

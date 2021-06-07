@@ -20,12 +20,11 @@ class Bomberman
         ~Bomberman();
 
         void launch();
+        void generateMap(int x, int y);
     private:
         ComponentManager *_manager;
         rl::Window *_win;
         rl::Camera3d *_cam;
         rl::Font *_font;
-
 };
-
 #endif
