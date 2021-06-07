@@ -1,0 +1,1 @@
+sudo apt install libxinerama-dev libxrandr-dev libx11-dev libxcursor-dev libxi-dev freeglut3-dev

@@ -32,39 +32,38 @@ endif()
 
 # Debug Mode
 
-set(CMAKE_BUILD_TYPE DEBUG)
 
 # -I
 
-include_directories(include)
-include_directories(include/raylib)
-include_directories(include/entityComponent)
+#include_directories(include)
+#include_directories(include/raylib)
+#include_directories(include/entityComponent)
 
 # File to compile
 
 add_executable(${PROJECT_NAME}
-include/entityComponent/Object.hpp
-include/entityComponent/Manager.hpp
-include/raylib/Error.hpp
-include/raylib/Color.hpp
-include/raylib/Vector.hpp
-include/raylib/Texture.hpp
-include/raylib/Mesh.hpp
-include/raylib/Image.hpp
-include/raylib/Rectangle.hpp
-include/raylib/RenderTexture.hpp
-include/raylib/Model.hpp
-include/raylib/Font.hpp
-include/raylib/rayLib.hpp
-include/raylib/Ray.hpp
-include/raylib/BoundingBox.hpp
-include/raylib/Window.hpp 
-include/raylib/Camera.hpp 
-include/raylib/Sound.hpp 
-include/raylib/Music.hpp 
-include/raylib/Shader.hpp
-include/Indie.hpp
-include/Bomberman.hpp
+src/entityComponent/Object.hpp
+src/entityComponent/Manager.hpp
+src/raylib/Error.hpp
+src/raylib/Color.hpp
+src/raylib/Vector.hpp
+src/raylib/Texture.hpp
+src/raylib/Mesh.hpp
+src/raylib/Image.hpp
+src/raylib/Rectangle.hpp
+src/raylib/RenderTexture.hpp
+src/raylib/Model.hpp
+src/raylib/Font.hpp
+src/raylib/rayLib.hpp
+src/raylib/Ray.hpp
+src/raylib/BoundingBox.hpp
+src/raylib/Window.hpp 
+src/raylib/Camera.hpp 
+src/raylib/Sound.hpp 
+src/raylib/Music.hpp 
+src/raylib/Shader.hpp
+src/Indie.hpp
+src/Bomberman.hpp
 src/raylib/Window.cpp
 src/raylib/Color.cpp
 src/raylib/RenderTexture.cpp
@@ -81,10 +80,10 @@ src/raylib/Shader.cpp
 src/raylib/Mesh.cpp
 src/raylib/Camera.cpp
 src/entityComponent/Manager.cpp
-src/entityComponent/Draw.cpp
 src/entityComponent/object/Cube.cpp
 src/entityComponent/object/Wall.cpp
 src/entityComponent/object/Player.cpp
+src/entityComponent/object/Btn.cpp
 src/raylib/Rectangle.cpp
 src/Bomberman.cpp
 src/main.cpp

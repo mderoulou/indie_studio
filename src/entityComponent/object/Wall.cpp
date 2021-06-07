@@ -5,8 +5,8 @@
 ** Cube Functions
 */
 
-#include "Object.hpp"
-#include "Manager.hpp"
+#include "../Object.hpp"
+#include "../Manager.hpp"
 
 Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall)
     : Cube(pos, size, color)

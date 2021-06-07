@@ -5,8 +5,8 @@
 ** Player Functions
 */
 
-#include "Object.hpp"
-#include "Manager.hpp"
+#include "../Object.hpp"
+#include "../Manager.hpp"
 
 Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText)
 {

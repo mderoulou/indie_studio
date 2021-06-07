@@ -5,8 +5,8 @@
 ** Cube Functions
 */
 
-#include "Object.hpp"
-#include "Manager.hpp"
+#include "../Object.hpp"
+#include "../Manager.hpp"
 
 Cube::Cube(rl::Vec3 pos, rl::Vec3 size, rl::Color color)
 {

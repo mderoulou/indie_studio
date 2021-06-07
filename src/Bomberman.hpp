@@ -8,7 +8,7 @@
 #ifndef BOMB_CLASS_
 #define BOMB_CLASS_
 
-#include "Manager.hpp"
+#include "entityComponent/Manager.hpp"
 #include "Indie.hpp"
 
 class ComponentManager;

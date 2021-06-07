@@ -8,7 +8,7 @@
 #ifndef INDIE_OBJ_
 #define INDIE_OBJ_
 
-#include "rayLib.hpp"
+#include "../raylib/rayLib.hpp"
 
 class IObject
 {
@@ -26,6 +26,11 @@ class IObject
 class Object2D : public IObject
 {
 public:
+    void handleEvent() override {};
+    void move(rl::Vec3 newPos) override {};
+    void simulate() override {};
+    void render() override {};
+
     rl::Vec2 _pos;
     rl::Color _color;
 };
@@ -35,6 +40,20 @@ class Text : public Object2D
 public:
     rl::Font _font;
     rl::Color _color;
+};
+
+class Btn : public Object2D
+{
+public:
+    Btn(rl::Vec2 pos, rl::Rectangle rect, std::string textureFile, std::string soundFile, rl::Color color = rl::Color(0xFFFFFF));
+    
+    short _btnState;
+    bool _clicked;
+    rl::Rectangle _textureRect;
+    rl::Vec2 _pos;
+    rl::Color _color;
+    rl::Sound _sound;
+    rl::Texture _texture;
 };
 
 // 3d object

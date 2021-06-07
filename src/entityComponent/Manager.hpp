@@ -8,7 +8,7 @@
 #ifndef INDIE_MANAGER_
 #define INDIE_MANAGER_
 
-#include "Indie.hpp"
+#include "../Indie.hpp"
 
 class Gamepad;
 

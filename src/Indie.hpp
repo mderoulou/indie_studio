@@ -12,9 +12,9 @@
 #include <iostream>
 #include <memory>
 
-#include "Object.hpp"
-#include "rayLib.hpp"
+#include "entityComponent/Object.hpp"
+#include "raylib/rayLib.hpp"
 #include "Bomberman.hpp"
-#include "Gamepad.hpp"
+#include "raylib/Gamepad.hpp"
 
 #endif
