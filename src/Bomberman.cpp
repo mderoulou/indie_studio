@@ -10,10 +10,6 @@
 Bomberman::Bomberman()
 {
     _win = new rl::Window(1080, 720, "Indie Studio");
-    _cam = new rl::Camera3d(rl::Vec3(5.0f, 20.0f, 20.0f),
-                            rl::Vec3(0.0f, 0.0f, 0.0f),
-                            rl::Vec3(0.0f, 1.0f, 0.0f),
-                            45.0f, 0);
     _font = new rl::Font();
     _manager = new ComponentManager();
     Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255));
@@ -29,7 +25,6 @@ Bomberman::~Bomberman()
 {
     delete _font;
     delete _win;
-    delete _cam;
     delete _manager;
 }
 
@@ -77,11 +72,8 @@ void Bomberman::launch()
         _manager->handleEvent();
         _manager->simulate();
 
-
-        _cam->beginMode();
-        _win->drawGrid();
         _manager->renderAll();
-        _cam->endMode();
+
         _win->endDrawing();
     }
 }

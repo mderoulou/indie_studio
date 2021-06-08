@@ -10,6 +10,7 @@
 
 #include "../raylib/rayLib.hpp"
 
+
 class IObject
 {
     public:
@@ -17,7 +18,7 @@ class IObject
         virtual void handleEvent() = 0;
         virtual void move(rl::Vec3 newPos) = 0;
         virtual void simulate() = 0;
-        virtual void render() = 0;
+        virtual void render(rl::Camera3d *cam) = 0;
     private:
 };
 
@@ -29,7 +30,7 @@ public:
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override {};
     void simulate() override {};
-    void render() override {};
+    void render(rl::Camera3d *cam) override {};
 
     rl::Vec2 _pos;
     rl::Color _color;
@@ -73,7 +74,7 @@ public:
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override {};
     void simulate() override {};
-    void render() override;
+    void render(rl::Camera3d *cam) override;
 
     rl::Vec3 _size;
     bool _isBreakable;
@@ -87,7 +88,7 @@ public:
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override {};
     void simulate() override {};
-    void render() override;
+    void render(rl::Camera3d *cam) override;
 
     rl::Texture *_texture;
     rl::Model *_model;
@@ -101,7 +102,7 @@ public:
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override {};
     void simulate() override {};
-    void render() override;
+    void render(rl::Camera3d *cam) override;
 
     rl::Texture *_txt;
     rl::Model *_model;
@@ -117,7 +118,7 @@ public:
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override;
     void simulate() override;
-    void render() override;
+    void render(rl::Camera3d *cam) override;
 
     rl::Model *_model;
     rl::Texture *_texture;

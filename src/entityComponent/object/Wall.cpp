@@ -20,7 +20,9 @@ Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall)
 
 }
 
-void Wall::render()
+void Wall::render(rl::Camera3d *cam)
 {
+    cam->beginMode();
     _texture->drawTexture(_pos, _size, _color);
+    cam->endMode();
 }
