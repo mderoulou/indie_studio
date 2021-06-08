@@ -32,3 +32,8 @@ const rl::Rectangle rl::Rectangle::getCollisionRec(rl::Rectangle rect)
     ::Rectangle newRect = GetCollisionRec(*this, rect);
     return rl::Rectangle(newRect.x, newRect.y, newRect.width, newRect.height);
 }
+
+bool rl::Rectangle::checkCollision(Vector2 pos)
+{
+    return CheckCollisionPointRec(pos, ::Rectangle{x, y, width, height});
+}

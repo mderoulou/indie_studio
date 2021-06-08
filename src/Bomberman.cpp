@@ -21,7 +21,7 @@ Bomberman::Bomberman()
     _manager->addComponent(player);
     _manager->addComponent(p);
 
-    this->generateMap(10, 10);
+    //this->generateMap(10, 10);
     _win->changeFps(60);
 }
 

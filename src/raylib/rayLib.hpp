@@ -27,7 +27,7 @@
 #include "Model.hpp"
 #include "Ray.hpp"
 #include "BoundingBox.hpp"
-
+#include "Mouse.hpp"
 #include "Music.hpp"
 #include "Sound.hpp"
 

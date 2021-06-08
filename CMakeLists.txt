@@ -52,6 +52,7 @@ src/raylib/Mesh.hpp
 src/raylib/Image.hpp
 src/raylib/Rectangle.hpp
 src/raylib/RenderTexture.hpp
+src/raylib/Mouse.hpp
 src/raylib/Model.hpp
 src/raylib/Font.hpp
 src/raylib/rayLib.hpp

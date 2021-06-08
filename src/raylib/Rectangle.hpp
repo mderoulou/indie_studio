@@ -25,6 +25,8 @@ class Rectangle : public ::Rectangle
         void drawLine(rl::Color color);
 
         const Rectangle getCollisionRec(rl::Rectangle rect);
+        bool checkCollision(Vector2 pos);
+
     private:
 };
 

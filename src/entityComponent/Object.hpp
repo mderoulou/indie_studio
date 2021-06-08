@@ -45,15 +45,19 @@ public:
 class Btn : public Object2D
 {
 public:
-    Btn(rl::Vec2 pos, rl::Rectangle rect, std::string textureFile, std::string soundFile, rl::Color color = rl::Color(0xFFFFFF));
+    Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, const rl::Color &color = rl::Color(0xFFFFFF));
     
     short _btnState;
     bool _clicked;
-    rl::Rectangle _textureRect;
+    rl::Rectangle _src;
+    rl::Rectangle _bound;
     rl::Vec2 _pos;
     rl::Color _color;
     rl::Sound _sound;
     rl::Texture _texture;
+
+    void handleEvent() override;
+    void render() override;
 };
 
 // 3d object
