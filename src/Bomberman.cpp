@@ -27,9 +27,15 @@ Bomberman::Bomberman()
     _font = new rl::Font();
     _manager = new ComponentManager();
     Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255), 3);
-    Btn *p = new Btn(rl::Vec2(200,200), rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::playBtn));
+    Btn *p = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::playBtn));
+    Btn *u = new Btn(rl::Vec2(1.0/2, 7.0/20), rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::repoLink));
+    Btn *o = new Btn(rl::Vec2(81.0/200, 9.0/20), rl::Rectangle(400,0,196,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::optBtn));
+    Btn *q = new Btn(rl::Vec2(119.0/200, 9.0/20), rl::Rectangle(596,0,196,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::quitBtn));
     _manager->addComponent(player);
     _manager->addComponent(p);
+    _manager->addComponent(u);
+    _manager->addComponent(o);
+    _manager->addComponent(q);
 
     this->generateMap(10, 10);
     _win->changeFps(60);

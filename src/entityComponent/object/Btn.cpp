@@ -16,6 +16,7 @@ Btn::Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textu
 {
     _win = m;
     _scene = scene;
+    _relative = pos;
     _pos = pos;
     _btnState = 0;
     _clicked = false;
@@ -55,4 +56,8 @@ void Btn::handleEvent()
 void Btn::move(rl::Vec3 newPos)
 {
     (void)newPos;
+    _pos.x = ((float)rl::Window::getScreenWidth()) * _relative.x - _src.width / 2.0;
+    _pos.y = ((float)rl::Window::getScreenHeight()) * _relative.y - _src.height / 2.0;
+    _bound.x = _pos.x;
+    _bound.y = _pos.y;
 }

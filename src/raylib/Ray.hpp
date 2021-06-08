@@ -24,6 +24,8 @@ class Ray
 
         bool checkColissionSphere(rl::Vec3 center, float radius);
         bool checkColissionBox(rl::BoundingBox *box);
+
+        static void openUrl(const std::string &url) { ::OpenURL(url.c_str()); };
     private:
         ::Ray _ray;
 };

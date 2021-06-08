@@ -36,8 +36,8 @@ class Window
         void setWindowIcon(rl::Image img);
 
         int getFps();
-        int getScreenWidth() const { return _width; };
-        int getScreenHeight() const { return _height; };
+        static int getScreenWidth() { return ::GetScreenWidth(); };
+        static int getScreenHeight() { return ::GetScreenHeight(); };
 
         // Cursor Functions
 

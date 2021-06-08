@@ -13,6 +13,9 @@
 namespace BF {
     void switchScene(Bomberman *win, int scene);
     void playBtn(Bomberman *win);
+    void repoLink(Bomberman *win);
+    void optBtn(Bomberman *win);
+    void quitBtn(Bomberman *win);
 }
 
 #endif /* !BTNFUNCS_HPP_ */
