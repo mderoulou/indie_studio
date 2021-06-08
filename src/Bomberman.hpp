@@ -9,6 +9,7 @@
 #define BOMB_CLASS_
 
 #include "entityComponent/Manager.hpp"
+#include "functionalities/BtnFuncs.hpp"
 #include "Indie.hpp"
 
 class ComponentManager;
@@ -21,9 +22,9 @@ class Bomberman
 
         void launch();
         void generateMap(int x, int y);
-    private:
         ComponentManager *_manager;
         rl::Window *_win;
+    private:
         rl::Font *_font;
 };
 #endif

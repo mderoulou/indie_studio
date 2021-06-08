@@ -10,6 +10,7 @@
 
 #include "../raylib/rayLib.hpp"
 
+class Bomberman;
 
 class IObject
 {
@@ -34,6 +35,7 @@ public:
 
     rl::Vec2 _pos;
     rl::Color _color;
+    int _scene = 0;
 };
 
 class Text : public Object2D
@@ -46,7 +48,7 @@ public:
 class Btn : public Object2D
 {
 public:
-    Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, const rl::Color &color = rl::Color(255, 255, 255, 255));
+    Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, int scene, Bomberman *m, void (*fptr)(Bomberman *), const rl::Color &color = rl::Color(255, 255, 255, 255));
     
     short _btnState;
     bool _clicked;
@@ -56,6 +58,8 @@ public:
     rl::Color _color;
     rl::Sound _sound;
     rl::Texture _texture;
+    Bomberman *_win;
+    void (*_ptr)(Bomberman *);
 
     void handleEvent() override;
     void render(rl::Camera3d *cam) override;
@@ -68,12 +72,13 @@ class Object3D : public IObject
 public:
     rl::Vec3 _pos;
     rl::Color _color;
+    int _scene = 0;
 };
 
 class Cube : public Object3D
 {
 public:
-    Cube(rl::Vec3 pos, rl::Vec3 size, rl::Color color);
+    Cube(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene);
 
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override {};
@@ -87,7 +92,7 @@ public:
 class Wall : public Cube
 {
 public:
-    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall);
+    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall, int scene);
 
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override {};
@@ -101,7 +106,7 @@ public:
 class Box : public Cube
 {
 public:
-    Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color);
+    Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene);
 
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override {};
@@ -115,8 +120,8 @@ public:
 class Player : public Object3D
 {
 public:
-    Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText); // load Specific texture
-    Player(rl::Vec3 pos, float scale, rl::Color color); // steve specific texture
+    Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene); // load Specific texture
+    Player(rl::Vec3 pos, float scale, rl::Color color, int scene); // steve specific texture
     ~Player();
 
     void handleEvent() override {};

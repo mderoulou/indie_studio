@@ -7,14 +7,27 @@
 
 #include "Bomberman.hpp"
 
+/* * * * * * * * * * * *\
+*                       *
+*      SCENES LIST      *
+*\_____________________/*
+*                       *
+*   0 => MAIN MENU      *
+*   1 => OPTIONS        *
+*   2 => GAME LOBBY     *
+*   3 => GAME           *
+*   4 => PAUSE          *
+*                       *
+\***********************/
+
 Bomberman::Bomberman()
 {
     _win = new rl::Window(1080, 720, "Indie Studio");
     rl::Sound::InitAudioDevice();
     _font = new rl::Font();
     _manager = new ComponentManager();
-    Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255));
-    Btn *p = new Btn(rl::Vec2(200,200), rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav");
+    Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255), 3);
+    Btn *p = new Btn(rl::Vec2(200,200), rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::playBtn));
     _manager->addComponent(player);
     _manager->addComponent(p);
 
@@ -37,7 +50,7 @@ void Bomberman::generateMap(int x, int y)
         for (int j = 0; j < y; j += 1) {
             _manager->addComponent(new Wall(rl::Vec3(i, -1.0f, j),
                             rl::Vec3(1.0f, 1.0f, 1.0f),
-                            rl::Color(255, 255, 255, 255), true));
+                            rl::Color(255, 255, 255, 255), true, 3));
         }
     }
 
@@ -45,20 +58,20 @@ void Bomberman::generateMap(int x, int y)
     for (int i = 0; i < x; i += 1) {
         _manager->addComponent(new Wall(rl::Vec3(i, 0.0f, 0.0f),
                             rl::Vec3(1.0f, 1.0f, 1.0f),
-                            rl::Color(255, 255, 255, 255), true));
+                            rl::Color(255, 255, 255, 255), true, 3));
         _manager->addComponent(new Wall(rl::Vec3(i, 0.0f, y),
                             rl::Vec3(1.0f, 1.0f, 1.0f),
-                            rl::Color(255, 255, 255, 255), true));
+                            rl::Color(255, 255, 255, 255), true, 3));
     }
 
     // Create the border Y
     for (int i = 1; i < y; i += 1) {
         _manager->addComponent(new Wall(rl::Vec3(0.0f, 0.0f, i),
                             rl::Vec3(1.0f, 1.0f, 1.0f),
-                            rl::Color(255, 255, 255, 255), true));
+                            rl::Color(255, 255, 255, 255), true, 3));
         _manager->addComponent(new Wall(rl::Vec3(x - 1, 0.0f, i),
                             rl::Vec3(1.0f, 1.0f, 1.0f),
-                            rl::Color(255, 255, 255, 255), true));
+                            rl::Color(255, 255, 255, 255), true, 3));
     }
 
 }

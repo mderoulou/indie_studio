@@ -8,8 +8,8 @@
 #include "../Object.hpp"
 #include "../Manager.hpp"
 
-Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall)
-    : Cube(pos, size, color)
+Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall, int scene)
+    : Cube(pos, size, color, scene)
 {
     _texture = new rl::Texture("../assets/block/stone-bricks.png");
     rl::Mesh mesh(size.x, size.y, size.z);

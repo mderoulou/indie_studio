@@ -7,18 +7,20 @@
 
 #include "../Object.hpp"
 #include "../../Indie.hpp"
-#include "raylib.h"
 
-Btn::Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, const rl::Color &color)
+Btn::Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, int scene, Bomberman *m, void (*fptr)(Bomberman *), const rl::Color &color)
     : _src(src),
     _bound(pos.x, pos.y, src.width + pos.x, src.height + pos.y),
     _texture(textureFile),
     _sound(soundFile)
 {
+    _win = m;
+    _scene = scene;
     _pos = pos;
     _btnState = 0;
     _clicked = false;
     _color = color;
+    _ptr = fptr;
 }
 
 void Btn::render(rl::Camera3d *cam)
@@ -45,7 +47,7 @@ void Btn::handleEvent()
         _btnState = 0;
     if (_clicked) {
         _sound.play();
-        //TODO ptr func
+        _ptr(_win);
     }
 
 }

@@ -8,8 +8,9 @@
 #include "../Object.hpp"
 #include "../Manager.hpp"
 
-Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText)
+Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene)
 {
+    _scene = scene;
     _color = color;
     _scale = scale;
     _rotation = 0.0f;
@@ -18,7 +19,7 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText)
     _model->setMaterialTexture(0, _texture);
 }
 
-Player::Player(rl::Vec3 pos, float scale, rl::Color color)
+Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene)
 {
     int count = 0;
 
@@ -31,7 +32,7 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color)
     _model->setMaterialTexture(0, _texture);
     _frame = 0;
     _anim = new rl::ModelAnimation("../assets/steve-obj/steve.glb", &count);
-
+    _scene = scene;
 }
 
 Player::~Player()

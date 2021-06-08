@@ -65,6 +65,7 @@ src/raylib/Music.hpp
 src/raylib/Shader.hpp
 src/Indie.hpp
 src/Bomberman.hpp
+src/functionalities/BtnFuncs.hpp
 src/raylib/Window.cpp
 src/raylib/Color.cpp
 src/raylib/RenderTexture.cpp
@@ -79,13 +80,14 @@ src/raylib/BoundingBox.cpp
 src/raylib/Ray.cpp
 src/raylib/Shader.cpp
 src/raylib/Mesh.cpp
+src/raylib/Rectangle.cpp
 src/raylib/Camera.cpp
 src/entityComponent/Manager.cpp
 src/entityComponent/object/Cube.cpp
 src/entityComponent/object/Wall.cpp
 src/entityComponent/object/Player.cpp
 src/entityComponent/object/Btn.cpp
-src/raylib/Rectangle.cpp
+src/functionalities/BtnFuncs.cpp
 src/Bomberman.cpp
 src/main.cpp
 )

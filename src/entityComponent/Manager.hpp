@@ -27,6 +27,7 @@ class ComponentManager
         void moveAll();
 
         int size() const { return _objs.size(); };
+        int _scene;
     private:
 
         rl::Camera3d *_cam;
