@@ -21,7 +21,7 @@ Btn::Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textu
     _color = color;
 }
 
-void Btn::render()
+void Btn::render(rl::Camera3d *cam)
 {
     rl::Rectangle final(_src.x, _src.y, _src.width, _src.height);
 

@@ -58,7 +58,7 @@ public:
     rl::Texture _texture;
 
     void handleEvent() override;
-    void render() override;
+    void render(rl::Camera3d *cam) override;
 };
 
 // 3d object
