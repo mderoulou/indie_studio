@@ -23,8 +23,6 @@ class IObject
     private:
 };
 
-// 2d object
-
 class Object2D : public IObject
 {
 public:
@@ -38,35 +36,6 @@ public:
     int _scene = 0;
 };
 
-class Text : public Object2D
-{
-public:
-    rl::Font _font;
-    rl::Color _color;
-};
-
-class Btn : public Object2D
-{
-public:
-    Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, int scene, Bomberman *m, void (*fptr)(Bomberman *), const rl::Color &color = rl::Color(255, 255, 255, 255));
-    
-    short _btnState;
-    bool _clicked;
-    rl::Rectangle _src;
-    rl::Rectangle _bound;
-    rl::Vec2 _pos;
-    rl::Color _color;
-    rl::Sound _sound;
-    rl::Texture _texture;
-    Bomberman *_win;
-    void (*_ptr)(Bomberman *);
-
-    void handleEvent() override;
-    void render(rl::Camera3d *cam) override;
-};
-
-// 3d object
-
 class Object3D : public IObject
 {
 public:
@@ -75,66 +44,12 @@ public:
     int _scene = 0;
 };
 
-class Cube : public Object3D
-{
-public:
-    Cube(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene);
 
-    void handleEvent() override {};
-    void move(rl::Vec3 newPos) override {};
-    void simulate() override {};
-    void render(rl::Camera3d *cam) override;
-
-    rl::Vec3 _size;
-    bool _isBreakable;
-};
-
-class Wall : public Cube
-{
-public:
-    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall, int scene);
-
-    void handleEvent() override {};
-    void move(rl::Vec3 newPos) override {};
-    void simulate() override {};
-    void render(rl::Camera3d *cam) override;
-
-    rl::Texture *_texture;
-    rl::Model *_model;
-};
-
-class Box : public Cube
-{
-public:
-    Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene);
-
-    void handleEvent() override {};
-    void move(rl::Vec3 newPos) override {};
-    void simulate() override {};
-    void render(rl::Camera3d *cam) override;
-
-    rl::Texture *_txt;
-    rl::Model *_model;
-};
-
-class Player : public Object3D
-{
-public:
-    Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene); // load Specific texture
-    Player(rl::Vec3 pos, float scale, rl::Color color, int scene); // steve specific texture
-    ~Player();
-
-    void handleEvent() override {};
-    void move(rl::Vec3 newPos) override;
-    void simulate() override;
-    void render(rl::Camera3d *cam) override;
-
-    rl::Model *_model;
-    rl::Texture *_texture;
-    rl::ModelAnimation *_anim;
-    float _scale;
-    float _rotation;
-    int _frame;
-};
+#include "object/Box.hpp"
+#include "object/Btn.hpp"
+#include "object/Cube.hpp"
+#include "object/Player.hpp"
+#include "object/Text.hpp"
+#include "object/Wall.hpp"
 
 #endif

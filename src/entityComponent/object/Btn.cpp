@@ -10,7 +10,7 @@
 
 Btn::Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, int scene, Bomberman *m, void (*fptr)(Bomberman *), const rl::Color &color)
     : _src(src),
-    _bound(pos.x, pos.y, src.width + pos.x, src.height + pos.y),
+    _bound(pos.x, pos.y, src.width, src.height),
     _texture(textureFile),
     _sound(soundFile)
 {
