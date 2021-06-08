@@ -28,6 +28,7 @@ class Btn : public Object2D
 
         void handleEvent() override;
         void render(rl::Camera3d *cam) override;
+        void move(rl::Vec3 newPos) override;
 };
 
 #endif /* !BTN_HPP_ */

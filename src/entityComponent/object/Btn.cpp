@@ -51,3 +51,8 @@ void Btn::handleEvent()
     }
 
 }
+
+void Btn::move(rl::Vec3 newPos)
+{
+    (void)newPos;
+}

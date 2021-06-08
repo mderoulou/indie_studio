@@ -42,30 +42,6 @@ endif()
 # File to compile
 
 add_executable(${PROJECT_NAME}
-src/entityComponent/Object.hpp
-src/entityComponent/Manager.hpp
-src/raylib/Error.hpp
-src/raylib/Color.hpp
-src/raylib/Vector.hpp
-src/raylib/Texture.hpp
-src/raylib/Mesh.hpp
-src/raylib/Image.hpp
-src/raylib/Rectangle.hpp
-src/raylib/RenderTexture.hpp
-src/raylib/Mouse.hpp
-src/raylib/Model.hpp
-src/raylib/Font.hpp
-src/raylib/rayLib.hpp
-src/raylib/Ray.hpp
-src/raylib/BoundingBox.hpp
-src/raylib/Window.hpp 
-src/raylib/Camera.hpp 
-src/raylib/Sound.hpp 
-src/raylib/Music.hpp 
-src/raylib/Shader.hpp
-src/Indie.hpp
-src/Bomberman.hpp
-src/functionalities/BtnFuncs.hpp
 src/raylib/Window.cpp
 src/raylib/Color.cpp
 src/raylib/RenderTexture.cpp
