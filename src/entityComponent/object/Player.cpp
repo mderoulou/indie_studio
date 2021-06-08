@@ -40,9 +40,11 @@ Player::~Player()
     delete _texture;
 }
 
-void Player::render()
+void Player::render(rl::Camera3d *cam)
 {
+    cam->beginMode();
     _model->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
+    cam->endMode();
 }
 
 void Player::move(rl::Vec3 newPos)

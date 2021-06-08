@@ -28,7 +28,7 @@ class ComponentManager
         int size() const { return _objs.size(); };
     private:
 
-        void draw(IObject * obj);
+        rl::Camera3d *_cam;
         std::vector<IObject *> _objs;
         Gamepad *_gp;
 };

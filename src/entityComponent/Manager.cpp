@@ -10,10 +10,16 @@
 ComponentManager::ComponentManager()
 {
     _gp = new Gamepad(rl::Font());
+    _cam = new rl::Camera3d(rl::Vec3(5.0f, 20.0f, 20.0f),
+                            rl::Vec3(0.0f, 0.0f, 0.0f),
+                            rl::Vec3(0.0f, 1.0f, 0.0f),
+                            45.0f, 0);
 }
 
 ComponentManager::~ComponentManager()
 {
+    delete _cam;
+    delete _gp;
     this->clearComponents();
 }
 
@@ -39,7 +45,7 @@ void ComponentManager::simulate()
 void ComponentManager::renderAll()
 {
     for (auto obj : _objs) {
-        obj->render();
+        obj->render(_cam);
     }
 }
 
