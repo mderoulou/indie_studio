@@ -41,6 +41,9 @@ class Sound
         void setVolume(float volume);
         void setPitch(float pitch);
 
+        static void InitAudioDevice() { ::InitAudioDevice(); };
+        static void CloseAudioDevice() { ::CloseAudioDevice(); };
+
         ::Sound getSound() const { return _sound; };
     private:
         ::Sound _sound;

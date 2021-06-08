@@ -46,7 +46,7 @@ public:
 class Btn : public Object2D
 {
 public:
-    Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, const rl::Color &color = rl::Color(0xFFFFFF));
+    Btn(const rl::Vec2 &pos, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, const rl::Color &color = rl::Color(255, 255, 255, 255));
     
     short _btnState;
     bool _clicked;

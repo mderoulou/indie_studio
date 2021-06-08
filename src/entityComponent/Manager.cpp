@@ -44,6 +44,7 @@ void ComponentManager::simulate()
 
 void ComponentManager::renderAll()
 {
+    //std::cout << "[MANAGER] Rendering!" << std::endl;
     for (auto obj : _objs) {
         obj->render(_cam);
     }
@@ -51,7 +52,15 @@ void ComponentManager::renderAll()
 
 void ComponentManager::handleEvent()
 {
-    // Movement Event
+    //std::cout << "[MANAGER] Handling Events!" << std::endl;
+    for (auto obj: _objs) {
+        obj->handleEvent();
+    }
+}
+
+void ComponentManager::moveAll()
+{
+    //std::cout << "[MANAGER] Moving Events!" << std::endl;
     rl::Vec3 newPos(0, 0, 0);
     float mov;
 

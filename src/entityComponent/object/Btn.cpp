@@ -25,7 +25,7 @@ void Btn::render(rl::Camera3d *cam)
 {
     rl::Rectangle final(_src.x, _src.y, _src.width, _src.height);
 
-    final.y *= _btnState;
+    final.y = final.height * _btnState;
     _texture.drawRec(final, _pos, _color);
 }
 

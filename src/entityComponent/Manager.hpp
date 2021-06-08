@@ -24,6 +24,7 @@ class ComponentManager
         void simulate();
         void renderAll();
         void handleEvent();
+        void moveAll();
 
         int size() const { return _objs.size(); };
     private:

@@ -10,6 +10,7 @@
 Bomberman::Bomberman()
 {
     _win = new rl::Window(1080, 720, "Indie Studio");
+    rl::Sound::InitAudioDevice();
     _font = new rl::Font();
     _manager = new ComponentManager();
     Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255));
@@ -23,6 +24,7 @@ Bomberman::Bomberman()
 
 Bomberman::~Bomberman()
 {
+    rl::Sound::CloseAudioDevice();
     delete _font;
     delete _win;
     delete _manager;
@@ -68,12 +70,10 @@ void Bomberman::launch()
         _win->beginDrawing();
 
         _font->drawFPS(5, 25);
-
         _manager->handleEvent();
         _manager->simulate();
-
+        _manager->moveAll();
         _manager->renderAll();
-
         _win->endDrawing();
     }
 }
