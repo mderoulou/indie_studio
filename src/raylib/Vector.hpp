@@ -33,6 +33,17 @@ class Vec3 : public ::Vector3
         Vec3(float x, float y, float z);
         ~Vec3() {};
 
+        virtual float &operator[](int i) {
+            if (i == 0){
+                return x;
+            } else if (i == 1) {
+                return y;
+            } else if (i == 2) {
+                return z;
+            }
+            return x;
+        }
+
         void drawCube(rl::Vec3 size, rl::Color color);
         void drawCubeWires(rl::Vec3 size, rl::Color color);
     private:
