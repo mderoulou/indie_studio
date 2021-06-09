@@ -23,8 +23,10 @@ jobs:
       - name: Notify on Discord
         run: ./discord.sh
           --webhook-url=https://discordapp.com/api/webhooks/852202281957195807/yu0qDFsPQ2h4DjRnRAkRUH4JcVDRSowy7QRiqHrJeZ9Zsd6Ajm6joxs7_tOeUOuH1zjn
-          --text 'New Commit:'
+          --text ''
           --author '${{ github.actor }}'
           --title '${{ github.event_name }} on ${{ github.event.repository.full_name }}'
           --description '${{ github.event.commits[0].message }}'
           --username "IndieNotificationBot"
+          --url "${{ github.event.commits[0].url }}"
+          
