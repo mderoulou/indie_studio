@@ -23,5 +23,5 @@ jobs:
       - name: Notify on Discord
         run: ./discord.sh
           --webhook-url=https://discordapp.com/api/webhooks/852202281957195807/yu0qDFsPQ2h4DjRnRAkRUH4JcVDRSowy7QRiqHrJeZ9Zsd6Ajm6joxs7_tOeUOuH1zjn
-          --text "Someone Push On Indie Studio Repository\n{{ EVENT_PAYLOAD.pusher.name }}\nCommit Name {{ EVENT_PAYLOAD.commits }}"
+          --text "Someone $GITHUB_EVENT_NAME On Indie Studio Repository\n ${{ github.actor }} \nCommit Name $github.event.commits[0][name]"
           --username "IndieNotificationBot"
