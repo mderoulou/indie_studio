@@ -133,6 +133,12 @@ void Player::simulate()
             _acc.x = acc_mult * mov;
         }
 
+        float mv_speed = pow(pow(_acc.x, 2) + pow(_acc.z, 2), 0.5);
+        if (mv_speed > acc_mult) {
+            _acc.x = _acc.x/mv_speed*acc_mult;
+            _acc.z = _acc.z/mv_speed*acc_mult;
+        }
+
         float angle = -findAngle({_v.x, _v.z})*180/M_PI-90;
 
         while (_rotation - angle > 180) {

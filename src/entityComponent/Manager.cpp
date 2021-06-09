@@ -22,7 +22,7 @@ ComponentManager::~ComponentManager()
     this->clearComponents();
 }
 
-void ComponentManager::addComponent(IObject *obj)
+void ComponentManager::addComponent(AObject *obj)
 {
     _objs.push_back(obj);
 }

@@ -23,7 +23,19 @@ class IObject
     private:
 };
 
-class Object2D : public IObject
+class AObject : public IObject
+{
+    public:
+        virtual ~AObject() = default;
+        virtual void handleEvent() = 0;
+        virtual void move(rl::Vec3 newPos) = 0;
+        virtual void simulate() = 0;
+        virtual void render(rl::Camera3d *cam) = 0;
+        bool _isSolid = false;
+    private:
+};
+
+class Object2D : public AObject
 {
 public:
     void handleEvent() override {};
@@ -36,7 +48,7 @@ public:
     int _scene = 0;
 };
 
-class Object3D : public IObject
+class Object3D : public AObject
 {
 public:
     rl::Vec3 _pos;
