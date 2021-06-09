@@ -22,20 +22,30 @@
 
 Bomberman::Bomberman()
 {
-    _win = new rl::Window(1080, 720, "Indie Studio");
+    _win = new rl::Window(800, 600, "Indie Studio");
     rl::Sound::InitAudioDevice();
     _font = new rl::Font();
     _manager = new ComponentManager();
     Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true);
     Btn *p = new Btn(rl::Vec2(1.0/2, 5.0/20), "Play", 24, rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::playBtn));
-    Btn *u = new Btn(rl::Vec2(1.0/2, 7.0/20), "Respository", 24,  rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::repoLink));
-    Btn *o = new Btn(rl::Vec2(81.0/200, 9.0/20), "Options", 24, rl::Rectangle(400,0,196,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::optBtn));
-    Btn *q = new Btn(rl::Vec2(119.0/200, 9.0/20), "Quit Game", 24, rl::Rectangle(400,0,196,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::quitBtn));
+    Btn *s = new Btn(rl::Vec2(1.0/2, 7.0/20), "Skins", 24,  rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::skinBtn));
+    Btn *u = new Btn(rl::Vec2(3.0/4, 9.0/20), "Respository", 24,  rl::Rectangle(400,0,196,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::repoLink));
+    Btn *o = new Btn(rl::Vec2(1.0/4, 9.0/20), "Options", 24, rl::Rectangle(400,0,196,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::optBtn));
+    Btn *q = new Btn(rl::Vec2(1.0/2, 11.0/20), "Quit Game", 24, rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::quitBtn));
+    Btn *d = new Btn(rl::Vec2(1.0/2, 18.0/20), "Done", 24, rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 5, this, &(BF::backBtn));
+    Btn *ds = new Btn(rl::Vec2(1.0/2, 18.0/20), "Done", 24, rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 1, this, &(BF::backBtn));
+    Btn *f = new Btn(rl::Vec2(1.0/2, 5.0/20), "FullScreen: OFF", 24, rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 1, this, &(BF::fullScreen));
+    Btn *r = new Btn(rl::Vec2(1.0/2, 7.0/20), "Resolution: 800 x 600", 24, rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 1, this, &(BF::resolutionBtn));
     _manager->addComponent(player);
     _manager->addComponent(p);
+    _manager->addComponent(s);
     _manager->addComponent(u);
     _manager->addComponent(o);
     _manager->addComponent(q);
+    _manager->addComponent(d);
+    _manager->addComponent(f);
+    _manager->addComponent(r);
+    _manager->addComponent(ds);
 
     //this->generateMap(10, 10);
     _win->changeFps(60);

@@ -12,10 +12,14 @@
 
 namespace BF {
     void switchScene(Bomberman *win, int scene);
-    void playBtn(Bomberman *win);
-    void repoLink(Bomberman *win);
-    void optBtn(Bomberman *win);
-    void quitBtn(Bomberman *win);
+    void playBtn(Bomberman *win, Btn *b);
+    void repoLink(Bomberman *win, Btn *b);
+    void optBtn(Bomberman *win, Btn *b);
+    void quitBtn(Bomberman *win, Btn *b);
+    void backBtn(Bomberman *win, Btn *b);
+    void fullScreen(Bomberman *win, Btn *b);
+    void resolutionBtn(Bomberman *win, Btn *b);
+    void skinBtn(Bomberman *win, Btn *b);
 }
 
 #endif /* !BTNFUNCS_HPP_ */
