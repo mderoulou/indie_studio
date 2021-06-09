@@ -9,6 +9,7 @@
 #define PLAYER_HPP_
 
 #include "../Object.hpp"
+#include <vector>
 
 class Player : public Object3D
 {
@@ -22,12 +23,14 @@ public:
     void simulate() override;
     void render(rl::Camera3d *cam) override;
 
-    rl::Model *_model;
+    std::vector<rl::Model *> _models;
     rl::Texture *_texture;
     rl::ModelAnimation *_anim;
     float _scale;
     float _rotation;
     int _frame;
+private:
+    void loadAnims();
 };
 
 
