@@ -71,7 +71,11 @@ void Player::render(rl::Camera3d *cam)
 {
     cam->beginMode();
 
-    _models[_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
+    if (_frame < 0 || _frame > 40) {
+        cam->endMode();
+        return;
+    }
+    _models[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
     cam->endMode();
 }
 
@@ -107,17 +111,13 @@ double findAngle(rl::Vec2 vec) {
 
 void Player::simulate()
 {
-    _frame++;
-    if (_frame >= 40)
-        _frame = 0;
-
     float acc_mult = 0.05; 
 
         //std::cout << "[MANAGER] Moving Events!" << std::endl;
 
     // controller 
     if (_controller) {
-        float mov;
+        float mov = 0;
         if (!_controller->initialized)
             _controller->init();
         if ((mov = _controller->isKeyUp()) != 0) { 
@@ -133,6 +133,12 @@ void Player::simulate()
             _acc.x = acc_mult * mov;
         }
 
+        float mv_speed = pow(pow(_acc.x, 2) + pow(_acc.z, 2), 0.5);
+        if (mv_speed > acc_mult) {
+            _acc.x = _acc.x/mv_speed*acc_mult;
+            _acc.z = _acc.z/mv_speed*acc_mult;
+        }
+
         float angle = -findAngle({_v.x, _v.z})*180/M_PI-90;
 
         while (_rotation - angle > 180) {
@@ -146,6 +152,23 @@ void Player::simulate()
         if (std::isnormal(angle))
             _rotation = _rotation*0.8 + (angle)*0.2;
         
+
+        // player animation
+        _frame += acc_mult * pow(pow(_v.x, 2) + pow(_v.z, 2), 0.5) * 100;
+       
+        if (_v.x*_v.x + _v.z*_v.z < 0.01 && _frame > 0 && mov == 0) {
+            if ((int)_frame == 20)
+                _frame = 0;
+            if ((int)_frame%20 > 10)
+                _frame += 1;
+            else
+                _frame -= 1;
+        }
+       
+        if (_frame >= 40)
+            _frame = 0;
+        else if (_frame <= 0)
+            _frame = 0;
 
         move(_v);
         _v.x += _acc.x;
