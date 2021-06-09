@@ -79,6 +79,9 @@ void BF::resolutionBtn(Bomberman *win, Btn *b)
     x = (x + 1) % 4;
     win->_win->setWindowSize(widths[x], heights[x]);
     b->_text = std::string("Resolution:") + texts[x];
+    for (auto obj : win->_manager->_objs)
+        if (Btn *b = dynamic_cast<Btn *>(obj))
+            b->move((rl::Vec3){0.0, 0.0, 0.0});
 }
 
 void BF::skinBtn(Bomberman *win, Btn *b)

@@ -25,6 +25,7 @@ Btn::Btn(const rl::Vec2 &pos, const std::string &text, int pSize, const rl::Rect
     _ptr = fptr;
     _text = text;
     _pSize = pSize;
+    this->move((rl::Vec3){0.0, 0.0, 0.0});
 }
 
 void Btn::render(rl::Camera3d *cam)
@@ -59,8 +60,8 @@ void Btn::handleEvent()
 void Btn::move(rl::Vec3 newPos)
 {
     (void)newPos;
-    _pos.x = ((float)rl::Window::getScreenWidth()) * _relative.x - _src.width / 2.0;
-    _pos.y = ((float)rl::Window::getScreenHeight()) * _relative.y - _src.height / 2.0;
+    _pos.x = ((float)_win->_win->getScreenWidth()) * _relative.x - _src.width / 2.0;
+    _pos.y = ((float)_win->_win->getScreenHeight()) * _relative.y - _src.height / 2.0;
     _bound.x = _pos.x;
     _bound.y = _pos.y;
 }

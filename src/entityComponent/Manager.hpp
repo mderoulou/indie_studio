@@ -27,10 +27,10 @@ class ComponentManager
 
         int size() const { return _objs.size(); };
         int _scene;
+        std::vector<IObject *> _objs;
     private:
 
         rl::Camera3d *_cam;
-        std::vector<IObject *> _objs;
 };
 
 #endif
