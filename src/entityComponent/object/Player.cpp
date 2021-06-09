@@ -113,7 +113,7 @@ void Player::simulate()
 {
     float acc_mult = 0.05; 
 
-        //std::cout << "[MANAGER] Moving Events!" << std::endl;
+    //std::cout << "[MANAGER] Moving Events!" << std::endl;
 
     // controller 
     if (_controller) {
@@ -181,5 +181,11 @@ void Player::simulate()
         _acc.x = 0;
         _acc.y = 0;
         _acc.z = 0;
+
+
+        //collide with Solid Object
+        rl::Vec3 colideSize = {2, 2, 2};
+        std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(_pos, colideSize);
+        std::cout << vec.size() << std::endl;
     }
 }

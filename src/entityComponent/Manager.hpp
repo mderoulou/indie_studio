@@ -9,6 +9,7 @@
 #define INDIE_MANAGER_
 
 #include "../Indie.hpp"
+#include "UniTree.hpp"
 
 class Gamepad;
 
@@ -28,8 +29,9 @@ class ComponentManager
         int size() const { return _objs.size(); };
         int _scene;
         std::vector<AObject *> _objs;
-    private:
+        UniTree<AObject, rl::Vec3, 3> *_PhysXTree;
 
+    private:
         rl::Camera3d *_cam;
 };
 
