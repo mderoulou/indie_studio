@@ -9,13 +9,14 @@
 #define PLAYER_HPP_
 
 #include "../Object.hpp"
+#include "../../raylib/rayLib.hpp"
 #include <vector>
 
 class Player : public Object3D
 {
 public:
-    Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene); // load Specific texture
-    Player(rl::Vec3 pos, float scale, rl::Color color, int scene); // steve specific texture
+    Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene, bool _isKeyboad); // load Specific texture
+    Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKeyboad); // steve specific texture
     ~Player();
 
     void handleEvent() override {};
@@ -26,9 +27,15 @@ public:
     std::vector<rl::Model *> _models;
     rl::Texture *_texture;
     rl::ModelAnimation *_anim;
+
+    rl::Vec3 _v = {0, 0, 0};
+    rl::Vec3 _acc = {0, 0, 0};
+
+
     float _scale;
-    float _rotation;
+    float _rotation = 0;
     int _frame;
+    Control *_controller = 0;
 private:
     void loadAnims();
 };

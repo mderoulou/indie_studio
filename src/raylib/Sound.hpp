@@ -8,7 +8,8 @@
 #ifndef RL_SOUND_
 #define RL_SOUND_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include <string>
 
 namespace rl {
 

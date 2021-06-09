@@ -8,13 +8,14 @@
 #ifndef RL_IMAGE_
 #define RL_IMAGE_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include "Color.hpp"
+#include "Vector.hpp"
+#include "Rectangle.hpp"
+#include <string>
+
 
 namespace rl {
-
-class Color;
-class Vec4;
-class Rectangle;
 
 class Image
 {

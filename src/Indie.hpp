@@ -15,6 +15,5 @@
 #include "entityComponent/Object.hpp"
 #include "raylib/rayLib.hpp"
 #include "Bomberman.hpp"
-#include "raylib/Gamepad.hpp"
 
 #endif

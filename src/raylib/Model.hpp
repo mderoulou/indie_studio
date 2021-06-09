@@ -8,11 +8,13 @@
 #ifndef RL_MODEL_
 #define RL_MODEL_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include "Mesh.hpp"
+#include "Texture.hpp"
+#include "Vector.hpp"
+#include "Color.hpp"
 
 namespace rl {
-
-class Mesh;
 
 class Model
 {

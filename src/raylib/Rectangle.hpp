@@ -8,11 +8,11 @@
 #ifndef RL_RECTANLE_
 #define RL_RECTANLE_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include "Color.hpp"
+#include "Vector.hpp"
 
 namespace rl {
-
-class Color;
 
 class Rectangle : public ::Rectangle
 {

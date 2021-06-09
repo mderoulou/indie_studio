@@ -8,14 +8,10 @@
 #ifndef RL_CAMERA_
 #define RL_CAMERA_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include "Vector.hpp"
 
 namespace rl {
-
-// Need this thing or it broke
-class Vec2;
-class Vec3;
-
 
 class Camera2d : public ::Camera2D
 {

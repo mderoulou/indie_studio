@@ -9,7 +9,6 @@
 
 ComponentManager::ComponentManager()
 {
-    _gp = new Gamepad(rl::Font());
     _cam = new rl::Camera3d(rl::Vec3(5.0f, 20.0f, 20.0f),
                             rl::Vec3(0.0f, 0.0f, 0.0f),
                             rl::Vec3(0.0f, 1.0f, 0.0f),
@@ -20,7 +19,6 @@ ComponentManager::ComponentManager()
 ComponentManager::~ComponentManager()
 {
     delete _cam;
-    delete _gp;
     this->clearComponents();
 }
 
@@ -36,8 +34,6 @@ void ComponentManager::clearComponents()
 
 void ComponentManager::simulate()
 {
-    if (!_gp->initialized)
-        _gp->init();
     for (auto obj : _objs) {
         obj->simulate();
     }
@@ -69,6 +65,7 @@ void ComponentManager::handleEvent()
     }
 }
 
+/*
 void ComponentManager::moveAll()
 {
     //std::cout << "[MANAGER] Moving Events!" << std::endl;
@@ -92,9 +89,9 @@ void ComponentManager::moveAll()
     if ((mov = _gp->isKeyRight()) != 0) {
         newPos.x = 0.1f * mov;
         mov = 0;
-    }*/
+    }
     
     for (auto obj : _objs) {
         obj->move(newPos);
     }
-}
+}*/

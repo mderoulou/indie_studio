@@ -8,11 +8,12 @@
 #ifndef RL_FONT_
 #define RL_FONT_
 
-#include "rayLib.hpp"
+#include <string>
+#include "raylib.h"
+#include "Color.hpp"
+#include "Vector.hpp"
 
 namespace rl {
-
-class Color;
 
 class Font
 {

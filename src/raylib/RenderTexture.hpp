@@ -8,7 +8,7 @@
 #ifndef RL_RTEXTURE_
 #define RL_RTEXTURE_
 
-#include "rayLib.hpp"
+#include "raylib.h"
 
 namespace rl {
 

@@ -26,7 +26,7 @@ Bomberman::Bomberman()
     rl::Sound::InitAudioDevice();
     _font = new rl::Font();
     _manager = new ComponentManager();
-    Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255), 3);
+    Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true);
     Btn *p = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::playBtn));
     Btn *u = new Btn(rl::Vec2(1.0/2, 7.0/20), rl::Rectangle(0,0,400,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::repoLink));
     Btn *o = new Btn(rl::Vec2(81.0/200, 9.0/20), rl::Rectangle(400,0,196,40), "../assets/menus/btns.png", "../assets/sound/click.wav", 0, this, &(BF::optBtn));
@@ -91,7 +91,6 @@ void Bomberman::launch()
         _font->drawFPS(5, 25);
         _manager->handleEvent();
         _manager->simulate();
-        _manager->moveAll();
         _manager->renderAll();
         _win->endDrawing();
     }

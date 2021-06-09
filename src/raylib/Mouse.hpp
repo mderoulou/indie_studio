@@ -8,7 +8,11 @@
 #ifndef MOUSE_HPP_
 #define MOUSE_HPP_
 
+#include "raylib.h"
+#include "Vector.hpp"
+
 namespace rl {
+
 class Mouse {
     public:
         static Vector2 GetMousePosition() { return (::GetMousePosition()); };

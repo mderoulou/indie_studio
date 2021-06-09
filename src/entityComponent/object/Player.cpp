@@ -10,8 +10,9 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 
-Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene)
+Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene, bool _isKeyboad)
 {
     int count = 40;
     _scene = scene;
@@ -19,18 +20,26 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText,
     _scale = scale;
     _rotation = 0;
     _texture = new rl::Texture(pathText);
+    if (_isKeyboad)
+        _controller = new Keyboard(rl::Font());
+    else
+        _controller = new Gamepad(rl::Font());
     this->loadAnims();
 }
 
-Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene)
+Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKeyboad)
 {
     _pos = rl::Vec3(pos);
     _color = rl::Color(color);
-    _rotation = 180;
+    _rotation = 0;
     _scale = scale;
     _texture = new rl::Texture("../assets/steve-obj/player-name/skin.png");
     _frame = 0;
     _scene = scene;
+    if (_isKeyboad)
+        _controller = new Keyboard(rl::Font());
+    else
+        _controller = new Gamepad(rl::Font());
     this->loadAnims();
 }
 
@@ -72,7 +81,7 @@ void Player::move(rl::Vec3 newPos)
     _pos.y += newPos.y;
     _pos.z += newPos.z;
 
-    if (newPos.x == newPos.z)
+    /*if (newPos.x == newPos.z)
         return;
     if (newPos.x > newPos.z) {
         if (newPos.x > 0)
@@ -84,8 +93,16 @@ void Player::move(rl::Vec3 newPos)
             _rotation = 180;
         else
             _rotation = 90;
-    }
+    }*/
     
+}
+
+double findAngle(rl::Vec2 vec) {
+    double len = pow(pow(vec.x, 2) + pow(vec.y, 2), 0.5);
+    double a1 = acosf(vec.x / len);
+    if (vec.y < 0)
+        a1 = -a1;
+    return a1;
 }
 
 void Player::simulate()
@@ -93,4 +110,53 @@ void Player::simulate()
     _frame++;
     if (_frame >= 40)
         _frame = 0;
+
+    float acc_mult = 0.05; 
+
+        //std::cout << "[MANAGER] Moving Events!" << std::endl;
+
+    // controller 
+    if (_controller) {
+        float mov;
+        if (!_controller->initialized)
+            _controller->init();
+        if ((mov = _controller->isKeyUp()) != 0) { 
+            _acc.z = -acc_mult * mov;
+        }
+        if ((mov = _controller->isKeyDown()) != 0) {
+            _acc.z = acc_mult * mov;
+        }
+        if ((mov = _controller->isKeyLeft()) != 0) {
+            _acc.x = -acc_mult * mov;
+        }
+        if ((mov = _controller->isKeyRight()) != 0) {
+            _acc.x = acc_mult * mov;
+        }
+
+        float angle = -findAngle({_v.x, _v.z})*180/M_PI-90;
+
+        while (_rotation - angle > 180) {
+            _rotation -= 360; 
+        }
+
+        while (-_rotation + angle > 180) {
+            _rotation += 360; 
+        }
+
+        if (std::isnormal(angle))
+            _rotation = _rotation*0.8 + (angle)*0.2;
+        
+
+        move(_v);
+        _v.x += _acc.x;
+        _v.y += _acc.y;
+        _v.z += _acc.z;
+
+        _v.x *= 0.8;
+        _v.y *= 0.8;
+        _v.z *= 0.8;
+        _acc.x = 0;
+        _acc.y = 0;
+        _acc.z = 0;
+    }
 }

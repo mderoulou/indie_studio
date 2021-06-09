@@ -8,11 +8,10 @@
 #ifndef RL_VECTOR_
 #define RL_VECTOR_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include "Color.hpp"
 
 namespace rl {
-
-class Color;
 
 class Vec2 : public ::Vector2
 {

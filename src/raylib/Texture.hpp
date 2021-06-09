@@ -8,11 +8,15 @@
 #ifndef RL_TEXTURE_
 #define RL_TEXTURE_
 
-#include "rayLib.hpp"
+#include <string>
+
+#include "raylib.h"
+#include "Image.hpp"
+#include "Color.hpp"
+#include "Vector.hpp"
+#include "Rectangle.hpp"
 
 namespace rl {
-
-class Image;
 
 class Texture
 {

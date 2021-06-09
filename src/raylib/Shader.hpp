@@ -8,11 +8,10 @@
 #ifndef RL_SHADER_
 #define RL_SHADER_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include "Texture.hpp"
 
 namespace rl {
-
-class Texture;
 
 class Shader
 {

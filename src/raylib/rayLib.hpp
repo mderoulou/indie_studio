@@ -12,7 +12,6 @@
 
 #include <iostream>
 
-#include "Image.hpp"
 #include "Camera.hpp"
 #include "Vector.hpp"
 #include "Color.hpp"
@@ -30,5 +29,6 @@
 #include "Mouse.hpp"
 #include "Music.hpp"
 #include "Sound.hpp"
+#include "Gamepad.hpp"
 
 #endif

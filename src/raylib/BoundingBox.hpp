@@ -8,12 +8,12 @@
 #ifndef RL_BOX_
 #define RL_BOX_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include "Color.hpp"
+#include "Vector.hpp"
+#include "Mesh.hpp"
 
 namespace rl {
-
-class Color;
-class Mesh;
 
 class BoundingBox
 {

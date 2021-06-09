@@ -17,11 +17,6 @@ rl::Color::Color()
 {
 }
 
-rl::Color::Color(rl::Vec4 vec)
-    : ::Color{static_cast<uint8_t>(vec.x), static_cast<uint8_t>(vec.y), static_cast<uint8_t>(vec.z), static_cast<uint8_t>(vec.w)}
-{
-}
-
 rl::Color::Color(const rl::Color &color)
     : ::Color{color.r, color.g, color.b, color.a}
 {
@@ -39,9 +34,4 @@ rl::Color::Color(int hexValue)
 int rl::Color::getHexa()
 {
     return ColorToInt(*this);
-}
-
-rl::Vec4 rl::Color::colorNormalize()
-{
-    return rl::Vec4(ColorNormalize(*this));
 }

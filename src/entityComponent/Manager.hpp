@@ -24,7 +24,6 @@ class ComponentManager
         void simulate();
         void renderAll();
         void handleEvent();
-        void moveAll();
 
         int size() const { return _objs.size(); };
         int _scene;
@@ -32,7 +31,6 @@ class ComponentManager
 
         rl::Camera3d *_cam;
         std::vector<IObject *> _objs;
-        Gamepad *_gp;
 };
 
 #endif

@@ -8,12 +8,11 @@
 #ifndef RL_RAY_
 #define RL_RAY_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include "BoundingBox.hpp"
+#include "Camera.hpp"
 
 namespace rl {
-
-class BoundingBox;
-class Camera3d;
 
 class Ray
 {

@@ -8,7 +8,9 @@
 #ifndef RL_MESH_
 #define RL_MESH_
 
-#include "rayLib.hpp"
+#include "raylib.h"
+#include "Image.hpp"
+#include "Vector.hpp"
 
 namespace rl {
 
