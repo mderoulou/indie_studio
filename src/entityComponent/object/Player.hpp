@@ -34,7 +34,7 @@ public:
 
     float _scale;
     float _rotation = 0;
-    int _frame;
+    float _frame = 0;
     Control *_controller = 0;
 private:
     void loadAnims();
