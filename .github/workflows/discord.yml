@@ -26,5 +26,5 @@ jobs:
           --text 'New Commit:'
           --author '${{ github.actor }}
           --title '$GITHUB_EVENT_NAME on IndieRepository'
-          --description '${{ github.event.commits[0]["name"] }}'
+          --description '${{ github.event.commits[0].name }}'
           --username "IndieNotificationBot"
