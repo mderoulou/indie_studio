@@ -29,7 +29,11 @@ class AObject : public IObject
     public:
         virtual ~AObject() = default;
         virtual void handleEvent() = 0;
-        virtual void move(rl::Vec3 newPos) = 0;
+        virtual void move(rl::Vec3 newPos) {
+            _pos +=  newPos;
+            _boundingBox._bd.min = rl::Vec3(_boundingBox._bd.min) + newPos;
+            _boundingBox._bd.max = rl::Vec3(_boundingBox._bd.max) + newPos;
+        }
         virtual void simulate() = 0;
         virtual void render(rl::Camera3d *cam) = 0;
         virtual float &operator[](int i) {
@@ -38,7 +42,7 @@ class AObject : public IObject
 
         rl::Vec3 _pos;
         bool _isSolid = false;
-        BoundingBox _BoundingBox;
+        rl::BoundingBox _boundingBox = {rl::Vec3(0, 0, 0), rl::Vec3(0, 0, 0)};
         ComponentManager *_manager;
     private:
 };

@@ -28,8 +28,8 @@ class BoundingBox
         void changeBox(rl::Vec3 max, rl::Vec3 min);
 
         ::BoundingBox getBox() const { return _bd; };
-    private:
         ::BoundingBox _bd;
+    private:
 };
 
 }

@@ -18,6 +18,8 @@ Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall, int scene)
     _model = new rl::Model(mesh);
     _model->setMaterialTexture(0, _texture);
     _isSolid = true;
+    _boundingBox._bd.min = pos-size/2;
+    _boundingBox._bd.max = pos+size/2;
 }
 
 void Wall::render(rl::Camera3d *cam)
