@@ -58,14 +58,8 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    - name: CHECK_SLN
-      id: check_sln
-      uses: andstor/file-existence-action@v1
-      whith:
-        files: "bomberman.sln"
-    - name: file exits
-      if: steps.check_file.output.files_exists == 'true'
-      run: echo Windows file exist !
-        
+    - name: Test if SLN exists
+      run: ls bomberman.sln
+
 
 
