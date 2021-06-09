@@ -13,7 +13,7 @@
 class Btn : public Object2D
 {
     public:
-        Btn(const rl::Vec2 &pos, const std::string &text, int pSize, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, int scene, Bomberman *m, void (*fptr)(Bomberman *, Btn *), const rl::Color &color = rl::Color(255, 255, 255, 255), const std::string &font = "../assets/minecraftia.ttf");
+        Btn(const rl::Vec2 &pos, const rl::Vec2 &offset, const std::string &text, int pSize, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, int scene, Bomberman *m, void (*fptr)(Bomberman *, Btn *), const rl::Color &color = rl::Color(255, 255, 255, 255), const std::string &font = "../assets/minecraftia.ttf");
         
         rl::Rectangle _src; //Rectangle for texture
         rl::Vec2 _pos; // Pos of btn
@@ -33,6 +33,7 @@ class Btn : public Object2D
         rl::Rectangle _bound; //Rectangle for collision
         rl::Texture _texture; // Texture of btn
         rl::Font _font; // Font of text 2 draw
+        rl::Vec2 _offset; // Offset pos
         Bomberman *_win; // Ptr to main class
         void (*_ptr)(Bomberman *, Btn *); // Action function
 };
