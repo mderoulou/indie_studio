@@ -21,10 +21,16 @@ rl::Window::Window(int width, int height, const std::string title)
 
 rl::Window::~Window()
 {
-    Close();
+    if (this->ShouldClose())
+        this->Close();
 }
 
-bool rl::Window::Close()
+void rl::Window::Close()
+{
+    ::CloseWindow();
+}
+
+bool rl::Window::ShouldClose()
 {
     return WindowShouldClose();
 }

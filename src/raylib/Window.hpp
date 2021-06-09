@@ -30,7 +30,8 @@ class Window
         void setWindowSize(int width, int height);
         void setPosition(int x, int y);
 
-        bool Close();
+        static void Close();
+        bool ShouldClose();
         void changeTitle(std::string title);
         void changeFps(int fps);
         void setWindowIcon(rl::Image img);
