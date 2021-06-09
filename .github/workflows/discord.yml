@@ -25,6 +25,6 @@ jobs:
           --webhook-url=https://discordapp.com/api/webhooks/852202281957195807/yu0qDFsPQ2h4DjRnRAkRUH4JcVDRSowy7QRiqHrJeZ9Zsd6Ajm6joxs7_tOeUOuH1zjn
           --text 'New Commit:'
           --author '${{ github.actor }}'
-          --title '$GITHUB_EVENT_NAME on IndieRepository'
-          --description '${{ github.event.head_commit.name }}'
+          --title '${{ GITHUB_EVENT_NAME }} on ${{ github.event.repository.full_name }}'
+          --description '${{ github.event }}'
           --username "IndieNotificationBot"
