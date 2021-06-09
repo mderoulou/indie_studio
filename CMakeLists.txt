@@ -32,6 +32,7 @@ endif()
 
 # Debug Mode
 
+SET(CMAKE_BUILD_TYPE DEBUG)
 
 # -I
 

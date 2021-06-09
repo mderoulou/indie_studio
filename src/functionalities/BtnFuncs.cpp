@@ -19,7 +19,7 @@ void BF::optBtn(Bomberman *win)
 
 void BF::quitBtn(Bomberman *win)
 {
-
+    win->_ending = true;
 }
 
 void BF::switchScene(Bomberman *win, int scene)

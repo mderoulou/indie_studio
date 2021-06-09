@@ -24,6 +24,7 @@ class Bomberman
         void generateMap(int x, int y);
         ComponentManager *_manager;
         rl::Window *_win;
+        bool _ending = false;
     private:
         rl::Font *_font;
 };
