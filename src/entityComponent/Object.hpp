@@ -48,6 +48,7 @@ public:
 #include "object/Box.hpp"
 #include "object/Btn.hpp"
 #include "object/Cube.hpp"
+#include "object/Input.hpp"
 #include "object/Player.hpp"
 #include "object/Text.hpp"
 #include "object/Wall.hpp"

@@ -29,7 +29,6 @@ class ComponentManager
         int _scene;
         std::vector<IObject *> _objs;
     private:
-
         rl::Camera3d *_cam;
 };
 
