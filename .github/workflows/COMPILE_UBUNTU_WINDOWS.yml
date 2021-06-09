@@ -65,7 +65,7 @@ jobs:
         files: "bomberman.sln"
     - name: file exits
       if: steps.check_file.output.files_exists == 'true'
-        run: echo Windows file exist !
+      run: echo Windows file exist !
         
 
 
