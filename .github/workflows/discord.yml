@@ -1,0 +1,24 @@
+name: Notify On Discord
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install JQ
+        run: sudo apt install jq
+
+      - name: Install Curl
+        run: sudo apt install curl
+
+      - name: Notify on Discord
+        run: ./discord.sh --webhook-url=https://discordapp.com/api/webhooks/852202281957195807/yu0qDFsPQ2h4DjRnRAkRUH4JcVDRSowy7QRiqHrJeZ9Zsd6Ajm6joxs7_tOeUOuH1zjn --text "Someone did something and triggered a CI/CD"
