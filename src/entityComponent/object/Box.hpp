@@ -15,9 +15,6 @@ class Box : public Cube
 public:
     Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene);
 
-    void handleEvent() override {};
-    //void move(rl::Vec3 newPos) override {};
-    void simulate() override {};
     void render(rl::Camera3d *cam) override;
 
     rl::Texture *_texture;

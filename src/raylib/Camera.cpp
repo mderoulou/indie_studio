@@ -12,7 +12,7 @@
 */
 
 rl::Camera2d::Camera2d()
-    : ::Camera2D {0}
+    : ::Camera2D {0, 0, 0, 0, 0, 0}
 {
 }
 
@@ -29,7 +29,7 @@ rl::Camera2d::Camera2d(rl::Vec2 offset,
 */
 
 rl::Camera3d::Camera3d()
-    : ::Camera3D {0}
+    : ::Camera3D {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 {
 }
 

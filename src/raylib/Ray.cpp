@@ -20,11 +20,14 @@ void rl::Ray::draw(rl::Color color)
 bool rl::Ray::checkColissionSphere(rl::Vec3 pos, float radius)
 {
     //return CheckCollisionRaySphere(_ray, pos, radius);
+    (void)pos;
+    (void)radius;
     return false;
 }
 
 bool rl::Ray::checkColissionBox(rl::BoundingBox *box)
 {
     //return CheckCollisionRayBox(_ray, box->getBox());
+    (void)box;
     return false;
 }

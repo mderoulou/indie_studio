@@ -51,9 +51,9 @@ class Object2D : public AObject
 {
 public:
     void handleEvent() override {};
-    void move(rl::Vec3 newPos) override {};
+    void move(rl::Vec3 newPos) override { (void)newPos; };
     void simulate() override {};
-    void render(rl::Camera3d *cam) override {};
+    void render(rl::Camera3d *cam) override { (void)cam; };
 
     rl::Color _color;
     int _scene = 0;

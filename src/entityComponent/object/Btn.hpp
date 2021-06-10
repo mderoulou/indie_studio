@@ -21,7 +21,8 @@ class Btn : public Object2D
             const std::string &soundFile,
             int scene,
             Bomberman *m,
-            void (*fptr)(Bomberman *, Btn *),
+            void (*fptr)(Bomberman *, Btn *, void *),
+            void *data = 0,
             const std::string &textureFile = "../assets/menus/btns.png",
             const rl::Color &color = rl::Color(255, 255, 255, 255),
             const std::string &font = "../assets/minecraftia.ttf");
@@ -39,6 +40,7 @@ class Btn : public Object2D
         short _btnState; //State of the button to move _texture rect
         bool _clicked; //Btn is clicked ?
         int _pSize; // Size of text
+        void *_data; // Any data ???
         rl::Sound _sound; // Sound on click
         rl::Rectangle _bound; //Rectangle for collision
         rl::Texture _texture; // Texture of btn
@@ -46,7 +48,7 @@ class Btn : public Object2D
         rl::Vec2 _relative; // Percentage position for all windows
         rl::Vec2 _offset; // Offset pos
         Bomberman *_win; // Ptr to main class
-        void (*_ptr)(Bomberman *, Btn *); // Action function
+        void (*_ptr)(Bomberman *, Btn *, void *); // Action function
 };
 
 #endif /* !BTN_HPP_ */

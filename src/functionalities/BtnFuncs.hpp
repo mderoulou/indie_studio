@@ -15,19 +15,20 @@
 
 namespace BF {
     void switchScene(Bomberman *win, int scene);
-    void playBtn(Bomberman *win, Btn *b);
-    void repoLink(Bomberman *win, Btn *b);
-    void optBtn(Bomberman *win, Btn *b);
-    void quitBtn(Bomberman *win, Btn *b);
-    void backBtn(Bomberman *win, Btn *b);
-    void fullScreen(Bomberman *win, Btn *b);
-    void resolutionBtn(Bomberman *win, Btn *b);
-    void skinBtn(Bomberman *win, Btn *b);
-    void addSkin(Bomberman *win, Btn *b);
-    void removeSkin(Bomberman *win, Btn *b);
-    void loadSkin(Bomberman *win, Btn *b);
+    void playBtn(Bomberman *win, Btn *b, void *data);
+    void repoLink(Bomberman *win, Btn *b, void *data);
+    void optBtn(Bomberman *win, Btn *b, void *data);
+    void quitBtn(Bomberman *win, Btn *b, void *data);
+    void backBtn(Bomberman *win, Btn *b, void *data);
+    void fullScreen(Bomberman *win, Btn *b, void *data);
+    void resolutionBtn(Bomberman *win, Btn *b, void *data);
+    void skinBtn(Bomberman *win, Btn *b, void *data);
+    void addSkin(Bomberman *win, Btn *b, void *data);
+    void removeSkin(Bomberman *win, Btn *b, void *data);
+    void loadSkin(Bomberman *win, Btn *b, void *data);
     void loadAll(Bomberman *win);
-    void mapSize(Bomberman *win, Btn *b);
+    void mapSize(Bomberman *win, Btn *b, void *data);
+    void previewSkin(Bomberman *win, void *data, std::string str);
 }
 
 #endif /* !BTNFUNCS_HPP_ */

@@ -16,7 +16,8 @@ Btn::Btn(const rl::Vec2 &pos,
          const std::string &soundFile,
          int scene,
          Bomberman *m,
-         void (*fptr)(Bomberman *, Btn *),
+         void (*fptr)(Bomberman *, Btn *, void *),
+         void *data,
          const std::string &textureFile,
          const rl::Color &color,
          const std::string &font)
@@ -37,6 +38,7 @@ Btn::Btn(const rl::Vec2 &pos,
     _ptr = fptr;
     _text = text;
     _pSize = pSize;
+    _data = data;
     this->move(rl::Vec3(0.0, 0.0, 0.0));
 }
 
@@ -44,6 +46,7 @@ void Btn::render(rl::Camera3d *cam)
 {
     rl::Rectangle final(_src.x, _src.y, _src.width, _src.height);
 
+    (void)cam;
     final.y = final.height * _btnState;
     _texture.drawRec(final, _pos, _color);
     _font.drawTextEx(_text, rl::Vec2(_pos.x + _src.width / 2 - _text.length() * _pSize / 4, _pos.y + _src.height / 2 - _pSize / 2), _pSize, 0.0, _btnState ? rl::Color(255,255,160, 255) : rl::Color(221,221,221,255));
@@ -65,7 +68,7 @@ void Btn::handleEvent()
         _btnState = 0;
     if (_clicked) {
         _sound.play();
-        _ptr(_win, this);
+        _ptr(_win, this, _data);
     }
 }
 

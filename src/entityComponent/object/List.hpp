@@ -20,8 +20,13 @@ class List : public Object2D {
               int scene,
               Bomberman *win,
               std::vector<std::string> *text,
-              const std::string &font = "../assets/minecraftia.ttf");
+              void (*fptr)(Bomberman *, void *, std::string) = nullptr,
+              void *data = nullptr,
+              const std::string &font = "../assets/minecraftia.ttf",
+              bool rm = false,
+              uint32_t many = 0);
 
+        void handleEvent() override;
         void render(rl::Camera3d *cam) override;
     private:
         int _pSize;
@@ -29,8 +34,12 @@ class List : public Object2D {
         rl::Vec2 _offset;
         rl::Vec2 _space;
         rl::Font _font;
+        void (*_ptr)(Bomberman *, void *, std::string);
+        void *_data;
         std::vector<std::string> *_text;
         Bomberman *_win;
+        bool _rm;
+        uint32_t _many;
 };
 
 #endif /* !LIST_HPP_ */

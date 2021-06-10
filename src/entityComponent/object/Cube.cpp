@@ -18,6 +18,7 @@ Cube::Cube(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene)
 
 void Cube::render(rl::Camera3d *cam)
 {
+    (void)cam;
     cam->beginMode();
     this->_pos.drawCube(this->_size, this->_color);
     cam->endMode();

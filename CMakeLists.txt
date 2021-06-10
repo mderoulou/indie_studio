@@ -30,9 +30,17 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 
 endif()
 
+# Fixing assets bug on windows
+
 if (WIN32) 
     file(COPY ${CMAKE_CURRENT_LIST_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/..)
 endif()
+
+# Adding extra compilation flags for UNIX
+
+# if (UNIX)
+#     add_compile_options(-Wall -Wextra)
+# endif()
 
 # Debug Mode
 
