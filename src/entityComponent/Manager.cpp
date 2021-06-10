@@ -13,7 +13,7 @@ ComponentManager::ComponentManager()
                             rl::Vec3(0.0f, 0.0f, 0.0f),
                             rl::Vec3(0.0f, 1.0f, 0.0f),
                             45.0f, 0);
-    _scene = 0;
+    _scene = 3;
     _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
 }
 

@@ -35,6 +35,8 @@ class ComponentManager
 
     private:
         rl::Camera3d *_cam;
+        
+    private:
 };
 
 #endif

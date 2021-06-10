@@ -31,9 +31,14 @@ class Vec3 : public ::Vector3
     public:
         Vec3();
         Vec3(float x, float y, float z);
+        Vec3(::Vector3 &vec) {
+            x = vec.x;
+            y = vec.y;
+            z = vec.z;
+        }
         ~Vec3() {};
 
-        virtual float &operator[](int i) {
+        float &operator[](int i) {
             if (i == 0){
                 return x;
             } else if (i == 1) {
@@ -43,6 +48,99 @@ class Vec3 : public ::Vector3
             }
             return x;
         }
+
+
+        Vec3 operator+(const Vec3 &other) const {
+            return Vec3(x + other.x, y + other.y, z + other.z);
+        }
+
+        Vec3 operator-(const Vec3 &other) const {
+            return Vec3(x - other.x, y - other.y, z - other.z);
+        }
+
+        Vec3 operator*(const Vec3 &other) const {
+            return Vec3(x * other.x, y * other.y, z * other.z);
+        }
+
+        Vec3 operator/(const Vec3 &other) const {
+            return Vec3(x / other.x, y / other.y, z / other.z);
+        }
+
+        Vec3 &operator+=(const Vec3 &other) {
+            x += other.x;
+            y += other.y;
+            z += other.z;
+            return *this;
+        }
+
+        Vec3 &operator-=(const Vec3 &other) {
+            x -= other.x;
+            y -= other.y;
+            z -= other.z;
+            return *this;
+        }
+
+        Vec3 &operator*=(const Vec3 &other) {
+            x *= other.x;
+            y *= other.y;
+            z *= other.z;
+            return *this;
+        }
+
+        Vec3 &operator/=(const Vec3 &other) {
+            x /= other.x;
+            y /= other.y;
+            z /= other.z;
+            return *this;
+        }
+
+
+        Vec3 operator+(float val) const {
+            return Vec3(x + val, y + val, z + val);
+        }
+        
+        Vec3 operator-(float val) const {
+            return Vec3(x - val, y - val, z - val);
+        }
+
+        Vec3 operator*(float val) const {
+            return Vec3(x * val, y * val, z * val);
+        }
+
+        Vec3 operator/(float val) const {
+            return Vec3(x / val, y / val, z / val);
+        }
+
+        Vec3 &operator+=(float val) {
+            x += val;
+            y += val;
+            z += val;
+            return *this;
+        }
+
+        Vec3 &operator-=(float val) {
+            x -= val;
+            y -= val;
+            z -= val;
+            return *this;
+        }
+
+        Vec3 &operator*=(float val) {
+            x *= val;
+            y *= val;
+            z *= val;
+            return *this;
+        }
+
+        Vec3 &operator/=(float val) {
+            x /= val;
+            y /= val;
+            z /= val;
+            return *this;
+        }
+
+
+
 
         void drawCube(rl::Vec3 size, rl::Color color);
         void drawCubeWires(rl::Vec3 size, rl::Color color);

@@ -25,6 +25,10 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText,
     else
         _controller = new Gamepad(rl::Font());
     this->loadAnims();
+    _isSolid = false;
+    _boundingBox._bd.min = pos + rl::Vec3{-0.25, 0.0, -0.25};
+    _boundingBox._bd.max = pos + rl::Vec3{0.25, 1.8, 0.25};
+
 }
 
 Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKeyboad)
@@ -41,6 +45,9 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKe
     else
         _controller = new Gamepad(rl::Font());
     this->loadAnims();
+    _isSolid = false;
+    _boundingBox._bd.min = pos + rl::Vec3{-0.25, 0.0, -0.25};
+    _boundingBox._bd.max = pos + rl::Vec3{0.25, 1.8, 0.25};
 }
 
 Player::~Player()
@@ -81,10 +88,7 @@ void Player::render(rl::Camera3d *cam)
 
 void Player::move(rl::Vec3 newPos)
 {
-    _pos.x += newPos.x;
-    _pos.y += newPos.y;
-    _pos.z += newPos.z;
-
+    AObject::move(newPos);
     /*if (newPos.x == newPos.z)
         return;
     if (newPos.x > newPos.z) {
@@ -170,22 +174,85 @@ void Player::simulate()
         else if (_frame <= 0)
             _frame = 0;
 
-        move(_v);
+
         _v.x += _acc.x;
         _v.y += _acc.y;
         _v.z += _acc.z;
 
         _v.x *= 0.8;
-        _v.y *= 0.8;
+        _v.y *= 0.99;
         _v.z *= 0.8;
         _acc.x = 0;
-        _acc.y = 0;
+        _acc.y = -1/60.0;
         _acc.z = 0;
-
 
         //collide with Solid Object
         rl::Vec3 colideSize = {2, 2, 2};
-        std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(_pos, colideSize);
-        //std::cout << vec.size() << std::endl;
+        rl::Vec3 pCenter = (rl::Vec3(_boundingBox._bd.min) + rl::Vec3(_boundingBox._bd.max))/2;
+        rl::Vec3 pSize = rl::Vec3(_boundingBox._bd.max) - rl::Vec3(_boundingBox._bd.min);
+        std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(pCenter, colideSize);
+        static int a = 0;
+        _manager->_cam->beginMode();
+
+        _boundingBox.draw({0, 255, 0, 255});
+        for (AObject *&obj : vec) {
+            obj->_boundingBox.draw({255, 0, 0, 255});
+            if (_boundingBox.checkColissionBox(&obj->_boundingBox)) {
+                rl::Vec3 objSize = rl::Vec3(obj->_boundingBox._bd.max) - rl::Vec3(obj->_boundingBox._bd.min);
+                
+                rl::Vec3 objCenter = (rl::Vec3(obj->_boundingBox._bd.max) + rl::Vec3(obj->_boundingBox._bd.min))/2;
+                rl::Vec3 d = pCenter-objCenter;
+
+                char signe[3];
+                for (int i = 0 ; i < 3; i++){
+                    signe[i] = d[i] > 0 ? 1 : -1;
+                    d[i] = abs(d[i]);
+                }
+
+                rl::Vec3 dd = d-((objSize+pSize)/2);
+
+                std::cout << "objSize+pSize " << (objSize+pSize)[0] << " " << (objSize+pSize)[1] << " " << (objSize+pSize)[2] <<std::endl;
+                std::cout << "objcenter " << objCenter[0] << " " << objCenter[1] << " " << objCenter[2] <<std::endl;
+                std::cout << "playercenter " << pCenter[0] << " " << pCenter[1] << " " << pCenter[2] <<std::endl;
+                std::cout << "d " << d[0] << " " << d[1] << " " << d[2] <<std::endl;
+                std::cout << "dd " << dd[0] << " " << dd[1] << " " << dd[2] <<std::endl;
+
+                float min = dd[0];
+                int axe = 0;
+                for (int i = 1; i < 3; i++)
+                    if (abs(dd[i]) < abs(min)){
+                        min = dd[i];
+                        axe = i;
+                    }
+                for (int i = 0; i < 3; i++)
+                    if (i != axe){
+                        dd[i] = 0;
+                    }
+                
+                for (int i = 0 ; i < 3; i++){
+                    dd[i] *= signe[i];
+                }
+
+                std::cout << "min" << axe << " " << min << std::endl;
+                std::cout << "dd " << dd[0] << " " << dd[1] << " " << dd[2] <<std::endl;
+                
+                //dd *= 1;
+                _v[axe] *= 0.1;
+                move(dd*-1);
+                
+                std::cout << "centers " << pCenter[axe] << " " << objCenter[axe] << std::endl;
+
+                std::cout << axe << " "<<((objSize+pSize)/2)[axe] << " " << d[axe] << " " << dd[axe] << " " << objSize[axe] << " " << pSize[axe] << " " << (objSize+pSize)[axe] << std::endl;
+
+                std::cout << std::endl;
+            }
+            a++;
+        }
+                std::cout << std::endl;
+                std::cout << std::endl;
+
+        _manager->_cam->endMode();
+        move(_v);
     }
+
 }
