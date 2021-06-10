@@ -10,7 +10,10 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#define _USE_MATH_DEFINES 
 #include <cmath>
+
+#define M_PI 3.14159265359
 
 Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene, bool _isKeyboad)
 {
