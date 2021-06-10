@@ -67,6 +67,7 @@ src/raylib/Gamepad.cpp
 src/entityComponent/Manager.cpp
 src/entityComponent/object/Cube.cpp
 src/entityComponent/object/Wall.cpp
+src/entityComponent/object/Preview.cpp
 src/entityComponent/object/Player.cpp
 src/entityComponent/object/Box.cpp
 src/entityComponent/object/Btn.cpp

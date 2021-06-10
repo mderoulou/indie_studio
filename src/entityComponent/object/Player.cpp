@@ -19,7 +19,6 @@
 
 Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene, bool _isKeyboad)
 {
-    int count = 40;
     _scene = scene;
     _color = color;
     _scale = scale;
@@ -57,6 +56,7 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKe
 
 Player::~Player()
 {
+    // TODO: Delete model
     delete _texture;
 }
 
@@ -94,20 +94,6 @@ void Player::render(rl::Camera3d *cam)
 void Player::move(rl::Vec3 newPos)
 {
     AObject::move(newPos);
-    /*if (newPos.x == newPos.z)
-        return;
-    if (newPos.x > newPos.z) {
-        if (newPos.x > 0)
-            _rotation = -90;
-        else
-            _rotation = 0;
-    } else {
-        if (newPos.z > 0)
-            _rotation = 180;
-        else
-            _rotation = 90;
-    }*/
-    
 }
 
 double findAngle(rl::Vec2 vec)

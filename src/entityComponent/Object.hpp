@@ -76,5 +76,6 @@ public:
 #include "object/Wall.hpp"
 #include "object/Background.hpp"
 #include "object/Box.hpp"
+#include "object/Preview.hpp"
 
 #endif

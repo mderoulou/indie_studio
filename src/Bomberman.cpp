@@ -60,6 +60,8 @@ Bomberman::Bomberman()
     _manager->addComponent(sr);
     _manager->addComponent(lp);
     _manager->addComponent(ls);
+
+    _manager->addComponent(new Preview(rl::Color(255, 255, 255, 255)));
     //Background *bg = new Background(rl::Vec3(1.0f, -23.0f, -2.0f), 3);
     //_manager->addComponent(bg);
     this->generateMap(medium);
