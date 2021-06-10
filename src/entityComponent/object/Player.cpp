@@ -13,7 +13,9 @@
 #define _USE_MATH_DEFINES 
 #include <cmath>
 
+#ifdef _WIN32
 #define M_PI 3.14159265359
+#endif
 
 Player::Player(rl::Vec3 pos, float scale, rl::Color color, std::string pathText, int scene, bool _isKeyboad)
 {
