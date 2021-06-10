@@ -12,12 +12,35 @@
 
 class Input : public Object2D {
     public:
-        Input(rl::Vec2 pos, rl::Vec2 offset, std::string &ptr);
+        Input(const rl::Vec2 &pos,
+              const rl::Vec2 &offset,
+              std::string &ptr,
+              int maxLen,
+              int scene,
+              int pSize,
+              Bomberman *m,
+              const rl::Rectangle &src = rl::Rectangle(636.0, 0.0, 404.0, 44.0),
+              const std::string &textureFile = "../assets/menus/btns.png",
+              const rl::Color &color = rl::Color(255, 255, 255, 255),
+              const std::string &font = "../assets/minecraftia.ttf");
+        rl::Vec2 _pos; // Pos of input
+        rl::Color _color; // Color
         void move(rl::Vec3 newPos) override;
+        void render(rl::Camera3d *cam) override;
+        void handleEvent() override;
 
     private:
-        std::string &_ptr;
+        rl::Rectangle _src; // Rect for texture
+        rl::Vec2 _relative; // Percentage position for all windows
+        rl::Vec2 _offset; // Offset added to relative
+        rl::Texture _texture; // Texture of input
+        rl::Font _font; // Font of text 2 draw
+        std::string &_ptr; // Ref of string
+        rl::Rectangle _bound; //Rectangle for collision
         bool _isActive;
+        int _pSize;
+        int _maxLen;
+        Bomberman *_win; // Ptr to main class
 };
 
 #endif /* !INPUT_HPP_ */

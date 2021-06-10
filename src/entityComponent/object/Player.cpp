@@ -65,7 +65,7 @@ void Player::loadAnims()
             objPath << "../assets/steve-obj/anims/steve_0" << i << ".glb";
         else
             objPath << "../assets/steve-obj/anims/steve_" << i << ".glb";
-        std::cout << objPath.str().c_str() << std::endl;
+        //std::cout << objPath.str().c_str() << std::endl;
         _models.push_back(new rl::Model(objPath.str().c_str()));
         objPath.str("");
         objPath.clear();

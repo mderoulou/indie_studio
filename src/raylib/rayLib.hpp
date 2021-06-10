@@ -20,6 +20,7 @@
 #include "Texture.hpp"
 #include "Window.hpp"
 #include "RenderTexture.hpp"
+#include "KeyBoard.hpp"
 #include "Font.hpp"
 #include "Shader.hpp"
 #include "Mesh.hpp"
