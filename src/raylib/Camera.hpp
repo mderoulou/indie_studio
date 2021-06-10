@@ -31,7 +31,9 @@ class Camera3d : public ::Camera3D
         void update();
 
         void setCameraMode(int mode);
-
+        void moveCamera(rl::Vec3 newPos);
+        void setTarget(rl::Vec3 newPos);
+        rl::Vec3 getPosition();
         void beginMode();
         void endMode();
 

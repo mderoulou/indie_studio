@@ -48,7 +48,11 @@ Bomberman::Bomberman()
     _manager->addComponent(r);
     _manager->addComponent(ds);
 
-    this->generateMap(10, 10);
+    //Background *bg = new Background(rl::Vec3(1.0f, -23.0f, -2.0f), 3);
+    //_manager->addComponent(bg);
+
+
+    this->generateMap(15, 15);
     _win->changeFps(60);
 }
 
@@ -62,6 +66,9 @@ Bomberman::~Bomberman()
 
 void Bomberman::generateMap(int x, int y)
 {
+    _manager->_cam->setTarget(rl::Vec3(x / 2,  0, y / 2));
+    _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, y));
+
     // Create the ground
     for (int i = 0; i < x; i += 1) {
         for (int j = 0; j < y; j += 1) {

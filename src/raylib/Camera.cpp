@@ -72,3 +72,18 @@ void rl::Camera3d::endMode()
     _isStarted = false;
     EndMode3D();
 }
+
+void rl::Camera3d::moveCamera(rl::Vec3 newPos)
+{
+    this->position = newPos;
+}
+
+void rl::Camera3d::setTarget(rl::Vec3 newPos)
+{
+    this->target = newPos;
+}
+
+rl::Vec3 rl::Camera3d::getPosition()
+{
+    return (rl::Vec3(this->position));
+}

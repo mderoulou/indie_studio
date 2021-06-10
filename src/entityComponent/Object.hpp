@@ -74,5 +74,6 @@ public:
 #include "object/Player.hpp"
 #include "object/Text.hpp"
 #include "object/Wall.hpp"
+#include "object/Background.hpp"
 
 #endif
