@@ -30,6 +30,10 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 
 endif()
 
+if (WIN32) 
+    file(COPY ${CMAKE_CURRENT_LIST_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/..)
+endif()
+
 # Debug Mode
 
 SET(CMAKE_BUILD_TYPE DEBUG)
