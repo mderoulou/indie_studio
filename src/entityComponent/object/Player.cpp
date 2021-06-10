@@ -40,7 +40,7 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKe
     _color = rl::Color(color);
     _rotation = 0;
     _scale = scale;
-    _texture = new rl::Texture("../assets/steve-obj/player-name/skin.png");
+    _texture = new rl::Texture("../assets/skins/skin.png");
     _frame = 0;
     _scene = scene;
     if (_isKeyboad)

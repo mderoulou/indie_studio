@@ -79,12 +79,37 @@ void BF::resolutionBtn(Bomberman *win, Btn *b)
     x = (x + 1) % 4;
     win->_win->setWindowSize(widths[x], heights[x]);
     b->_text = std::string("Resolution:") + texts[x];
-    for (auto obj : win->_manager->_objs)
+    for (auto obj : win->_manager->_objs) {
         if (Btn *b = dynamic_cast<Btn *>(obj))
-            b->move(rl::Vec3(0.0, 0.0, 0.0));
+            b->move((rl::Vec3){0.0, 0.0, 0.0});
+        if (Input *b = dynamic_cast<Input *>(obj))
+            b->move((rl::Vec3){0.0, 0.0, 0.0});
+    }
 }
 
 void BF::skinBtn(Bomberman *win, Btn *b)
 {
     switchScene(win, 5);
+}
+
+void BF::addSkin(Bomberman *win, Btn *b)
+{
+    std::ostringstream cmd("");
+
+    cmd << "wget https://minecraft.tools/download-skin/" << win->_manager->_optSkin << " -O ../assets/skins/" << win->_manager->_optSkin << ".png";
+    #ifdef __linux__
+        system(cmd.str().c_str());
+    #else
+        std::cerr << "Sorry ! This functionnality is not available on your OS!" << std::endl;
+    #endif
+}
+
+void BF::removeSkin(Bomberman *win, Btn *b)
+{
+
+}
+
+void BF::loadSkin(Bomberman *win, Btn *b)
+{
+
 }
