@@ -30,6 +30,10 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 
 endif()
 
+if (WIN32) 
+    file(COPY ${CMAKE_CURRENT_LIST_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/..)
+endif()
+
 # Debug Mode
 
 SET(CMAKE_BUILD_TYPE DEBUG)
@@ -64,6 +68,7 @@ src/entityComponent/Manager.cpp
 src/entityComponent/object/Cube.cpp
 src/entityComponent/object/Wall.cpp
 src/entityComponent/object/Player.cpp
+src/entityComponent/object/Box.cpp
 src/entityComponent/object/Btn.cpp
 src/entityComponent/object/Background.cpp
 src/entityComponent/object/Input.cpp

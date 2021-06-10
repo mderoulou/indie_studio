@@ -81,9 +81,9 @@ void BF::resolutionBtn(Bomberman *win, Btn *b)
     b->_text = std::string("Resolution:") + texts[x];
     for (auto obj : win->_manager->_objs) {
         if (Btn *b = dynamic_cast<Btn *>(obj))
-            b->move((rl::Vec3){0.0, 0.0, 0.0});
+            b->move(rl::Vec3(0.0, 0.0, 0.0));
         if (Input *b = dynamic_cast<Input *>(obj))
-            b->move((rl::Vec3){0.0, 0.0, 0.0});
+            b->move(rl::Vec3(0.0, 0.0, 0.0));
     }
 }
 

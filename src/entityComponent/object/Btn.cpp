@@ -29,7 +29,7 @@ Btn::Btn(const rl::Vec2 &pos,
     _win = m;
     _scene = scene;
     _relative = pos;
-    _pos = (rl::Vec2){0.0, 0.0};
+    _pos = rl::Vec2(0.0, 0.0);
     _offset = offset;
     _btnState = 0;
     _clicked = false;
@@ -37,7 +37,7 @@ Btn::Btn(const rl::Vec2 &pos,
     _ptr = fptr;
     _text = text;
     _pSize = pSize;
-    this->move((rl::Vec3){0.0, 0.0, 0.0});
+    this->move(rl::Vec3(0.0, 0.0, 0.0));
 }
 
 void Btn::render(rl::Camera3d *cam)

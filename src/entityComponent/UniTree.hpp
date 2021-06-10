@@ -8,6 +8,8 @@
 #include <functional>
 #include <vector>
 
+typedef unsigned int uint;
+
 template <class T, class G, uint D>
 class UniTree {
 public:
@@ -69,7 +71,11 @@ public:
             }
             // create nexts nodes
             _dataMode = false;
-            T *buffer[(int)std::pow(2, D)];
+#ifdef __linux__
+            T* buffer[(int)std::pow(2, D)];
+#else
+            T* buffer[(int)8];
+#endif
             memcpy(buffer, _data, sizeof(T*)*(int)std::pow(2, D));
             memset(_nexts, 0, sizeof(UniTree<T, G, D> *)*(int)std::pow(2, D));
             for (int i = 0; i < pow(2, D); i++) {
@@ -244,8 +250,13 @@ public:
     G _size;
     UniTree<T, G, D> *_prev = 0;
     union {
+#ifdef __linux__
         UniTree<T, G, D> *_nexts[(int)std::pow(2, D)];
         T *_data[(int)std::pow(2, D)] = {0};
+#else
+        UniTree<T, G, D>* _nexts[8];
+        T* _data[8] = { 0 };
+#endif
     };
     bool _dataMode = true;
     int _dataNb = 0;

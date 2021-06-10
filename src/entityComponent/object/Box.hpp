@@ -8,7 +8,7 @@
 #ifndef BOX_HPP_
 #define BOX_HPP_
 
-#include "Cube.hpp"
+#include "../Object.hpp"
 
 class Box : public Cube
 {
@@ -16,12 +16,14 @@ public:
     Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene);
 
     void handleEvent() override {};
-    void move(rl::Vec3 newPos) override {};
+    //void move(rl::Vec3 newPos) override {};
     void simulate() override {};
     void render(rl::Camera3d *cam) override;
 
-    rl::Texture *_txt;
+    rl::Texture *_texture;
     rl::Model *_model;
+    float _rotation;
+    float _scale;
 };
 
 #endif /* !BOX_HPP_ */

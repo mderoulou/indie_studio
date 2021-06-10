@@ -14,6 +14,8 @@
 
 class ComponentManager;
 
+enum mapSize { small = 10, medium = 16, large = 20};
+
 class Bomberman
 {
     public:
@@ -21,7 +23,7 @@ class Bomberman
         ~Bomberman();
 
         void launch();
-        void generateMap(int x, int y);
+        void generateMap(mapSize type);
         ComponentManager *_manager;
         rl::Window *_win;
         bool _ending = false;

@@ -62,9 +62,7 @@ Bomberman::Bomberman()
     _manager->addComponent(ls);
     //Background *bg = new Background(rl::Vec3(1.0f, -23.0f, -2.0f), 3);
     //_manager->addComponent(bg);
-
-
-    this->generateMap(15, 15);
+    this->generateMap(medium);
     _win->changeFps(60);
 }
 
@@ -76,8 +74,11 @@ Bomberman::~Bomberman()
     delete _manager;
 }
 
-void Bomberman::generateMap(int x, int y)
+void Bomberman::generateMap(mapSize type)
 {
+    int x = type;
+    int y = type;
+
     _manager->_cam->setTarget(rl::Vec3(x / 2,  0, y / 2));
     _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, y));
 
@@ -85,7 +86,7 @@ void Bomberman::generateMap(int x, int y)
     for (int i = 0; i < x; i += 1) {
         for (int j = 0; j < y; j += 1) {
             _manager->addComponent(new Wall(rl::Vec3(i, -1.0f, j),
-                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Vec3(1.02f, 1.02f, 1.02f),
                             rl::Color(255, 255, 255, 255), true, 3));
         }
     }
@@ -93,23 +94,22 @@ void Bomberman::generateMap(int x, int y)
     // Create the border X
     for (int i = 0; i < x; i += 1) {
         _manager->addComponent(new Wall(rl::Vec3(i, 0.0f, 0.0f),
-                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Vec3(1.02f, 1.02f, 1.02f),
                             rl::Color(255, 255, 255, 255), true, 3));
         _manager->addComponent(new Wall(rl::Vec3(i, 0.0f, y),
-                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Vec3(1.02f, 1.02f, 1.02f),
                             rl::Color(255, 255, 255, 255), true, 3));
     }
 
     // Create the border Y
     for (int i = 1; i < y; i += 1) {
         _manager->addComponent(new Wall(rl::Vec3(0.0f, 0.0f, i),
-                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Vec3(1.02f, 1.02f, 1.02f),
                             rl::Color(255, 255, 255, 255), true, 3));
         _manager->addComponent(new Wall(rl::Vec3(x - 1, 0.0f, i),
-                            rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Vec3(1.02f, 1.02f, 1.02f),
                             rl::Color(255, 255, 255, 255), true, 3));
     }
-
 }
 
 void Bomberman::launch()
