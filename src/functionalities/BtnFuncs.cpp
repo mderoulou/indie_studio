@@ -29,7 +29,7 @@ void BF::quitBtn(Bomberman *win, Btn *b)
 
 void BF::switchScene(Bomberman *win, int scene)
 {
-    win->_manager->_scene = scene;
+    win->_manager->_settings._scene = scene;
 }
 
 void BF::repoLink(Bomberman *win, Btn *b)
@@ -96,20 +96,70 @@ void BF::addSkin(Bomberman *win, Btn *b)
 {
     std::ostringstream cmd("");
 
-    cmd << "wget https://minecraft.tools/download-skin/" << win->_manager->_optSkin << " -O ../assets/skins/" << win->_manager->_optSkin << ".png";
+    if (!win->_manager->_settings._optSkin.size())
+        return;
+    if (win->_manager->_settings._skins.size() > 10) {
+        std::cerr << "Skin limit reached !" << std::endl;
+        return;
+    }
+    cmd << "curl https://minecraft.tools/download-skin/" << win->_manager->_settings._optSkin << " -o ../assets/skins/" << win->_manager->_settings._optSkin;
     #ifdef __linux__
+        system(cmd.str().c_str());
+    #elif _WIN32
         system(cmd.str().c_str());
     #else
         std::cerr << "Sorry ! This functionnality is not available on your OS!" << std::endl;
+        return;
     #endif
+    win->_manager->_settings._skins.push_back(win->_manager->_settings._optSkin);
 }
 
 void BF::removeSkin(Bomberman *win, Btn *b)
 {
+    std::ostringstream cmd("");
+    uint32_t pos = 0;
 
+    cmd << "../assets/skins/" << win->_manager->_settings._optSkin;
+    if (std::remove(cmd.str().c_str()) != 0) {
+        std::cerr << "Unable to remove file ! Does it exists really ?" << std::endl;
+        return;
+    }
+    for (auto str : win->_manager->_settings._skins) {
+        if (str == win->_manager->_settings._optSkin)
+            break;
+        pos++;
+    }
+    for (auto ptr = win->_manager->_settings._skins.begin(); ptr < win->_manager->_settings._skins.end(); ptr++)
+        if (*ptr == win->_manager->_settings._optSkin)
+            win->_manager->_settings._skins.erase(ptr);
 }
 
 void BF::loadSkin(Bomberman *win, Btn *b)
 {
 
+}
+
+void BF::loadAll(Bomberman *win)
+{
+    DIR *dir;
+    struct dirent *ent;
+    uint32_t index = 0;
+    Btn *new_btn;
+
+    if (!(dir = opendir("../assets/skins/"))) {
+        std::cerr << "Unable to open folder assets/skins !" << std::endl;
+        return;
+    }
+    while ((ent = readdir(dir)))
+        if (ent->d_name[0] != '.')
+            win->_manager->_settings._skins.push_back(std::string(ent->d_name));
+    closedir(dir);
+}
+
+void BF::mapSize(Bomberman *win, Btn *b)
+{
+    const std::string sizes[] = {"Small", "Medium", "Large"};
+    win->_manager->_settings._sizeMap++;
+    win->_manager->_settings._sizeMap %= 3;
+    b->_text = std::string("Map size: ") + sizes[win->_manager->_settings._sizeMap];
 }

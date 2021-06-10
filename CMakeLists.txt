@@ -67,6 +67,7 @@ src/entityComponent/object/Player.cpp
 src/entityComponent/object/Btn.cpp
 src/entityComponent/object/Background.cpp
 src/entityComponent/object/Input.cpp
+src/entityComponent/object/List.cpp
 src/functionalities/BtnFuncs.cpp
 src/Bomberman.cpp
 src/main.cpp

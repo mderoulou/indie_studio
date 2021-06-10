@@ -13,6 +13,15 @@
 
 class Gamepad;
 
+class Settings
+{
+    public:
+        std::string _optSkin;
+        std::vector<std::string> _skins;
+        int _scene;
+        uint16_t _sizeMap;
+};
+
 class ComponentManager
 {
     public:
@@ -20,6 +29,7 @@ class ComponentManager
         ~ComponentManager();
 
         void addComponent(AObject *obj);
+        void removeComponent(AObject *to_rm); // UNSAFE FUNCTION; DO NOT USE
         void clearComponents();
 
         void simulate();
@@ -27,13 +37,10 @@ class ComponentManager
         void handleEvent();
 
         int size() const { return _objs.size(); };
-        int _scene;
         std::vector<AObject *> _objs;
         UniTree<AObject, rl::Vec3, 3> *_PhysXTree;
-        std::string _optSkin;
-        std::vector<std::string> _skins;
-
         rl::Camera3d *_cam;
+        Settings _settings;
     private:
         
     private:

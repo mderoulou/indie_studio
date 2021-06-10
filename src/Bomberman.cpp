@@ -27,6 +27,7 @@ Bomberman::Bomberman()
     rl::Sound::InitAudioDevice();
     _font = new rl::Font();
     _manager = new ComponentManager();
+    BF::loadAll(this);
     Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true);
     Btn *p = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 0, this, &(BF::playBtn));
     Btn *s = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Skins", 24,  rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 0, this, &(BF::skinBtn));
@@ -37,10 +38,12 @@ Bomberman::Bomberman()
     Btn *ds = new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 1, this, &(BF::backBtn));
     Btn *f = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "FullScreen: OFF", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 1, this, &(BF::fullScreen));
     Btn *r = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 1, this, &(BF::resolutionBtn));
-    Btn *sr = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-290.0, 0.0), "-", 24,  rl::Rectangle(596,0,40,40), "../assets/sound/click.wav", 5, this, &(BF::removeSkin));
+    Btn *ms = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 120.0), "Map size: Small", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 1, this, &(BF::mapSize));
     Btn *sa = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596,0,40,40), "../assets/sound/click.wav", 5, this, &(BF::addSkin));
-    Input *i = new Input(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-50.0, 0.0), _manager->_optSkin, 16, 5, 24, this);
+    Btn *sr = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596,0,40,40), "../assets/sound/click.wav", 5, this, &(BF::removeSkin));
+    Input *i = new Input(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-50.0, 0.0), _manager->_settings._optSkin, 16, 5, 24, this);
     Btn *lp = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(270.0, 0.0), "Load Preview", 24, rl::Rectangle(400,0,196,40), "../assets/sound/click.wav", 5, this, &(BF::loadSkin));
+    List *ls = new List(rl::Vec2(1.0/2, 7.0/20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins));
     _manager->addComponent(player);
     _manager->addComponent(p);
     _manager->addComponent(s);
@@ -51,11 +54,12 @@ Bomberman::Bomberman()
     _manager->addComponent(f);
     _manager->addComponent(r);
     _manager->addComponent(ds);
+    _manager->addComponent(ms);
     _manager->addComponent(i);
-    _manager->addComponent(sr);
     _manager->addComponent(sa);
+    _manager->addComponent(sr);
     _manager->addComponent(lp);
-
+    _manager->addComponent(ls);
     //Background *bg = new Background(rl::Vec3(1.0f, -23.0f, -2.0f), 3);
     //_manager->addComponent(bg);
 

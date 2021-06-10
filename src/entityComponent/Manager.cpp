@@ -13,7 +13,8 @@ ComponentManager::ComponentManager()
                             rl::Vec3(0.0f, 0.0f, 0.0f),
                             rl::Vec3(0.0f, 1.0f, 0.0f),
                             45.0f, 0);
-    _scene = 0;
+    _settings._scene = 0;
+    _settings._sizeMap = 0;
     _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
 }
 
@@ -31,6 +32,19 @@ void ComponentManager::addComponent(AObject *obj)
         _PhysXTree->addData(obj);
 }
 
+void ComponentManager::removeComponent(AObject *to_rm)
+{
+    uint32_t index = 0;
+
+    for (auto obj : _objs) {
+        if (obj == to_rm)
+            break;
+        index++;
+    }
+    _objs.erase(_objs.begin() + index);
+    delete to_rm;
+}
+
 void ComponentManager::clearComponents()
 {
     _objs.clear();
@@ -40,10 +54,10 @@ void ComponentManager::simulate()
 {
     for (auto obj : _objs) {
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
-            if (obj2->_scene == _scene)
+            if (obj2->_scene == _settings._scene)
                 obj->simulate();
         if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
-            if (obj2->_scene == _scene)
+            if (obj2->_scene == _settings._scene)
                 obj->simulate();
     }
 }
@@ -53,10 +67,10 @@ void ComponentManager::renderAll()
     //std::cout << "[MANAGER] Rendering!" << std::endl;
     for (auto obj : _objs) {
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
-            if (obj2->_scene == _scene)
+            if (obj2->_scene == _settings._scene)
                 obj->render(_cam);
         if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
-            if (obj2->_scene == _scene)
+            if (obj2->_scene == _settings._scene)
                 obj->render(_cam);
     }
 }
@@ -66,10 +80,10 @@ void ComponentManager::handleEvent()
     //std::cout << "[MANAGER] Handling Events!" << std::endl;
     for (auto obj: _objs) {
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
-            if (obj2->_scene == _scene)
+            if (obj2->_scene == _settings._scene)
                 obj->handleEvent();
         if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
-            if (obj2->_scene == _scene)
+            if (obj2->_scene == _settings._scene)
                 obj->handleEvent();
     }
 }

@@ -71,6 +71,7 @@ public:
 #include "object/Btn.hpp"
 #include "object/Cube.hpp"
 #include "object/Input.hpp"
+#include "object/List.hpp"
 #include "object/Player.hpp"
 #include "object/Text.hpp"
 #include "object/Wall.hpp"

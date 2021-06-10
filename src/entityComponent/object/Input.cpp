@@ -59,7 +59,7 @@ void Input::handleEvent()
     if (_isActive) {
         key = rl::KeyBoard::GetCharPressed();
         while (key > 0) {
-            if ((key >= 32) && (key <= 126) && _ptr.length() < _maxLen)
+            if ( ((key >= 48 && key <= 57) || (key >= 65 && key <= 90) || (key >= 97 && key <= 122))&& _ptr.length() < _maxLen) // ONly alphanumeric
                 _ptr.push_back(key);
             key = rl::KeyBoard::GetCharPressed();
         }
