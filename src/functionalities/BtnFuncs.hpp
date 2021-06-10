@@ -8,6 +8,7 @@
 #ifndef BTNFUNCS_HPP_
 #define BTNFUNCS_HPP_
 
+#include <sstream>
 #include "../Bomberman.hpp"
 
 namespace BF {
@@ -20,6 +21,9 @@ namespace BF {
     void fullScreen(Bomberman *win, Btn *b);
     void resolutionBtn(Bomberman *win, Btn *b);
     void skinBtn(Bomberman *win, Btn *b);
+    void addSkin(Bomberman *win, Btn *b);
+    void removeSkin(Bomberman *win, Btn *b);
+    void loadSkin(Bomberman *win, Btn *b);
 }
 
 #endif /* !BTNFUNCS_HPP_ */

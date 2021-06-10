@@ -13,7 +13,7 @@ ComponentManager::ComponentManager()
                             rl::Vec3(0.0f, 0.0f, 0.0f),
                             rl::Vec3(0.0f, 1.0f, 0.0f),
                             45.0f, 0);
-    _scene = 3;
+    _scene = 0;
     _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
 }
 
@@ -39,7 +39,12 @@ void ComponentManager::clearComponents()
 void ComponentManager::simulate()
 {
     for (auto obj : _objs) {
-        obj->simulate();
+        if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
+            if (obj2->_scene == _scene)
+                obj->simulate();
+        if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
+            if (obj2->_scene == _scene)
+                obj->simulate();
     }
 }
 
