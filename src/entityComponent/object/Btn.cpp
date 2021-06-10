@@ -8,7 +8,18 @@
 #include "../Object.hpp"
 #include "../../Indie.hpp"
 
-Btn::Btn(const rl::Vec2 &pos, const rl::Vec2 &offset, const std::string &text, int pSize, const rl::Rectangle &src, const std::string &textureFile, const std::string &soundFile, int scene, Bomberman *m, void (*fptr)(Bomberman *, Btn *), const rl::Color &color, const std::string &font)
+Btn::Btn(const rl::Vec2 &pos,
+         const rl::Vec2 &offset,
+         const std::string &text,
+         int pSize,
+         const rl::Rectangle &src,
+         const std::string &soundFile,
+         int scene,
+         Bomberman *m,
+         void (*fptr)(Bomberman *, Btn *),
+         const std::string &textureFile,
+         const rl::Color &color,
+         const std::string &font)
     : _src(src),
     _font(font),
     _bound(pos.x, pos.y, src.width, src.height),
@@ -18,7 +29,7 @@ Btn::Btn(const rl::Vec2 &pos, const rl::Vec2 &offset, const std::string &text, i
     _win = m;
     _scene = scene;
     _relative = pos;
-    _pos = (rl::Vec2){0, 0};
+    _pos = (rl::Vec2){0.0, 0.0};
     _offset = offset;
     _btnState = 0;
     _clicked = false;
@@ -40,7 +51,7 @@ void Btn::render(rl::Camera3d *cam)
 
 void Btn::handleEvent()
 {
-    Vector2 mousePos = rl::Mouse::GetMousePosition();
+    rl::Vec2 mousePos = rl::Mouse::GetMousePosition();
 
     _clicked = false;
     if (_bound.checkCollision(mousePos)) {

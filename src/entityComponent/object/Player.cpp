@@ -58,7 +58,7 @@ void Player::loadAnims()
             objPath << "../assets/steve-obj/anims/steve_0" << i << ".glb";
         else
             objPath << "../assets/steve-obj/anims/steve_" << i << ".glb";
-        std::cout << objPath.str().c_str() << std::endl;
+        //std::cout << objPath.str().c_str() << std::endl;
         _models.push_back(new rl::Model(objPath.str().c_str()));
         objPath.str("");
         objPath.clear();
@@ -186,6 +186,6 @@ void Player::simulate()
         //collide with Solid Object
         rl::Vec3 colideSize = {2, 2, 2};
         std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(_pos, colideSize);
-        std::cout << vec.size() << std::endl;
+        //std::cout << vec.size() << std::endl;
     }
 }

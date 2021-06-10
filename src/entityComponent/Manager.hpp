@@ -30,6 +30,8 @@ class ComponentManager
         int _scene;
         std::vector<AObject *> _objs;
         UniTree<AObject, rl::Vec3, 3> *_PhysXTree;
+        std::string _optSkin;
+        std::vector<std::string> _skins;
 
     private:
         rl::Camera3d *_cam;

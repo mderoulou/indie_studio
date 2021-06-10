@@ -103,7 +103,7 @@ void Gamepad::init() {
 }
 
 float Gamepad::resolveAxis(int axis, bool inv) {
-    std::cout << "Resolving axis " << axis << std::endl;
+    //std::cout << "Resolving axis " << axis << std::endl;
     return inv ? GetGamepadAxisMovement(gamepad, axis) : -GetGamepadAxisMovement(gamepad, axis);
 }
 
@@ -127,7 +127,7 @@ bool Gamepad::setKey(int &key, bool &axisOrientation) {
     if (axisInfo != -1 && axisInfo == lastAxis && orientation == lastOrientation) {
         return true;
     } else if (axisInfo != -1) {
-        std::cout << "Set axis to " << axisInfo << std::endl;
+        //std::cout << "Set axis to " << axisInfo << std::endl;
         key = axisInfo + 32;
         axisOrientation = orientation;
         lastAxis = axisInfo;
