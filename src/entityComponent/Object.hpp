@@ -67,7 +67,6 @@ public:
 };
 
 
-#include "object/Box.hpp"
 #include "object/Btn.hpp"
 #include "object/Cube.hpp"
 #include "object/Input.hpp"
@@ -75,5 +74,6 @@ public:
 #include "object/Text.hpp"
 #include "object/Wall.hpp"
 #include "object/Background.hpp"
+#include "object/Box.hpp"
 
 #endif
