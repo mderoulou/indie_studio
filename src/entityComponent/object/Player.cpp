@@ -110,7 +110,8 @@ void Player::move(rl::Vec3 newPos)
     
 }
 
-double findAngle(rl::Vec2 vec) {
+double findAngle(rl::Vec2 vec)
+{
     double len = pow(pow(vec.x, 2) + pow(vec.y, 2), 0.5);
     double a1 = acosf(vec.x / len);
     if (vec.y < 0)
@@ -120,6 +121,7 @@ double findAngle(rl::Vec2 vec) {
 
 void Player::simulate()
 {
+    bool debug = false;
     float acc_mult = 0.05; 
 
     //std::cout << "[MANAGER] Moving Events!" << std::endl;
@@ -216,12 +218,13 @@ void Player::simulate()
 
                 rl::Vec3 dd = d-((objSize+pSize)/2);
 
-                std::cout << "objSize+pSize " << (objSize+pSize)[0] << " " << (objSize+pSize)[1] << " " << (objSize+pSize)[2] <<std::endl;
-                std::cout << "objcenter " << objCenter[0] << " " << objCenter[1] << " " << objCenter[2] <<std::endl;
-                std::cout << "playercenter " << pCenter[0] << " " << pCenter[1] << " " << pCenter[2] <<std::endl;
-                std::cout << "d " << d[0] << " " << d[1] << " " << d[2] <<std::endl;
-                std::cout << "dd " << dd[0] << " " << dd[1] << " " << dd[2] <<std::endl;
-
+                if (debug) {
+                    std::cout << "objSize+pSize " << (objSize+pSize)[0] << " " << (objSize+pSize)[1] << " " << (objSize+pSize)[2] <<std::endl;
+                    std::cout << "objcenter " << objCenter[0] << " " << objCenter[1] << " " << objCenter[2] <<std::endl;
+                    std::cout << "playercenter " << pCenter[0] << " " << pCenter[1] << " " << pCenter[2] <<std::endl;
+                    std::cout << "d " << d[0] << " " << d[1] << " " << d[2] <<std::endl;
+                    std::cout << "dd " << dd[0] << " " << dd[1] << " " << dd[2] <<std::endl;
+                }
                 float min = dd[0];
                 int axe = 0;
                 for (int i = 1; i < 3; i++)
@@ -238,23 +241,29 @@ void Player::simulate()
                     dd[i] *= signe[i];
                 }
 
-                std::cout << "min" << axe << " " << min << std::endl;
-                std::cout << "dd " << dd[0] << " " << dd[1] << " " << dd[2] <<std::endl;
+                if (debug) {
+                    std::cout << "min" << axe << " " << min << std::endl;
+                    std::cout << "dd " << dd[0] << " " << dd[1] << " " << dd[2] <<std::endl;
+                }
                 
                 //dd *= 1;
                 _v[axe] *= 0.1;
                 move(dd*-1);
                 
-                std::cout << "centers " << pCenter[axe] << " " << objCenter[axe] << std::endl;
 
-                std::cout << axe << " "<<((objSize+pSize)/2)[axe] << " " << d[axe] << " " << dd[axe] << " " << objSize[axe] << " " << pSize[axe] << " " << (objSize+pSize)[axe] << std::endl;
+                if (debug) {
+                    std::cout << "centers " << pCenter[axe] << " " << objCenter[axe] << std::endl;
+                    std::cout << axe << " "<<((objSize+pSize)/2)[axe] << " " << d[axe] << " " << dd[axe] << " " << objSize[axe] << " " << pSize[axe] << " " << (objSize+pSize)[axe] << std::endl;
+                    std::cout << std::endl;
+                }
 
-                std::cout << std::endl;
             }
             a++;
         }
-                std::cout << std::endl;
-                std::cout << std::endl;
+        if (debug) {
+            std::cout << std::endl;
+            std::cout << std::endl;
+        }
 
         _manager->_cam->endMode();
         move(_v);
