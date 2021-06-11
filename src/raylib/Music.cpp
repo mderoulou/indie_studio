@@ -61,6 +61,11 @@ float rl::Music::getTimeLength()
     return GetMusicTimeLength(_music);
 }
 
+void rl::Music::update()
+{
+    ::UpdateMusicStream(_music);
+}
+
 /**
  *  AudioStream Functions
  */

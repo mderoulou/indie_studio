@@ -44,6 +44,7 @@ class Sound
 
         static void InitAudioDevice() { ::InitAudioDevice(); };
         static void CloseAudioDevice() { ::CloseAudioDevice(); };
+        static bool IsAudioDeviceReady() { return ::IsAudioDeviceReady(); };
 
         ::Sound getSound() const { return _sound; };
     private:

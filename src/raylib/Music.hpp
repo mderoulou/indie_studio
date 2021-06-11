@@ -23,6 +23,7 @@ class Music
         void stop();
         void pause();
         void resume();
+        void update();
 
         void setVolume(float volume);
         void setPitch(float pitch);

@@ -10,6 +10,8 @@
 
 #include <filesystem>
 #include <sstream>
+#include <thread>
+#include <unistd.h>
 #include "../Bomberman.hpp"
 
 namespace BF {
@@ -28,6 +30,8 @@ namespace BF {
     void loadAll(Bomberman *win);
     void mapSize(Bomberman *win, Btn *b, void *data);
     void previewSkin(Bomberman *win, void *data, std::string str);
+    void launchGame(Bomberman *win, Btn *b, void *data);
+    void countDown(MusicManager *mm);
 }
 
 #endif /* !BTNFUNCS_HPP_ */

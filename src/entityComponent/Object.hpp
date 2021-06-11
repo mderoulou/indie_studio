@@ -71,6 +71,7 @@ public:
 #include "object/Cube.hpp"
 #include "object/Input.hpp"
 #include "object/List.hpp"
+#include "object/MusicManager.hpp"
 #include "object/Player.hpp"
 #include "object/Text.hpp"
 #include "object/Wall.hpp"

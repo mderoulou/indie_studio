@@ -23,28 +23,38 @@
 
 Bomberman::Bomberman()
 {
+    std::srand(time(NULL));
     _win = new rl::Window(800, 600, "Indie Studio");
     rl::Sound::InitAudioDevice();
+    if (!rl::Sound::IsAudioDeviceReady())
+        throw "Unable to load Audio Device!";
     _font = new rl::Font();
     _manager = new ComponentManager();
     BF::loadAll(this);
     Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true);
     Preview *preview = new Preview(rl::Color(255, 255, 255, 255));
-    Btn *p = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 0, this, &(BF::playBtn));
-    Btn *s = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Skins", 24,  rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 0, this, &(BF::skinBtn));
-    Btn *u = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 120.0), "Respository", 24,  rl::Rectangle(400,0,196,40), "../assets/sound/click.wav", 0, this, &(BF::repoLink));
-    Btn *o = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400,0,196,40), "../assets/sound/click.wav", 0, this, &(BF::optBtn));
-    Btn *q = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 0, this, &(BF::quitBtn));
-    Btn *d = new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 5, this, &(BF::backBtn));
-    Btn *ds = new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 1, this, &(BF::backBtn));
-    Btn *f = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "FullScreen: OFF", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 1, this, &(BF::fullScreen));
-    Btn *r = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 1, this, &(BF::resolutionBtn));
-    Btn *ms = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 120.0), "Map size: Small", 24, rl::Rectangle(0,0,400,40), "../assets/sound/click.wav", 1, this, &(BF::mapSize));
-    Btn *sa = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596,0,40,40), "../assets/sound/click.wav", 5, this, &(BF::addSkin));
-    Btn *sr = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596,0,40,40), "../assets/sound/click.wav", 5, this, &(BF::removeSkin));
+    MusicManager *mm = new MusicManager(this);
+    Btn *p = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 0, this, &(BF::playBtn), (void *)mm);
+    Btn *s = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Skins", 24,  rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 0, this, &(BF::skinBtn));
+    Btn *u = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 120.0), "Respository", 24,  rl::Rectangle(400,0,196,40), "../assets/musics/click.wav", 0, this, &(BF::repoLink));
+    Btn *o = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400,0,196,40), "../assets/musics/click.wav", 0, this, &(BF::optBtn));
+    Btn *q = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 0, this, &(BF::quitBtn));
+    Btn *d = new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 5, this, &(BF::backBtn));
+    Btn *ds = new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 1, this, &(BF::backBtn));
+    Btn *lf = new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(104.0, 0.0), "Fight", 24,  rl::Rectangle(400,0,196,40), "../assets/musics/click.wav", 2, this, &(BF::launchGame));
+    Btn *lb = new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400,0,196,40), "../assets/musics/click.wav", 2, this, &(BF::backBtn));
+    Btn *f = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "FullScreen: OFF", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 1, this, &(BF::fullScreen));
+    Btn *r = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 1, this, &(BF::resolutionBtn));
+    Btn *ms = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 120.0), "Map size: Small", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 1, this, &(BF::mapSize));
+    Btn *sa = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596,0,40,40), "../assets/musics/click.wav", 5, this, &(BF::addSkin));
+    Btn *sr = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596,0,40,40), "../assets/musics/click.wav", 5, this, &(BF::removeSkin));
     Input *i = new Input(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-50.0, 0.0), _manager->_settings._optSkin, 16, 5, 24, this);
-    Btn *lp = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(270.0, 0.0), "Load Preview", 24, rl::Rectangle(400,0,196,40), "../assets/sound/click.wav", 5, this, &(BF::loadSkin), (void *)preview);
+    Btn *lp = new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(270.0, 0.0), "Load Preview", 24, rl::Rectangle(400,0,196,40), "../assets/musics/click.wav", 5, this, &(BF::loadSkin), (void *)preview);
     List *ls = new List(rl::Vec2(1.0/2, 7.0/20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins), &(BF::previewSkin), preview, "../assets/minecraftia.ttf", true, 4);
+    //Btn *p = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 0, this, &(BF::playBtn));
+    _manager->addComponent(mm);
+    _manager->addComponent(lf);
+    _manager->addComponent(lb);
     _manager->addComponent(player);
     _manager->addComponent(p);
     _manager->addComponent(s);

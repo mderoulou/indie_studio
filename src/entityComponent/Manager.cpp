@@ -54,10 +54,10 @@ void ComponentManager::simulate()
 {
     for (auto obj : _objs) {
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
-            if (obj2->_scene == _settings._scene)
+            if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->simulate();
         if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
-            if (obj2->_scene == _settings._scene)
+            if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->simulate();
     }
 }
@@ -67,10 +67,10 @@ void ComponentManager::renderAll()
     //std::cout << "[MANAGER] Rendering!" << std::endl;
     for (auto obj : _objs) {
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
-            if (obj2->_scene == _settings._scene)
+            if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->render(_cam);
         if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
-            if (obj2->_scene == _settings._scene)
+            if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->render(_cam);
     }
 }
@@ -80,10 +80,10 @@ void ComponentManager::handleEvent()
     //std::cout << "[MANAGER] Handling Events!" << std::endl;
     for (auto obj: _objs) {
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
-            if (obj2->_scene == _settings._scene)
+            if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->handleEvent();
         if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
-            if (obj2->_scene == _settings._scene)
+            if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->handleEvent();
     }
 }
