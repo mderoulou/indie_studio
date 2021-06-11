@@ -8,10 +8,10 @@
 #include "../Object.hpp"
 #include "../Manager.hpp"
 
-Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall, int scene)
+Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall, int scene, rl::Texture *texture)
     : Cube(pos, size, color, scene)
 {
-    _texture = new rl::Texture("../assets/block/stone-bricks.png");
+    _texture = texture;
     rl::Mesh mesh(size.x, size.y, size.z);
 
     _isBreakable = isWall;

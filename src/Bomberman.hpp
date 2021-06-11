@@ -16,6 +16,14 @@ class ComponentManager;
 
 enum mapSize { small = 10, medium = 16, large = 20};
 
+class allTexture
+{
+    public:
+        rl::Texture *_btn; // Btn texture
+        rl::Texture *_sb; // StoneBrick texture
+        rl::Font *_ft; // Minecraft font
+};
+
 class Bomberman
 {
     public:
@@ -25,6 +33,7 @@ class Bomberman
         void launch();
         void generateMap(mapSize type);
         ComponentManager *_manager;
+        allTexture _t;
         rl::Window *_win;
         bool _ending = false;
     private:

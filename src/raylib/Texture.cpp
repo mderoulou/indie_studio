@@ -6,6 +6,7 @@
 */
 
 #include "Texture.hpp"
+#include <iostream>
 
 rl::Texture::Texture(const std::string filename)
 {

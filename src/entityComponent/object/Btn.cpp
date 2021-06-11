@@ -18,9 +18,9 @@ Btn::Btn(const rl::Vec2 &pos,
          Bomberman *m,
          void (*fptr)(Bomberman *, Btn *, void *),
          void *data,
-         const std::string &textureFile,
-         const rl::Color &color,
-         const std::string &font)
+         rl::Texture *textureFile,
+         rl::Font *font,
+         const rl::Color &color)
     : _src(src),
     _font(font),
     _bound(pos.x, pos.y, src.width, src.height),
@@ -48,8 +48,8 @@ void Btn::render(rl::Camera3d *cam)
 
     (void)cam;
     final.y = final.height * _btnState;
-    _texture.drawRec(final, _pos, _color);
-    _font.drawTextEx(_text, rl::Vec2(_pos.x + _src.width / 2 - _text.length() * _pSize / 4, _pos.y + _src.height / 2 - _pSize / 2), _pSize, 0.0, _btnState ? rl::Color(255,255,160, 255) : rl::Color(221,221,221,255));
+    _texture->drawRec(final, _pos, _color);
+    _font->drawTextEx(_text, rl::Vec2(_pos.x + _src.width / 2 - _text.length() * _pSize / 4, _pos.y + _src.height / 2 - _pSize / 2), _pSize, 0.0, _btnState ? rl::Color(255,255,160, 255) : rl::Color(221,221,221,255));
 }
 
 void Btn::handleEvent()

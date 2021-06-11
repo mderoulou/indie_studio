@@ -15,10 +15,10 @@ Input::Input(const rl::Vec2 &pos,
              int scene,
              int pSize,
              Bomberman *m,
+             rl::Texture *textureFile,
+             rl::Font *font,
              const rl::Rectangle &src,
-             const std::string &textureFile,
-             const rl::Color &color,
-             const std::string &font)
+             const rl::Color &color)
     : _ptr(ptr),
     _src(src),
     _font(font),
@@ -42,8 +42,8 @@ void Input::render(rl::Camera3d *cam)
     rl::Rectangle final(_src.x, _src.y, _src.width, _src.height);
 
     final.y = final.height * (_isActive ? 1 : 0);
-    _texture.drawRec(final, _pos, _color);
-    _font.drawTextEx(_ptr, rl::Vec2(_pos.x + _src.width / 2 - _ptr.length() * _pSize / 4, _pos.y + _src.height / 2 - _pSize / 2), _pSize, 0.0, _isActive ? rl::Color(255,255,255,255) : rl::Color(160,160,160,255));
+    _texture->drawRec(final, _pos, _color);
+    _font->drawTextEx(_ptr, rl::Vec2(_pos.x + _src.width / 2 - _ptr.length() * _pSize / 4, _pos.y + _src.height / 2 - _pSize / 2), _pSize, 0.0, _isActive ? rl::Color(255,255,255,255) : rl::Color(160,160,160,255));
 
 }
 

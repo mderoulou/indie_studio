@@ -13,7 +13,7 @@
 class Wall : public Cube
 {
 public:
-    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall, int scene);
+    Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, bool isWall, int scene, rl::Texture *texture);
 
     void handleEvent() override {};
     void simulate() override {};
