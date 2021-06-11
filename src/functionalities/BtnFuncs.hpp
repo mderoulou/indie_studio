@@ -10,8 +10,6 @@
 
 #include <filesystem>
 #include <sstream>
-#include <thread>
-#include <unistd.h>
 #include "../Bomberman.hpp"
 
 namespace BF {

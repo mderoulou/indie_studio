@@ -199,19 +199,9 @@ void BF::previewSkin(Bomberman *win, void *data, std::string str)
     ptr->setTexture(std::string(std::string("../assets/skins/") + str) + ".png");
 }
 
-void BF::countDown(MusicManager *mm)
-{
-    mm->playSound("3.ogg");
-    sleep(1);
-    mm->playSound("2.ogg");
-    sleep(1);
-    mm->playSound("1.ogg");
-    sleep(1);
-    mm->playSound("fight.ogg");
-}
-
 void BF::launchGame(Bomberman *win, Btn *b, void *data)
 {
     // std::thread count(BF::countDown, (MusicManager *)data);
     // count.join();
+    switchScene(win, 3);
 }
