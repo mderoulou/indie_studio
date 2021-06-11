@@ -59,7 +59,8 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: Find .exe file
-      run: dir ${{github.workspace}}/build /S | findstr "bomberman.exe"
+      run: dir "${{github.workspace}}/build" /S | findstr "bomberman.exe"
+      shell: cmd
 
 
 
