@@ -19,6 +19,7 @@ Preview::Preview(rl::Color color, std::shared_ptr<std::vector<std::shared_ptr<rl
     _scale = 1;
     _rotation = -170;
     _texture = std::make_shared<rl::Texture>("../assets/skins/skin.png");
+    _models = models;
 }
 
 void Preview::setTexture(const std::string filename)
@@ -41,6 +42,8 @@ void Preview::render(rl::Camera3d *cam)
         cam->endMode();
         return;
     }
+    for (auto model : *_models)
+        model->setMaterialTexture(0, _texture);
     (*_models)[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
     cam->endMode();
 }

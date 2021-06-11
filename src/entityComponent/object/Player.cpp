@@ -61,6 +61,8 @@ void Player::render(rl::Camera3d *cam)
         cam->endMode();
         return;
     }
+    for (auto model : *_models)
+        model->setMaterialTexture(0, _texture);
     (*_models)[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
     cam->endMode();
 }

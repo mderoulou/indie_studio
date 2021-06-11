@@ -126,8 +126,6 @@ void Bomberman::preLoad()
 {
     BF::loadAll(this); //Load all available skins;
     rl::Sound::InitAudioDevice(); // Init audio
-    if (!rl::Sound::IsAudioDeviceReady())
-        throw "Unable to load Audio Device!";
 
     _t._btn = std::make_shared<rl::Texture>("../assets/menus/btns.png");
     _t._sb = std::make_shared<rl::Texture>("../assets/block/stone-bricks.png");
