@@ -17,7 +17,7 @@ Preview::Preview(rl::Color color)
     _scene = 5;
     _color = color;
     _scale = 1;
-    _rotation = -10;
+    _rotation = -170;
     _texture = new rl::Texture("../assets/skins/skin.png");
     this->loadAnims();
 }
@@ -67,7 +67,7 @@ void Preview::render(rl::Camera3d *cam)
         cam->endMode();
         return;
     }
-    _models[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1.5, 0.5), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
+    _models[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
     cam->endMode();
 }
 
