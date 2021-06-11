@@ -8,8 +8,7 @@
 #ifndef BTNFUNCS_HPP_
 #define BTNFUNCS_HPP_
 
-#include <sys/types.h>
-#include <dirent.h>
+#include <filesystem>
 #include <sstream>
 #include "../Bomberman.hpp"
 

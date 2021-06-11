@@ -175,17 +175,9 @@ void BF::loadSkin(Bomberman *win, Btn *b, void *data)
 
 void BF::loadAll(Bomberman *win)
 {
-    DIR *dir;
-    struct dirent *ent;
-
-    if (!(dir = opendir("../assets/skins/"))) {
-        std::cerr << "Unable to open folder assets/skins !" << std::endl;
-        return;
-    }
-    while ((ent = readdir(dir)) && win->_manager->_settings._skins.size() <= 10)
-        if (ent->d_name[0] != '.')
-            win->_manager->_settings._skins.push_back(std::string(ent->d_name));
-    closedir(dir);
+    for (const auto &entry : std::filesystem::directory_iterator("../assets/skins/"))
+        if (win->_manager->_settings._skins.size() <= 10 && entry.path().filename().string()[0] != '.')
+            win->_manager->_settings._skins.push_back(std::string(entry.path().filename().string().c_str()));
 }
 
 void BF::mapSize(Bomberman *win, Btn *b, void *data)
