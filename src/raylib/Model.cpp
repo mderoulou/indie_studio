@@ -46,9 +46,9 @@ void rl::Model::drawWiresEx(rl::Vec3 pos, rl::Vec3 rotaAxis, float rotaAngle, rl
     DrawModelWiresEx(_model, pos, rotaAxis, rotaAngle, scale, color);
 }
 
-void rl::Model::setMaterialTexture(int material, rl::Texture *texture)
+void rl::Model::setMaterialTexture(int material, std::shared_ptr<rl::Texture> texture)
 {
-    SetMaterialTexture(&_model.materials[material], MAP_DIFFUSE, texture->getTexture());
+    SetMaterialTexture(&_model.materials[material], MAP_DIFFUSE, (*texture).getTexture());
 }
 
 /**
@@ -66,12 +66,12 @@ rl::ModelAnimation::~ModelAnimation()
     UnloadModelAnimations(_anims, _count);
 }
 
-void rl::ModelAnimation::update(rl::Model *model, int anims, int frame)
+void rl::ModelAnimation::update(std::shared_ptr<rl::Model> model, int anims, int frame)
 {
     UpdateModelAnimation(model->getModel(), _anims[anims], frame);
 }
 
-bool  rl::ModelAnimation::isModelAnimationValid(rl::Model *model, int anims)
+bool  rl::ModelAnimation::isModelAnimationValid(std::shared_ptr<rl::Model> model, int anims)
 {
     return IsModelAnimationValid(model->getModel(), _anims[anims]);
 }

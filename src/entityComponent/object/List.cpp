@@ -17,7 +17,7 @@ List::List(const rl::Vec2 &origin,
            std::vector<std::string> *text,
            void (*fptr)(Bomberman *, void *, std::string),
            void *data,
-           rl::Font *font,
+           std::shared_ptr<rl::Font> font,
            bool rm,
            uint32_t many) :
     _origin(origin),

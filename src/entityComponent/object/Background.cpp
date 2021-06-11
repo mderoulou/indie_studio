@@ -11,7 +11,7 @@
 
 Background::Background(rl::Vec3 pos, int scene)
 {
-    _model = new rl::Model("../assets/background/stone-terrain.glb");
+    _model = std::make_shared<rl::Model>("../assets/background/stone-terrain.glb");
     _pos = rl::Vec3(pos);
     _color = rl::Color(255, 255, 255, 255);
     _scale = 0.8;

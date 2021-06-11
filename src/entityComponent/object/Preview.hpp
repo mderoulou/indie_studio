@@ -14,16 +14,15 @@
 class Preview : public Object3D
 {
 public:
-    Preview(rl::Color color);
-    ~Preview();
+    Preview(rl::Color color, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
 
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override;
     void simulate() override;
     void render(rl::Camera3d *cam) override;
 
-    std::vector<rl::Model *> _models;
-    rl::Texture *_texture;
+    std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _models;
+    std::shared_ptr<rl::Texture> _texture;
 
     float _scale;
     float _rotation;

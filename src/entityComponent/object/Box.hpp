@@ -17,8 +17,8 @@ public:
 
     void render(rl::Camera3d *cam) override;
 
-    rl::Texture *_texture;
-    rl::Model *_model;
+    std::shared_ptr<rl::Texture> _texture;
+    std::shared_ptr<rl::Model> _model;
     float _rotation;
     float _scale;
 };

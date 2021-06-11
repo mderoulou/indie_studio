@@ -22,7 +22,7 @@ class List : public Object2D {
               std::vector<std::string> *text,
               void (*fptr)(Bomberman *, void *, std::string) = nullptr,
               void *data = nullptr,
-              rl::Font *font = nullptr,
+              std::shared_ptr<rl::Font> font = nullptr,
               bool rm = false,
               uint32_t many = 0);
 
@@ -33,7 +33,7 @@ class List : public Object2D {
         rl::Vec2 _origin;
         rl::Vec2 _offset;
         rl::Vec2 _space;
-        rl::Font *_font;
+        std::shared_ptr<rl::Font> _font;
         void (*_ptr)(Bomberman *, void *, std::string);
         void *_data;
         std::vector<std::string> *_text;

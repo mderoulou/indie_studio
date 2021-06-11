@@ -11,47 +11,21 @@
 #include <iostream>
 #include <iomanip>
 
-Preview::Preview(rl::Color color)
+Preview::Preview(rl::Color color, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
 {
     _pos = rl::Vec3(7.5,2,13);
     _scene = 5;
     _color = color;
     _scale = 1;
     _rotation = -170;
-    _texture = new rl::Texture("../assets/skins/skin.png");
-    this->loadAnims();
-}
-
-void Preview::loadAnims()
-{
-    int count = 41;
-    std::ostringstream objPath("");
-
-    for (int i = 1; i < count; i++) {
-        if (i < 10)
-            objPath << "../assets/steve-obj/anims/steve_0" << i << ".glb";
-        else
-            objPath << "../assets/steve-obj/anims/steve_" << i << ".glb";
-        _models.push_back(new rl::Model(objPath.str().c_str()));
-        objPath.str("");
-        objPath.clear();
-    }
-    for (auto model : _models)
-        model->setMaterialTexture(0, _texture);
+    _texture = std::make_shared<rl::Texture>("../assets/skins/skin.png");
 }
 
 void Preview::setTexture(const std::string filename)
 {
-    delete _texture;
-    _texture = new rl::Texture(filename.c_str());
-    for (auto model : _models)
+    _texture = std::make_shared<rl::Texture>(filename.c_str());
+    for (auto model : *_models)
         model->setMaterialTexture(0, _texture);
-}
-
-Preview::~Preview()
-{
-    // TODO: Delete model
-    delete _texture;
 }
 
 void Preview::move(rl::Vec3 newPos)
@@ -67,7 +41,7 @@ void Preview::render(rl::Camera3d *cam)
         cam->endMode();
         return;
     }
-    _models[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
+    (*_models)[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
     cam->endMode();
 }
 

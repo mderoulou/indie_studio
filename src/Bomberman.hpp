@@ -12,6 +12,8 @@
 #include "functionalities/BtnFuncs.hpp"
 #include "Indie.hpp"
 
+#include <memory>
+
 class ComponentManager;
 
 enum mapSize { small = 10, medium = 16, large = 20};
@@ -19,9 +21,11 @@ enum mapSize { small = 10, medium = 16, large = 20};
 class allTexture
 {
     public:
-        rl::Texture *_btn; // Btn texture
-        rl::Texture *_sb; // StoneBrick texture
-        rl::Font *_ft; // Minecraft font
+        std::shared_ptr<rl::Texture> _btn; // Btn texture
+        std::shared_ptr<rl::Texture> _sb; // StoneBrick texture
+        std::shared_ptr<rl::Font> _ft; // Minecraft font
+        std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _walking; // Walking Animation
+        std::shared_ptr<rl::Model> _tnt_a;
 };
 
 class Bomberman
@@ -37,6 +41,6 @@ class Bomberman
         rl::Window *_win;
         bool _ending = false;
     private:
-        rl::Font *_font;
+        void preLoad();
 };
 #endif

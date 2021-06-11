@@ -7,7 +7,7 @@
 
 #include "Bomb.hpp"
 
-Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time)
+Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, std::shared_ptr<rl::Texture> texture)
 {
     _pos = rl::Vec3(pos);
     _scene = scene;
@@ -15,7 +15,8 @@ Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time)
     _scale = scale;
     _explosed = false;
     _time = time;
-    _model = new rl::Model("../assets/block/tnt.glb");
+    _model = model;
+    _texture = texture;
 }
 
 void Bomb::move(rl::Vec3 newPos)

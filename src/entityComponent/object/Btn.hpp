@@ -23,8 +23,8 @@ class Btn : public Object2D
             Bomberman *m,
             void (*fptr)(Bomberman *, Btn *, void *),
             void *data = 0,
-            rl::Texture *textureFile = 0,
-            rl::Font *font = 0,
+            std::shared_ptr<rl::Texture> textureFile = 0,
+            std::shared_ptr<rl::Font> font = 0,
             const rl::Color &color = rl::Color(255, 255, 255, 255));
         
         rl::Rectangle _src; //Rectangle for texture
@@ -43,8 +43,8 @@ class Btn : public Object2D
         void *_data; // Any data ???
         rl::Sound _sound; // Sound on click
         rl::Rectangle _bound; //Rectangle for collision
-        rl::Texture *_texture; // Texture of btn
-        rl::Font *_font; // Font of text 2 draw
+        std::shared_ptr<rl::Texture> _texture; // Texture of btn
+        std::shared_ptr<rl::Font> _font; // Font of text 2 draw
         rl::Vec2 _relative; // Percentage position for all windows
         rl::Vec2 _offset; // Offset pos
         Bomberman *_win; // Ptr to main class

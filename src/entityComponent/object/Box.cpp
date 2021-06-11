@@ -10,11 +10,11 @@
 Box::Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene)
     : Cube(pos, size, color, scene)
 {
-    _texture = new rl::Texture("../assets/block/wood.png");
+    _texture = std::make_shared<rl::Texture>("../assets/block/wood.png");
     rl::Mesh mesh(size.x, size.y, size.z);
 
     _isBreakable = true;
-    _model = new rl::Model(mesh);
+    _model = std::make_shared<rl::Model>(mesh);
     _model->setMaterialTexture(0, _texture);
     _isSolid = true;
     _boundingBox._bd.min = pos-size/2;

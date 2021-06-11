@@ -19,8 +19,8 @@ class Input : public Object2D {
               int scene,
               int pSize,
               Bomberman *m,
-              rl::Texture *texture = nullptr,
-              rl::Font *font = nullptr,
+              std::shared_ptr<rl::Texture> texture = nullptr,
+              std::shared_ptr<rl::Font> font = nullptr,
               const rl::Rectangle &src = rl::Rectangle(636.0, 0.0, 404.0, 44.0),
               const rl::Color &color = rl::Color(255, 255, 255, 255));
         rl::Vec2 _pos; // Pos of input
@@ -33,8 +33,8 @@ class Input : public Object2D {
         rl::Rectangle _src; // Rect for texture
         rl::Vec2 _relative; // Percentage position for all windows
         rl::Vec2 _offset; // Offset added to relative
-        rl::Texture *_texture; // Texture of input
-        rl::Font *_font; // Font of text 2 draw
+        std::shared_ptr<rl::Texture> _texture; // Texture of input
+        std::shared_ptr<rl::Font> _font; // Font of text 2 draw
         std::string &_ptr; // Ref of string
         rl::Rectangle _bound; //Rectangle for collision
         bool _isActive;

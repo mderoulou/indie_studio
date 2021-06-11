@@ -13,6 +13,7 @@
 #include "Texture.hpp"
 #include "Vector.hpp"
 #include "Color.hpp"
+#include <memory>
 
 namespace rl {
 
@@ -24,7 +25,7 @@ class Model
         ~Model();
 
         ::Model getModel() const { return _model ; };
-        void setMaterialTexture(int material, rl::Texture *texture);
+        void setMaterialTexture(int material, std::shared_ptr<rl::Texture> texture);
 
         void draw(rl::Vec3 pos, float scale, rl::Color color);
         void drawEx(rl::Vec3 pos, rl::Vec3 rotaAxis, float rotaAngle, rl::Vec3 scale, rl::Color color);
@@ -41,8 +42,8 @@ class ModelAnimation
         ModelAnimation(const std::string fileName, int *animsCount);
         ~ModelAnimation();
 
-        void update(rl::Model *model, int anims, int frame);
-        bool isModelAnimationValid(rl::Model *model, int anims);
+        void update(std::shared_ptr<rl::Model> model, int anims, int frame);
+        bool isModelAnimationValid(std::shared_ptr<rl::Model> model, int anims);
 
         int getFrameCount(int anim) const { return _anims[anim].frameCount; };
     private:
