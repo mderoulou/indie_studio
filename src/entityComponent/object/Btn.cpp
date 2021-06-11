@@ -39,14 +39,17 @@ Btn::Btn(const rl::Vec2 &pos,
     _text = text;
     _pSize = pSize;
     _data = data;
-    this->move(rl::Vec3(0.0, 0.0, 0.0));
 }
 
 void Btn::render(rl::Camera3d *cam)
 {
+    rl::Vec2 pos(((float)_win->_win->getScreenWidth()) * _relative.x - _src.width / 2.0 + _offset.x, ((float)_win->_win->getScreenHeight()) * _relative.y - _src.height / 2.0 + _offset.y);
     rl::Rectangle final(_src.x, _src.y, _src.width, _src.height);
 
-    (void)cam;
+    _pos.x = pos.x;
+    _pos.y = pos.y;
+    _bound.x = _pos.x;
+    _bound.y = _pos.y;
     final.y = final.height * _btnState;
     _texture->drawRec(final, _pos, _color);
     _font->drawTextEx(_text, rl::Vec2(_pos.x + _src.width / 2 - _text.length() * _pSize / 4, _pos.y + _src.height / 2 - _pSize / 2), _pSize, 0.0, _btnState ? rl::Color(255,255,160, 255) : rl::Color(221,221,221,255));
@@ -70,13 +73,4 @@ void Btn::handleEvent()
         _sound.play();
         _ptr(_win, this, _data);
     }
-}
-
-void Btn::move(rl::Vec3 newPos)
-{
-    (void)newPos;
-    _pos.x = ((float)_win->_win->getScreenWidth()) * _relative.x - _src.width / 2.0 + _offset.x;
-    _pos.y = ((float)_win->_win->getScreenHeight()) * _relative.y - _src.height / 2.0 + _offset.y;
-    _bound.x = _pos.x;
-    _bound.y = _pos.y;
 }

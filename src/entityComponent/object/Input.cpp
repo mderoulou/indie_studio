@@ -34,13 +34,17 @@ Input::Input(const rl::Vec2 &pos,
     _color = color;
     _maxLen = maxLen;
     _pSize = pSize;
-    this->move(rl::Vec3(0.0, 0.0, 0.0));
 }
 
 void Input::render(rl::Camera3d *cam)
 {
+    rl::Vec2 pos(((float)_win->_win->getScreenWidth()) * _relative.x - _src.width / 2.0 + _offset.x, ((float)_win->_win->getScreenHeight()) * _relative.y - _src.height / 2.0 + _offset.y);
     rl::Rectangle final(_src.x, _src.y, _src.width, _src.height);
 
+    _pos.x = pos.x;
+    _pos.y = pos.y;
+    _bound.x = _pos.x;
+    _bound.y = _pos.y;
     final.y = final.height * (_isActive ? 1 : 0);
     _texture->drawRec(final, _pos, _color);
     _font->drawTextEx(_ptr, rl::Vec2(_pos.x + _src.width / 2 - _ptr.length() * _pSize / 4, _pos.y + _src.height / 2 - _pSize / 2), _pSize, 0.0, _isActive ? rl::Color(255,255,255,255) : rl::Color(160,160,160,255));
@@ -66,13 +70,4 @@ void Input::handleEvent()
         if (rl::KeyBoard::IsKeyPressed(KEY_BACKSPACE) && _ptr.length())
             _ptr.pop_back();
     }
-}
-
-void Input::move(rl::Vec3 newPos)
-{
-    (void)newPos;
-    _pos.x = ((float)_win->_win->getScreenWidth()) * _relative.x - _src.width / 2.0 + _offset.x;
-    _pos.y = ((float)_win->_win->getScreenHeight()) * _relative.y - _src.height / 2.0 + _offset.y;
-    _bound.x = _pos.x;
-    _bound.y = _pos.y;
 }

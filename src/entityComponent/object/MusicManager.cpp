@@ -22,6 +22,8 @@ MusicManager::MusicManager(Bomberman *win)
     _music = nullptr;
     _sound = nullptr;
     _scene = -1;
+    _mVol = 1.0;
+    _sVol = 1.0;
 }
 
 MusicManager::~MusicManager()
@@ -54,6 +56,7 @@ void MusicManager::playSound(const std::string &name)
     for (std::string title : _voices)
         if (title == name) {
             _sound = new rl::Sound(std::string(std::string("../assets/voices/") + name));
+            _sound->setVolume(_win->_manager->_settings._sVol);
             _sound->play();
         }
 }
@@ -64,6 +67,8 @@ void MusicManager::render(rl::Camera3d *cam)
         this->playMusic();
     if (_music != nullptr && _music->getTimePlayed() + 2 >= _music->getTimeLength())
         this->playMusic();
-    if (_music != nullptr)
+    if (_music != nullptr) {
         _music->update();
+        _music->setVolume(_win->_manager->_settings._mVol);
+    }
 }

@@ -34,7 +34,6 @@ class Btn : public Object2D
 
         void handleEvent() override;
         void render(rl::Camera3d *cam) override;
-        void move(rl::Vec3 newPos) override;
 
     private:
         short _btnState; //State of the button to move _texture rect

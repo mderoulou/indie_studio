@@ -20,6 +20,8 @@ class Settings
         std::vector<std::string> _skins;
         int _scene;
         uint16_t _sizeMap;
+        float _mVol;
+        float _sVol;
 };
 
 class ComponentManager

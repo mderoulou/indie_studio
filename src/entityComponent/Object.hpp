@@ -70,6 +70,7 @@ public:
 #include "object/Btn.hpp"
 #include "object/Cube.hpp"
 #include "object/Input.hpp"
+#include "object/Slider.hpp"
 #include "object/List.hpp"
 #include "object/MusicManager.hpp"
 #include "object/Player.hpp"

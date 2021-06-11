@@ -92,12 +92,6 @@ void BF::resolutionBtn(Bomberman *win, Btn *b, void *data)
     x = (x + 1) % 4;
     win->_win->setWindowSize(widths[x], heights[x]);
     b->_text = std::string("Resolution:") + texts[x];
-    for (auto obj : win->_manager->_objs) {
-        if (Btn *b = dynamic_cast<Btn *>(obj))
-            b->move(rl::Vec3(0.0, 0.0, 0.0));
-        if (Input *b = dynamic_cast<Input *>(obj))
-            b->move(rl::Vec3(0.0, 0.0, 0.0));
-    }
 }
 
 void BF::skinBtn(Bomberman *win, Btn *b, void *data)
@@ -204,4 +198,22 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
     // std::thread count(BF::countDown, (MusicManager *)data);
     // count.join();
     switchScene(win, 3);
+}
+
+void BF::setMusic(Bomberman *win, Slider *s, void *data)
+{
+    float vol = s->_cpos.x * 1.0534;
+
+    (void)data;
+    win->_manager->_settings._mVol = vol;
+    s->_text = std::string(std::string("Musics: ") + std::to_string((int)(vol * 100)) + "%");
+}
+
+void BF::setSound(Bomberman *win, Slider *s, void *data)
+{
+    float vol = s->_cpos.x * 1.0534;
+
+    (void)data;
+    win->_manager->_settings._sVol = vol;
+    s->_text = std::string(std::string("Sounds: ") + std::to_string((int)(vol * 100)) + "%");
 }

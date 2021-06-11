@@ -25,7 +25,6 @@ class Input : public Object2D {
               const rl::Color &color = rl::Color(255, 255, 255, 255));
         rl::Vec2 _pos; // Pos of input
         rl::Color _color; // Color
-        void move(rl::Vec3 newPos) override;
         void render(rl::Camera3d *cam) override;
         void handleEvent() override;
 

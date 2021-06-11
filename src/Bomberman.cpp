@@ -42,6 +42,8 @@ Bomberman::Bomberman()
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "FullScreen: OFF", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 1, this, &(BF::fullScreen), 0, _t._btn, _t._ft));
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 1, this, &(BF::resolutionBtn), 0, _t._btn, _t._ft));
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 120.0), "Map size: Small", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 1, this, &(BF::mapSize), 0, _t._btn, _t._ft));
+    _manager->addComponent(new Slider(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040,0,300,40), rl::Rectangle(1340,0,16,40), 1, "Musics: 100%", this, &(BF::setMusic), (void *)musicManager, _t._btn, _t._btn, _t._ft));
+    _manager->addComponent(new Slider(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 240.0), 24, rl::Rectangle(1040,0,300,40), rl::Rectangle(1340,0,16,40), 1, "Sounds: 100%", this, &(BF::setSound), (void *)musicManager, _t._btn, _t._btn, _t._ft));
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), "../assets/musics/click.wav", 1, this, &(BF::backBtn), 0, _t._btn, _t._ft));
     // SKINS MENU :
     Preview *preview = new Preview(rl::Color(255, 255, 255, 255), _t._walking);

@@ -30,6 +30,8 @@ namespace BF {
     void previewSkin(Bomberman *win, void *data, std::string str);
     void launchGame(Bomberman *win, Btn *b, void *data);
     void countDown(MusicManager *mm);
+    void setMusic(Bomberman *win, Slider *s, void *data);
+    void setSound(Bomberman *win, Slider *s, void *data);
 }
 
 #endif /* !BTNFUNCS_HPP_ */
