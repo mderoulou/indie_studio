@@ -82,6 +82,7 @@ src/entityComponent/object/Btn.cpp
 src/entityComponent/object/Background.cpp
 src/entityComponent/object/Input.cpp
 src/entityComponent/object/List.cpp
+src/entityComponent/object/Bomb.cpp
 src/entityComponent/object/MusicManager.cpp
 src/functionalities/BtnFuncs.cpp
 src/Bomberman.cpp

@@ -78,5 +78,6 @@ public:
 #include "object/Background.hpp"
 #include "object/Box.hpp"
 #include "object/Preview.hpp"
+#include "object/Bomb.hpp"
 
 #endif
