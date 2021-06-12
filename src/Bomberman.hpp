@@ -25,6 +25,7 @@ class allTexture
         std::shared_ptr<rl::Texture> _sb; // StoneBrick texture
         std::shared_ptr<rl::Texture> _wood; // wood texture
         std::shared_ptr<rl::Font> _ft; // Minecraft font
+        std::shared_ptr<rl::Sound> _click;
         std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _walking; // Walking Animation
         std::shared_ptr<rl::Model> _tnt_a;
 };

@@ -11,13 +11,13 @@
 #include <iostream>
 #include <iomanip>
 
-Preview::Preview(rl::Color color, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
+Preview::Preview(rl::Vec3 pos, float scale, int scene, float rotation, rl::Color color, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
 {
-    _pos = rl::Vec3(7.5,2,13);
-    _scene = 5;
+    _pos = pos; //rl::Vec3(7.5,2,13);
+    _scene = scene;
     _color = color;
-    _scale = 1;
-    _rotation = -170;
+    _scale = scale;
+    _rotation = rotation;//-170
     _texture = std::make_shared<rl::Texture>("../assets/skins/skin.png");
     _models = models;
 }

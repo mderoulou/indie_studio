@@ -80,6 +80,7 @@ public:
 #include "object/Background.hpp"
 #include "object/Box.hpp"
 #include "object/Preview.hpp"
+#include "object/GameOpt.hpp"
 #include "object/Bomb.hpp"
 #include "object/Floor.hpp"
 
