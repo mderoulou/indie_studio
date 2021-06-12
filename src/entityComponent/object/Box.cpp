@@ -10,16 +10,22 @@
 Box::Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_ptr<rl::Texture> texture)
     : Cube(pos, size, color, scene)
 {
-    _texture = texture;
-    rl::Mesh mesh(size.x, size.y, size.z);
-
     _isBreakable = true;
-    _model = std::make_shared<rl::Model>(mesh);
-    _model->setMaterialTexture(0, _texture);
+    _texture = texture;
     _isSolid = true;
     _boundingBox._bd.min = pos-size/2;
     _boundingBox._bd.max = pos+size/2 + rl::Vec3(0, 1, 0);
 }
+
+Box::~Box() {
+}
+
+bool Box::explode(Bomb *){
+    _toRemove = true;
+    std::cout << "explode" << std::endl;
+    return true;
+}
+
 
 void Box::render(rl::Camera3d *cam)
 {

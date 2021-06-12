@@ -8,6 +8,8 @@
 #include "Object.hpp"
 
 AObject::~AObject() {
-    if (_isSolid)
-        _manager->_PhysXTree->erase(this);
+};
+
+bool AObject::explode(Bomb *bombe) {
+    return true;
 };

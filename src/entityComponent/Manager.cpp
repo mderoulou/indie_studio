@@ -53,6 +53,17 @@ void ComponentManager::clearComponents()
 
 void ComponentManager::simulate()
 {
+    // remove designated objects
+    for (int i = 0; i < _objs.size(); i++) {
+        auto obj = _objs[i];
+        // clear object
+        if (obj->_toRemove) {
+            _objs.erase(_objs.begin()+i);
+            delete obj;
+            i--;
+        }
+    }
+
     // rebuilt physicX tree
     delete _PhysXTree;
     _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
@@ -63,15 +74,6 @@ void ComponentManager::simulate()
 
     for (long unsigned int i = 0; i < _objs.size(); i++) {
         auto obj = _objs[i];
-        // clear object
-        if (obj->_toRemove) {
-            _objs.erase(_objs.begin()+i);
-            delete obj;
-            i--;
-            continue;
-        }
-
-        // simulate object
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
             if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->simulate();

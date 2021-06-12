@@ -7,7 +7,7 @@
 
 #include "Bomb.hpp"
 
-Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, std::shared_ptr<rl::Texture> texture, Player *player)
+Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, Player *player)
 {
     _player = player;
     _pos = rl::Vec3(pos);
@@ -17,7 +17,6 @@ Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, st
     _explosed = false;
     _time = time;
     _model = model;
-    _texture = texture;
     _player->_bombCount += 1;
     _isSolid = true;
     _boundingBox._bd.min = pos-scale;
@@ -27,9 +26,14 @@ Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, st
 Bomb::~Bomb() {
     _player->_bombCount -= 1;
 
-    // explode th bomb
-
 }
+
+bool Bomb::explode(Bomb *other) {
+    _time = 0;
+    std::cout << "explode bomb" << std::endl;
+    return true;
+}
+
 
 void Bomb::move(rl::Vec3 newPos)
 {
@@ -40,8 +44,6 @@ void Bomb::simulate()
 {
     bool debug = true;
 
-    if (_explosed)
-        return;
     _time -= 1;
     
     if (debug)
@@ -54,8 +56,39 @@ void Bomb::simulate()
     }
 
     if (_time <= 0) {
+        // explode the bomb
         std::cout << "BOM !" << std::endl;
-        _scale = 0;
+        rl::Vec3 centered_pos = _pos;
+        rl::Vec3 offset = {0, 0, 0};
+        rl::Vec3 treeZone = {0.5, 0.5, 0.5};
+        auto &PhysXTree = _manager->_PhysXTree;
+
+        rl::Vec3 axis[4] = {
+            {1, 0, 0},
+            {-1, 0, 0},
+            {0, 0, 1},
+            {0, 0, -1},
+        };
+
+        for (int axis_nb = 0; axis_nb < 4; axis_nb++){
+            int x = 0;
+            offset = centered_pos;
+            for (int i = 0; i <= _explosionRadius; i++) {
+                auto vec = PhysXTree->getInArea(offset, treeZone);
+                bool wilbreak = false;
+                for (auto &obj : vec){
+                    if (obj == this)
+                        continue;
+                    if (obj->explode(this))
+                        wilbreak = true;
+                    std::cout << "hit" << std::endl;
+                }
+                if (wilbreak)
+                    goto next;
+                offset += axis[axis_nb];
+            }
+            next:;
+        }
         _explosed = true;
         _toRemove = true;
     }

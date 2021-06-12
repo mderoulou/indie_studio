@@ -12,6 +12,7 @@
 
 class ComponentManager;
 class Bomberman;
+class Bomb;
 
 class IObject
 {
@@ -35,6 +36,7 @@ class AObject : public IObject
             _boundingBox._bd.max = rl::Vec3(_boundingBox._bd.max) + newPos;
         }
         virtual void simulate() = 0;
+        virtual bool explode(Bomb *bombe);
         virtual void render(rl::Camera3d *cam) = 0;
         virtual float &operator[](int i) {
             return _pos[i];
@@ -63,7 +65,7 @@ public:
 class Object3D : public AObject
 {
 public:
-    rl::Color _color;
+    rl::Color _color = {255, 255, 255, 255};
     int _scene = 0;
 };
 
