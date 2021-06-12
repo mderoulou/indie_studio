@@ -61,7 +61,7 @@ void ComponentManager::simulate()
             _PhysXTree->addData(obj);
 
 
-    for (int i = 0; i < _objs.size(); i++) {
+    for (long unsigned int i = 0; i < _objs.size(); i++) {
         auto obj = _objs[i];
         // clear object
         if (obj->_toRemove) {

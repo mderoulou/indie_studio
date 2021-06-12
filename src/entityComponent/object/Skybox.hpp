@@ -16,7 +16,7 @@ public:
     Skybox();
 
     void handleEvent() override {};
-    void move(rl::Vec3 newPos) override {};
+    void move(rl::Vec3 newPos __attribute__((unused))) override {};
     void simulate() override {};
     void render(rl::Camera3d *cam) override;
 

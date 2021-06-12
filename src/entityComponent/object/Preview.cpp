@@ -15,7 +15,10 @@ Preview::Preview(rl::Vec3 pos, float scale, int scene, float rotation, rl::Color
 {
     _pos = pos; //rl::Vec3(7.5,2,13);
     _scene = scene;
-    _color = color;
+    _color.a = color.a;
+    _color.r = color.r;
+    _color.g = color.g;
+    _color.b = color.b;
     _scale = scale;
     _rotation = rotation;//-170
     _texture = std::make_shared<rl::Texture>("../assets/skins/skin.png");

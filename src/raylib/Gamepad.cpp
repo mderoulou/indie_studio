@@ -70,15 +70,16 @@ void Gamepad::init() {
         if (axisCount > 4) {
             axisCount = 4;
         }
+        /* Make this comment due to unused variables
         //float axe = 0;
         //int axisInfo = -1;
         for (int i = 0; i < axisCount; i++) {
-            float naxe = GetGamepadAxisMovement(gamepad, i);
+            //float naxe = GetGamepadAxisMovement(gamepad, i);
             //if (naxe == 1 || naxe == -1) {
             //    axe = naxe;
             //    axisInfo = i;
             //}
-        }
+        } */
         if (keyUp == -1) {
             font.drawText("Button / Axis to go up :", 0, 0, 32, rl::Color(255,0,0,255));
             setKey(keyUp, axisUp);

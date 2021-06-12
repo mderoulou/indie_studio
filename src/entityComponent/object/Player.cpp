@@ -51,7 +51,10 @@ void Player::handleEvent(){
 Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKeyboad, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
 {
     _pos = rl::Vec3(pos);
-    _color = rl::Color(color);
+    _color.a = color.a;
+    _color.r = color.r;
+    _color.g = color.g;
+    _color.b = color.b;
     _rotation = 0;
     _scale = scale;
     _texture = std::make_shared<rl::Texture>("../assets/skins/skin.png");
