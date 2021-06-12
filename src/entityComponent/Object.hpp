@@ -84,6 +84,7 @@ public:
 #include "object/Preview.hpp"
 #include "object/GameOpt.hpp"
 #include "object/Bomb.hpp"
+#include "object/Skybox.hpp"
 #include "object/Floor.hpp"
 
 #endif

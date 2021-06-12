@@ -6,6 +6,13 @@
 */
 
 #include "Bomberman.hpp"
+#include "rlgl.h"
+
+#if defined(PLATFORM_DESKTOP)
+    #define GLSL_VERSION            330
+#else   // PLATFORM_RPI, PLATFORM_ANDROID, PLATFORM_WEB
+    #define GLSL_VERSION            100
+#endif
 
 /* * * * * * * * * * * *\
 *                       *
@@ -116,7 +123,7 @@ void Bomberman::generateMap(mapSize type)
 void Bomberman::launch()
 {
     while (!_win->ShouldClose() && !_ending) {
-        _win->clearBackground(rl::Color(255, 255, 255, 255));
+        _win->clearBackground(rl::Color(204, 230, 255, 255));
         _win->beginDrawing();
 
         _t._ft->drawFPS(5, 25);

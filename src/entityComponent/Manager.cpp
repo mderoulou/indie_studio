@@ -72,8 +72,7 @@ void ComponentManager::simulate()
             _PhysXTree->addData(obj);
 
 
-    // simulate object
-    for (int i = 0; i < _objs.size(); i++) {
+    for (long unsigned int i = 0; i < _objs.size(); i++) {
         auto obj = _objs[i];
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
             if (obj2->_scene == _settings._scene || obj2->_scene < 0)

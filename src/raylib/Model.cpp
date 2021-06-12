@@ -8,27 +8,47 @@
 #include "Model.hpp"
 
 /**
+ *  Shader Include
+ */
+
+#include "rlgl.h"
+
+#if defined(PLATFORM_DESKTOP)
+    #define GLSL_VERSION            330
+#else   // PLATFORM_RPI, PLATFORM_ANDROID, PLATFORM_WEB
+    #define GLSL_VERSION            100
+#endif
+
+/**
  *  Model Functions
  */
 
 rl::Model::Model(const std::string filename)
 {
+    _isSkyBox = false;
     _model = LoadModel(filename.c_str());
 }
 
 rl::Model::Model(rl::Mesh &mesh)
 {
+    _isSkyBox = false;
     _model = LoadModelFromMesh(mesh.getMesh());
 }
 
 rl::Model::~Model()
 {
+    if (_isSkyBox) {
+        UnloadShader(_model.materials[0].shader);
+        UnloadTexture(_model.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture);
+    }
     UnloadModel(_model);
 }
 
 void rl::Model::draw(rl::Vec3 pos, float scale, rl::Color color)
 {
+    
     DrawModel(_model, pos, scale, color);
+    
 }
 
 void rl::Model::drawEx(rl::Vec3 pos, rl::Vec3 rotaAxis, float rotaAngle, rl::Vec3 scale, rl::Color color)
@@ -49,6 +69,26 @@ void rl::Model::drawWiresEx(rl::Vec3 pos, rl::Vec3 rotaAxis, float rotaAngle, rl
 void rl::Model::setMaterialTexture(int material, std::shared_ptr<rl::Texture> texture)
 {
     SetMaterialTexture(&_model.materials[material], MAP_DIFFUSE, (*texture).getTexture());
+}
+
+void rl::Model::makeItSkybox(std::string pathSharderVs, std::string pathSharderFs, std::string pathImg)
+{
+    _isSkyBox = true;
+    _model.materials[0].shader = LoadShader(TextFormat(pathSharderVs.c_str(), GLSL_VERSION),
+                                            TextFormat(pathSharderFs.c_str(), GLSL_VERSION));
+
+    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "environmentMap"), (const int[1]){ MATERIAL_MAP_CUBEMAP }, SHADER_UNIFORM_INT);
+    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "doGamma"), (const int[1]) { 0 }, SHADER_UNIFORM_INT);
+    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "vflipped"), (const int[1]){ 0 }, SHADER_UNIFORM_INT);
+
+    ::Image img = LoadImage(pathImg.c_str());
+    _model.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = LoadTextureCubemap(img, CUBEMAP_LAYOUT_AUTO_DETECT);
+    UnloadImage(img);
+}
+
+void rl::Model::drawSkybox()
+{
+    DrawModel(_model, (Vector3){0, 0, 0}, 1.0f, WHITE);
 }
 
 /**
