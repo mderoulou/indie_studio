@@ -78,6 +78,7 @@ src/entityComponent/object/Wall.cpp
 src/entityComponent/object/Preview.cpp
 src/entityComponent/object/Player.cpp
 src/entityComponent/object/Box.cpp
+src/entityComponent/object/Skybox.cpp
 src/entityComponent/object/Btn.cpp
 src/entityComponent/object/Background.cpp
 src/entityComponent/object/Input.cpp

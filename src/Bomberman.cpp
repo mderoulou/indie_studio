@@ -6,6 +6,13 @@
 */
 
 #include "Bomberman.hpp"
+#include "rlgl.h"
+
+#if defined(PLATFORM_DESKTOP)
+    #define GLSL_VERSION            330
+#else   // PLATFORM_RPI, PLATFORM_ANDROID, PLATFORM_WEB
+    #define GLSL_VERSION            100
+#endif
 
 /* * * * * * * * * * * *\
 *                       *
@@ -26,7 +33,6 @@ Bomberman::Bomberman()
     std::srand(time(NULL));
     _win = new rl::Window(800, 600, "Indie Studio");
     _manager = new ComponentManager();
-
     preLoad();
     Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
     _manager->addComponent(player);
@@ -113,7 +119,7 @@ void Bomberman::generateMap(mapSize type)
 void Bomberman::launch()
 {
     while (!_win->ShouldClose() && !_ending) {
-        _win->clearBackground(rl::Color(255, 255, 255, 255));
+        _win->clearBackground(rl::Color(204, 230, 255, 255));
         _win->beginDrawing();
 
         _t._ft->drawFPS(5, 25);

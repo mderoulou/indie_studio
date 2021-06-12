@@ -80,5 +80,6 @@ public:
 #include "object/Box.hpp"
 #include "object/Preview.hpp"
 #include "object/Bomb.hpp"
+#include "object/Skybox.hpp"
 
 #endif
