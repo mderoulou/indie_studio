@@ -120,10 +120,12 @@ void Bomberman::generateMap(mapSize type)
 
 void Bomberman::launch()
 {
-    while (!_win->ShouldClose() && !_ending) {
-        _win->clearBackground(rl::Color(204, 230, 255, 255));
-        _win->beginDrawing();
+    Skybox *skybox = new Skybox();
 
+    while (!_win->ShouldClose() && !_ending) {
+        _win->clearBackground(rl::Color(255, 255, 255, 255));
+        _win->beginDrawing();
+        skybox->render(_manager->_cam);
         _t._ft->drawFPS(5, 25);
         _manager->handleEvent();
         _manager->simulate();

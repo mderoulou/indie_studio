@@ -31,10 +31,14 @@ Skybox::Skybox()
 void Skybox::render(rl::Camera3d *cam)
 {
     cam->beginMode();
-    rlEnableBackfaceCulling();
-    rlEnableDepthMask();
-    (*_skybox).drawSkybox();
     rlDisableBackfaceCulling();
     rlDisableDepthMask();
+    rlDrawRenderBatchActive();
+    rlDisableDepthTest();
+    (*_skybox).drawSkybox();
+    rlDrawRenderBatchActive();
+    rlEnableBackfaceCulling();
+    rlEnableDepthMask();
+    rlEnableDepthTest();
     cam->endMode();
 }
