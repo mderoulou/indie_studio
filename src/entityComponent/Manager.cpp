@@ -7,15 +7,18 @@
 
 #include "Manager.hpp"
 
-ComponentManager::ComponentManager()
+ComponentManager::ComponentManager(Bomberman *bomberman)
 {
     _cam = new rl::Camera3d(rl::Vec3(5.0f, 20.0f, 20.0f),
                             rl::Vec3(0.0f, 0.0f, 0.0f),
                             rl::Vec3(0.0f, 1.0f, 0.0f),
                             45.0f, 0);
     _settings._scene = 0;
-    _settings._sizeMap = 0;
+    _settings._sizeMap = 10.0;
+    _settings._mVol = 1.0;
+    _settings._sVol = 1.0;
     _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
+    _bomberman = bomberman;
 }
 
 ComponentManager::~ComponentManager()
@@ -28,8 +31,6 @@ void ComponentManager::addComponent(AObject *obj)
 {
     obj->_manager = this;
     _objs.push_back(obj);
-    if (obj->_isSolid)
-        _PhysXTree->addData(obj);
 }
 
 void ComponentManager::removeComponent(AObject *to_rm)
@@ -52,7 +53,25 @@ void ComponentManager::clearComponents()
 
 void ComponentManager::simulate()
 {
-    for (auto obj : _objs) {
+    // rebuilt physicX tree
+    delete _PhysXTree;
+    _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
+    for (auto obj : _objs)
+        if (obj->_isSolid)
+            _PhysXTree->addData(obj);
+
+
+    for (int i = 0; i < _objs.size(); i++) {
+        auto obj = _objs[i];
+        // clear object
+        if (obj->_toRemove) {
+            _objs.erase(_objs.begin()+i);
+            delete obj;
+            i--;
+            continue;
+        }
+
+        // simulate object
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
             if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->simulate();

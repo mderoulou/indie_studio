@@ -202,6 +202,7 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
 
 void BF::setMusic(Bomberman *win, Slider *s, void *data)
 {
+ 
     float vol = s->_cpos.x * 1.0534;
 
     (void)data;
@@ -216,4 +217,41 @@ void BF::setSound(Bomberman *win, Slider *s, void *data)
     (void)data;
     win->_manager->_settings._sVol = vol;
     s->_text = std::string(std::string("Sounds: ") + std::to_string((int)(vol * 100)) + "%");
+}
+
+void BF::switchType(Bomberman *win, Btn *b, void *data)
+{
+    static GameOpt *opts = 0;
+    uint64_t index = (uint64_t)data;
+    const std::string types[] = {"None", "Player", "IA"};
+
+    if (!opts)
+        for (auto obj : win->_manager->_objs)
+            if (GameOpt *t = dynamic_cast<GameOpt *>(obj))
+                opts = t;
+    opts->_types[index] += 1;
+    opts->_types[index] %= 3;
+    b->_text = std::string(types[opts->_types[index]]);
+}
+
+void BF::switchSkin(Bomberman *win, Btn *b, void *data)
+{
+    static GameOpt *opts = 0;
+    uint64_t index = (uint64_t)data;
+    uint64_t sindex = 0;
+
+    if (!opts)
+        for (auto obj : win->_manager->_objs)
+            if (GameOpt *t = dynamic_cast<GameOpt *>(obj))
+                opts = t;
+    if (win->_manager->_settings._skins.size()) {
+        for (int x = 0; x < win->_manager->_settings._skins.size(); x++)
+            if (win->_manager->_settings._skins[x] == opts->_names[index]) {
+                sindex = x;
+                break;
+            }
+        opts->_names[index] = win->_manager->_settings._skins[(sindex + 1) % (win->_manager->_settings._skins.size() - 1)];
+        opts->_previews[index]->setTexture(std::string("../assets/skins/") + opts->_names[index]);
+        b->_text = opts->_names[index].substr(0, opts->_names[index].size() - 4);
+    }
 }

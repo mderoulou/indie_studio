@@ -7,6 +7,7 @@
 
 #include "../Object.hpp"
 #include "../Manager.hpp"
+#include "Bomb.hpp"
 #include <sstream>
 #include <iostream>
 #include <iomanip>
@@ -33,6 +34,19 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, const std::string &pa
     _boundingBox._bd.max = pos + rl::Vec3{0.25, 1.8, 0.25};
     _models = models;
 }
+
+void Player::handleEvent(){
+    if (_controller->isKeyUse()) {
+        if (!_isKeyUsed){
+            std::cerr << "bomb" << std::endl;
+            this->_manager->addComponent(new Bomb(_pos, 0.5, rl::Color(255, 255, 255, 255), _scene, 120, _manager->_bomberman->_t._tnt_a, _manager->_bomberman->_t._sb, this));
+        }
+        _isKeyUsed = true;
+    } else {
+        _isKeyUsed = false;
+    }
+}
+
 
 Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKeyboad, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
 {
@@ -83,7 +97,6 @@ double findAngle(rl::Vec2 vec)
 
 void Player::simulate()
 {
-    bool debug = false;
     float acc_mult = 0.05; 
 
     //std::cout << "[MANAGER] Moving Events!" << std::endl;
@@ -156,7 +169,7 @@ void Player::simulate()
         _acc.z = 0;
 
         //collide with Solid Object
-        rl::Vec3 colideSize = {2, 2, 2};
+        rl::Vec3 colideSize = {3, 3, 3};
         rl::Vec3 pCenter = (rl::Vec3(_boundingBox._bd.min) + rl::Vec3(_boundingBox._bd.max))/2;
         rl::Vec3 pSize = rl::Vec3(_boundingBox._bd.max) - rl::Vec3(_boundingBox._bd.min);
         std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(pCenter, colideSize);
@@ -180,13 +193,6 @@ void Player::simulate()
 
                 rl::Vec3 dd = d-((objSize+pSize)/2);
 
-                if (debug) {
-                    std::cout << "objSize+pSize " << (objSize+pSize)[0] << " " << (objSize+pSize)[1] << " " << (objSize+pSize)[2] <<std::endl;
-                    std::cout << "objcenter " << objCenter[0] << " " << objCenter[1] << " " << objCenter[2] <<std::endl;
-                    std::cout << "playercenter " << pCenter[0] << " " << pCenter[1] << " " << pCenter[2] <<std::endl;
-                    std::cout << "d " << d[0] << " " << d[1] << " " << d[2] <<std::endl;
-                    std::cout << "dd " << dd[0] << " " << dd[1] << " " << dd[2] <<std::endl;
-                }
                 float min = dd[0];
                 int axe = 0;
                 for (int i = 1; i < 3; i++)
@@ -203,28 +209,13 @@ void Player::simulate()
                     dd[i] *= signe[i];
                 }
 
-                if (debug) {
-                    std::cout << "min" << axe << " " << min << std::endl;
-                    std::cout << "dd " << dd[0] << " " << dd[1] << " " << dd[2] <<std::endl;
+                if (dd[axe] * _v[axe] > 0) {
+                    _v[axe] *= 0.1;
                 }
-                
-                //dd *= 1;
-                _v[axe] *= 0.1;
+
                 move(dd*-1);
-                
-
-                if (debug) {
-                    std::cout << "centers " << pCenter[axe] << " " << objCenter[axe] << std::endl;
-                    std::cout << axe << " "<<((objSize+pSize)/2)[axe] << " " << d[axe] << " " << dd[axe] << " " << objSize[axe] << " " << pSize[axe] << " " << (objSize+pSize)[axe] << std::endl;
-                    std::cout << std::endl;
-                }
-
             }
             a++;
-        }
-        if (debug) {
-            std::cout << std::endl;
-            std::cout << std::endl;
         }
 
         _manager->_cam->endMode();

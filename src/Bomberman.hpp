@@ -16,14 +16,16 @@
 
 class ComponentManager;
 
-enum mapSize { small = 10, medium = 16, large = 20};
+enum mapSize { small = 11, medium = 17, large = 21};
 
 class allTexture
 {
     public:
         std::shared_ptr<rl::Texture> _btn; // Btn texture
         std::shared_ptr<rl::Texture> _sb; // StoneBrick texture
+        std::shared_ptr<rl::Texture> _wood; // wood texture
         std::shared_ptr<rl::Font> _ft; // Minecraft font
+        std::shared_ptr<rl::Sound> _click;
         std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _walking; // Walking Animation
         std::shared_ptr<rl::Model> _tnt_a;
 };

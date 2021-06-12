@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
 project(bomberman)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "-Og")
 
 # Set this to the minimal version you want to support
 find_package(raylib 3.0 QUIET) # Let CMake search for a raylib-config.cmake
@@ -75,6 +76,7 @@ src/raylib/Gamepad.cpp
 src/entityComponent/Manager.cpp
 src/entityComponent/object/Cube.cpp
 src/entityComponent/object/Wall.cpp
+src/entityComponent/object/Floor.cpp
 src/entityComponent/object/Preview.cpp
 src/entityComponent/object/Player.cpp
 src/entityComponent/object/Box.cpp
@@ -86,6 +88,8 @@ src/entityComponent/object/Slider.cpp
 src/entityComponent/object/List.cpp
 src/entityComponent/object/Bomb.cpp
 src/entityComponent/object/MusicManager.cpp
+src/entityComponent/Object.cpp
+src/entityComponent/object/GameOpt.cpp
 src/functionalities/BtnFuncs.cpp
 src/Bomberman.cpp
 src/main.cpp
