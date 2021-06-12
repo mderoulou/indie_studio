@@ -27,7 +27,7 @@ class IObject
 class AObject : public IObject
 {
     public:
-        virtual ~AObject() = default;
+        virtual ~AObject();
         virtual void handleEvent() = 0;
         virtual void move(rl::Vec3 newPos) {
             _pos +=  newPos;
@@ -41,6 +41,7 @@ class AObject : public IObject
         }
 
         rl::Vec3 _pos;
+        bool _toRemove = false;
         bool _isSolid = false;
         rl::BoundingBox _boundingBox = {rl::Vec3(0, 0, 0), rl::Vec3(0, 0, 0)};
         ComponentManager *_manager;
@@ -80,5 +81,6 @@ public:
 #include "object/Box.hpp"
 #include "object/Preview.hpp"
 #include "object/Bomb.hpp"
+#include "object/Floor.hpp"
 
 #endif

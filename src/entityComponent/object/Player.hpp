@@ -18,7 +18,7 @@ public:
     Player(rl::Vec3 pos, float scale, rl::Color color, const std::string &path, int scene, bool _isKeyboad, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models); // load Specific texture
     Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKeyboad, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models); // steve specific texture
 
-    void handleEvent() override {};
+    void handleEvent() override;
     void move(rl::Vec3 newPos) override;
     void simulate() override;
     void render(rl::Camera3d *cam) override;
@@ -30,8 +30,9 @@ public:
     rl::Vec3 _v = {0, 0, 0};
     rl::Vec3 _acc = {0, 0, 0};
 
-
+    bool _isKeyUsed = false;
     float _scale;
+    int _bombCount = 0;
     float _rotation = 0;
     float _frame = 0;
     Control *_controller = 0;

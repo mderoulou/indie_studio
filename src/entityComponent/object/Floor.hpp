@@ -2,18 +2,18 @@
 ** EPITECH PROJECT, 2021
 ** indie_studio
 ** File description:
-** Box
+** Wall
 */
 
-#ifndef BOX_HPP_
-#define BOX_HPP_
+#ifndef FLOOR_HPP_
+#define FLOOR_HPP_
 
 #include "../Object.hpp"
 
-class Box : public Cube
+class Floor : public Cube
 {
 public:
-    Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_ptr<rl::Texture> texture);
+    Floor(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_ptr<rl::Texture> texture);
 
     void handleEvent() override {};
     void simulate() override {};
@@ -23,4 +23,4 @@ public:
     std::shared_ptr<rl::Model> _model;
 };
 
-#endif /* !BOX_HPP_ */
+#endif /* !FLOOR_HPP_ */

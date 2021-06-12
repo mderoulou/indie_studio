@@ -10,7 +10,7 @@
 /* * * * * * * * * * * *\
 *                       *
 *      SCENES LIST      *
-*\_____________________/*
+*|_____________________|*
 *                       *
 *   0 => MAIN MENU      *
 *   1 => OPTIONS        *
@@ -25,10 +25,10 @@ Bomberman::Bomberman()
 {
     std::srand(time(NULL));
     _win = new rl::Window(800, 600, "Indie Studio");
-    _manager = new ComponentManager();
+    _manager = new ComponentManager(this);
 
     preLoad();
-    Player *player = new Player(rl::Vec3(1.0f, 0.0f, 1.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
+    Player *player = new Player(rl::Vec3(4.0f, 2.0f, 4.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
     _manager->addComponent(player);
     // USED BY OTHERS :
     MusicManager *musicManager = new MusicManager(this);
@@ -83,30 +83,26 @@ void Bomberman::generateMap(mapSize type)
     // Create the ground
     for (int i = 0; i < x; i += 1) {
         for (int j = 0; j < y; j += 1) {
-            _manager->addComponent(new Wall(rl::Vec3(i, -1.0f, j),
+            _manager->addComponent(new Floor(rl::Vec3(i, -1.0f, j),
                             rl::Vec3(1.02f, 1.02f, 1.02f),
-                            rl::Color(255, 255, 255, 255), true, 3, _t._sb));
+                            rl::Color(255, 255, 255, 255), 3, _t._sb));
         }
     }
 
-    // Create the border X
-    for (int i = 0; i < x; i += 1) {
-        _manager->addComponent(new Wall(rl::Vec3(i, 0.0f, 0.0f),
-                            rl::Vec3(1.02f, 1.02f, 1.02f),
-                            rl::Color(255, 255, 255, 255), true, 3, _t._sb));
-        _manager->addComponent(new Wall(rl::Vec3(i, 0.0f, y),
-                            rl::Vec3(1.02f, 1.02f, 1.02f),
-                            rl::Color(255, 255, 255, 255), true, 3, _t._sb));
-    }
-
-    // Create the border Y
-    for (int i = 1; i < y; i += 1) {
-        _manager->addComponent(new Wall(rl::Vec3(0.0f, 0.0f, i),
-                            rl::Vec3(1.02f, 1.02f, 1.02f),
-                            rl::Color(255, 255, 255, 255), true, 3, _t._sb));
-        _manager->addComponent(new Wall(rl::Vec3(x - 1, 0.0f, i),
-                            rl::Vec3(1.02f, 1.02f, 1.02f),
-                            rl::Color(255, 255, 255, 255), true, 3, _t._sb));
+    // fill with grid
+    for (int xx = 0; xx < x; xx += 1){
+        for (int yy = 0; yy < y; yy += 1){
+            if (((xx+1) % 2 && (yy+1) % 2) || xx == 0 || xx == x-1 || yy == 0 || yy == y-1){
+                _manager->addComponent(new Wall(rl::Vec3(xx, 0.0f, yy),
+                    rl::Vec3(1.02f, 1.02f, 1.02f),
+                    rl::Color(255, 255, 255, 255), 3, _t._sb));
+            } else {
+                if (rand() % 4)
+                    _manager->addComponent(new Box(rl::Vec3(xx, 0.0f, yy),
+                        rl::Vec3(1.02f, 1.02f, 1.02f),
+                        rl::Color(255, 255, 255, 255), 3, _t._wood));
+            }
+        }
     }
 }
 
@@ -131,6 +127,7 @@ void Bomberman::preLoad()
 
     _t._btn = std::make_shared<rl::Texture>("../assets/menus/btns.png");
     _t._sb = std::make_shared<rl::Texture>("../assets/block/stone-bricks.png");
+    _t._wood = std::make_shared<rl::Texture>("../assets/block/wood.png");
     _t._tnt_a = std::make_shared<rl::Model>("../assets/block/tnt.glb");
     _t._ft = std::make_shared<rl::Font>("../assets/minecraftia.ttf");
     _t._walking = std::make_shared<std::vector<std::shared_ptr<rl::Model>>>();

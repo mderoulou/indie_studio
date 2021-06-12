@@ -1,27 +1,29 @@
 /*
-** EPITECH PROJECT, 2021
-** indie_studio
+** EPITECH PROJECT, 2020
+** YEP Indie Studio
 ** File description:
-** Box
+** Cube Functions
 */
 
-#include "Box.hpp"
+#include "../Object.hpp"
+#include "../Manager.hpp"
+#include "Floor.hpp"
 
-Box::Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_ptr<rl::Texture> texture)
+Floor::Floor(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_ptr<rl::Texture> texture)
     : Cube(pos, size, color, scene)
 {
     _texture = texture;
     rl::Mesh mesh(size.x, size.y, size.z);
 
-    _isBreakable = true;
+    _isBreakable = false;
     _model = std::make_shared<rl::Model>(mesh);
     _model->setMaterialTexture(0, _texture);
     _isSolid = true;
     _boundingBox._bd.min = pos-size/2;
-    _boundingBox._bd.max = pos+size/2 + rl::Vec3(0, 1, 0);
+    _boundingBox._bd.max = pos+size/2;
 }
 
-void Box::render(rl::Camera3d *cam)
+void Floor::render(rl::Camera3d *cam)
 {
     cam->beginMode();
     _texture->drawTexture(_pos, _size, _color);
