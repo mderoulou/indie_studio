@@ -12,6 +12,8 @@
 #include "../../raylib/rayLib.hpp"
 #include <vector>
 
+class Bomb;
+
 class Player : public Object3D
 {
 public:
@@ -22,6 +24,7 @@ public:
     void move(rl::Vec3 newPos) override;
     void simulate() override;
     void render(rl::Camera3d *cam) override;
+    virtual bool explode(Bomb *) override;
 
     std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _models;
     std::shared_ptr<rl::Texture> _texture;

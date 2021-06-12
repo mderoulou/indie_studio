@@ -64,11 +64,23 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKe
         _controller = new Keyboard(rl::Font());
     else
         _controller = new Gamepad(rl::Font());
-    _isSolid = false;
+    _isSolid = true;
     _boundingBox._bd.min = pos + rl::Vec3{-0.25, 0.0, -0.25};
     _boundingBox._bd.max = pos + rl::Vec3{0.25, 1.8, 0.25};
     _models = models;
 }
+
+bool Player::explode(Bomb *other) {
+    std::cout << "explode player" << std::endl;
+    rl::Vec3 d = _pos - other->_pos;
+    float norm = pow(d[0]*d[0]+d[1]*d[1]+d[2]*d[2], 0.5);
+    //d = {d[0]/norm, 0, d[2]/norm};
+    d[1] += 1;
+    d /= norm;
+    _v += d*2;
+    return false;
+}
+
 
 void Player::render(rl::Camera3d *cam)
 {
@@ -107,19 +119,24 @@ void Player::simulate()
     // controller 
     if (_controller) {
         float mov = 0;
+        bool hasMove = false;
         if (!_controller->initialized)
             _controller->init();
         if ((mov = _controller->isKeyUp()) != 0) { 
             _acc.z = -acc_mult * mov;
+            hasMove = true;
         }
         if ((mov = _controller->isKeyDown()) != 0) {
             _acc.z = acc_mult * mov;
+            hasMove = true;
         }
         if ((mov = _controller->isKeyLeft()) != 0) {
             _acc.x = -acc_mult * mov;
+            hasMove = true;
         }
         if ((mov = _controller->isKeyRight()) != 0) {
             _acc.x = acc_mult * mov;
+            hasMove = true;
         }
 
         float mv_speed = pow(pow(_acc.x, 2) + pow(_acc.z, 2), 0.5);
@@ -145,7 +162,7 @@ void Player::simulate()
         // player animation
         _frame += acc_mult * pow(pow(_v.x, 2) + pow(_v.z, 2), 0.5) * 100;
        
-        if (_v.x*_v.x + _v.z*_v.z < 0.01 && _frame > 0 && mov == 0) {
+        if (_v.x*_v.x + _v.z*_v.z < 0.01 && _frame > 0 && !hasMove) {
             if ((int)_frame == 20)
                 _frame = 0;
             if ((int)_frame%20 > 10)
@@ -164,9 +181,6 @@ void Player::simulate()
         _v.y += _acc.y;
         _v.z += _acc.z;
 
-        _v.x *= 0.8;
-        _v.y *= 0.99;
-        _v.z *= 0.8;
         _acc.x = 0;
         _acc.y = -1/60.0;
         _acc.z = 0;
@@ -176,13 +190,12 @@ void Player::simulate()
         rl::Vec3 pCenter = (rl::Vec3(_boundingBox._bd.min) + rl::Vec3(_boundingBox._bd.max))/2;
         rl::Vec3 pSize = rl::Vec3(_boundingBox._bd.max) - rl::Vec3(_boundingBox._bd.min);
         std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(pCenter, colideSize);
-        static int a = 0;
         _manager->_cam->beginMode();
 
         _boundingBox.draw({0, 255, 0, 255});
         for (AObject *&obj : vec) {
             obj->_boundingBox.draw({255, 0, 0, 255});
-            if (_boundingBox.checkColissionBox(&obj->_boundingBox)) {
+            if (obj != this && _boundingBox.checkColissionBox(&obj->_boundingBox)) {
                 rl::Vec3 objSize = rl::Vec3(obj->_boundingBox._bd.max) - rl::Vec3(obj->_boundingBox._bd.min);
                 
                 rl::Vec3 objCenter = (rl::Vec3(obj->_boundingBox._bd.max) + rl::Vec3(obj->_boundingBox._bd.min))/2;
@@ -215,10 +228,10 @@ void Player::simulate()
                 if (dd[axe] * _v[axe] > 0) {
                     _v[axe] *= 0.1;
                 }
-
-                move(dd*-1);
+                _v[(axe+1)%3] *= 0.8;
+                _v[(axe+2)%3] *= 0.8;
+                move(dd*-0.1);
             }
-            a++;
         }
 
         _manager->_cam->endMode();

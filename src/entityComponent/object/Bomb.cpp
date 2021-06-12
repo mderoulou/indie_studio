@@ -29,8 +29,14 @@ Bomb::~Bomb() {
 }
 
 bool Bomb::explode(Bomb *other) {
-    _time = 0;
+    //_time /= 2;
     std::cout << "explode bomb" << std::endl;
+    rl::Vec3 d = _pos - other->_pos;
+    float norm = pow(d[0]*d[0]+d[1]*d[1]+d[2]*d[2], 0.5);
+    //d = {d[0]/norm, 0, d[2]/norm};
+    d[1] += 0.5;
+    d /= norm;
+    _v += d/2;
     return true;
 }
 
@@ -58,9 +64,8 @@ void Bomb::simulate()
     if (_time <= 0) {
         // explode the bomb
         std::cout << "BOM !" << std::endl;
-        rl::Vec3 centered_pos = _pos;
-        rl::Vec3 offset = {0, 0, 0};
-        rl::Vec3 treeZone = {0.5, 0.5, 0.5};
+        rl::Vec3 centered_pos = _pos + rl::Vec3(0, 1, 0);
+        rl::Vec3 treeZone = {0.5, 2, 0.5};
         auto &PhysXTree = _manager->_PhysXTree;
 
         rl::Vec3 axis[4] = {
@@ -72,7 +77,7 @@ void Bomb::simulate()
 
         for (int axis_nb = 0; axis_nb < 4; axis_nb++){
             int x = 0;
-            offset = centered_pos;
+            rl::Vec3 offset = centered_pos;
             for (int i = 0; i <= _explosionRadius; i++) {
                 auto vec = PhysXTree->getInArea(offset, treeZone);
                 bool wilbreak = false;
@@ -99,9 +104,9 @@ void Bomb::simulate()
     _v.y += _acc.y;
     _v.z += _acc.z;
 
-    _v.x *= 0.8;
+    _v.x *= 0.99;
     _v.y *= 0.99;
-    _v.z *= 0.8;
+    _v.z *= 0.99;
     _acc.x = 0;
     _acc.y = -1/60.0;
     _acc.z = 0;
@@ -150,8 +155,10 @@ void Bomb::simulate()
             }
 
             if (dd[axe] * _v[axe] > 0) {
-                _v[axe] *= 0.1;
+                _v[axe] *= -0.25;
             }
+            _v[(axe+1)%3] *= 0.95;
+            _v[(axe+2)%3] *= 0.95;
             move(dd*-0.1);
         }
         a++;
