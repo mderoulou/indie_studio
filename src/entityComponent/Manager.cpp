@@ -14,7 +14,9 @@ ComponentManager::ComponentManager()
                             rl::Vec3(0.0f, 1.0f, 0.0f),
                             45.0f, 0);
     _settings._scene = 0;
-    _settings._sizeMap = 0;
+    _settings._sizeMap = 10.0;
+    _settings._mVol = 1.0;
+    _settings._sVol = 1.0;
     _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
 }
 

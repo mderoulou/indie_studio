@@ -18,7 +18,7 @@ class Btn : public Object2D
             const std::string &text,
             int pSize,
             const rl::Rectangle &src,
-            const std::string &soundFile,
+            std::shared_ptr<rl::Sound> soundFile,
             int scene,
             Bomberman *m,
             void (*fptr)(Bomberman *, Btn *, void *),
@@ -40,7 +40,7 @@ class Btn : public Object2D
         bool _clicked; //Btn is clicked ?
         int _pSize; // Size of text
         void *_data; // Any data ???
-        rl::Sound _sound; // Sound on click
+        std::shared_ptr<rl::Sound> _sound; // Sound on click
         rl::Rectangle _bound; //Rectangle for collision
         std::shared_ptr<rl::Texture> _texture; // Texture of btn
         std::shared_ptr<rl::Font> _font; // Font of text 2 draw

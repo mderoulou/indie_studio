@@ -14,7 +14,7 @@
 class Preview : public Object3D
 {
 public:
-    Preview(rl::Color color, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
+    Preview(rl::Vec3 pos, float scale, int scene, float rotation, rl::Color color, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
 
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override;

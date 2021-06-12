@@ -32,6 +32,8 @@ namespace BF {
     void countDown(MusicManager *mm);
     void setMusic(Bomberman *win, Slider *s, void *data);
     void setSound(Bomberman *win, Slider *s, void *data);
+    void switchType(Bomberman *win, Btn *b, void *data);
+    void switchSkin(Bomberman *win, Btn *b, void *data);
 }
 
 #endif /* !BTNFUNCS_HPP_ */

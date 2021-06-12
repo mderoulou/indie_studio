@@ -13,7 +13,7 @@ Btn::Btn(const rl::Vec2 &pos,
          const std::string &text,
          int pSize,
          const rl::Rectangle &src,
-         const std::string &soundFile,
+         std::shared_ptr<rl::Sound> soundFile,
          int scene,
          Bomberman *m,
          void (*fptr)(Bomberman *, Btn *, void *),
@@ -70,7 +70,8 @@ void Btn::handleEvent()
     } else
         _btnState = 0;
     if (_clicked) {
-        _sound.play();
+        _sound->setVolume(_win->_manager->_settings._sVol);
+        _sound->play();
         _ptr(_win, this, _data);
     }
 }
