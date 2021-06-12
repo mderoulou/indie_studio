@@ -29,7 +29,7 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, const std::string &pa
         _controller = new Keyboard(rl::Font());
     else
         _controller = new Gamepad(rl::Font());
-    _isSolid = false;
+    _isSolid = true;
     _boundingBox._bd.min = pos + rl::Vec3{-0.25, 0.0, -0.25};
     _boundingBox._bd.max = pos + rl::Vec3{0.25, 1.8, 0.25};
     _models = models;
@@ -39,7 +39,7 @@ void Player::handleEvent(){
     if (_controller->isKeyUse()) {
         if (!_isKeyUsed){
             std::cerr << "bomb" << std::endl;
-            this->_manager->addComponent(new Bomb(_pos, 0.5, rl::Color(255, 255, 255, 255), _scene, 120, _manager->_bomberman->_t._tnt_a, _manager->_bomberman->_t._sb, this));
+            this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this));
         }
         _isKeyUsed = true;
     } else {

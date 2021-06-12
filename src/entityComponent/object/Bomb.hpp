@@ -15,13 +15,14 @@
 class Bomb : public Object3D
 {
 public:
-    Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, std::shared_ptr<rl::Texture> texture, Player *player);
+    Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, Player *player);
     ~Bomb();
 
     void handleEvent() override {};
     void move(rl::Vec3 newPos) override;
     void simulate() override;
     void render(rl::Camera3d *cam) override;
+    virtual bool explode(Bomb *) override;
 
     std::shared_ptr<rl::Model> _model;
     std::shared_ptr<rl::Texture> _texture;
@@ -29,6 +30,7 @@ public:
     float _scale;
     int _time;
     bool _explosed;
+    int _explosionRadius = 2;
     float _rotation = 0;
     rl::Vec3 _v = {0, 0, 0};
     rl::Vec3 _acc = {0, 0, 0};

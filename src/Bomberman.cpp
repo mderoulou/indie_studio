@@ -29,7 +29,9 @@ Bomberman::Bomberman()
 
     preLoad();
     Player *player = new Player(rl::Vec3(4.0f, 2.0f, 4.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
+    //Player *player2 = new Player(rl::Vec3(8.0f, 2.0f, 8.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
     _manager->addComponent(player);
+    //_manager->addComponent(player2);
     // USED BY OTHERS :
     MusicManager *musicManager = new MusicManager(this);
     // HOME MENU :
@@ -131,8 +133,15 @@ void Bomberman::preLoad()
     rl::Sound::InitAudioDevice(); // Init audio
 
     _t._btn = std::make_shared<rl::Texture>("../assets/menus/btns.png");
+    
     _t._sb = std::make_shared<rl::Texture>("../assets/block/stone-bricks.png");
+    _t._sb_mod = std::make_shared<rl::Model>(_t._cube_mesh);
+    _t._sb_mod->setMaterialTexture(0, _t._sb);
+    
     _t._wood = std::make_shared<rl::Texture>("../assets/block/wood.png");
+    _t._wood_mod = std::make_shared<rl::Model>(_t._cube_mesh);
+    _t._wood_mod->setMaterialTexture(0, _t._wood);
+    
     _t._tnt_a = std::make_shared<rl::Model>("../assets/block/tnt.glb");
     _t._ft = std::make_shared<rl::Font>("../assets/minecraftia.ttf");
     _t._click = std::make_shared<rl::Sound>("../assets/musics/click.wav");

@@ -14,6 +14,7 @@ class Floor : public Cube
 {
 public:
     Floor(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_ptr<rl::Texture> texture);
+    ~Floor();
 
     void handleEvent() override {};
     void simulate() override {};
