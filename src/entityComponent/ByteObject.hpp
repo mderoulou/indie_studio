@@ -12,6 +12,10 @@
 #include <string.h>
 #include <ostream>
 
+#ifdef _WIN32 
+typedef unsigned int uint;
+#endif 
+
 class ByteObject
 {
     public:

@@ -77,9 +77,13 @@ void rl::Model::makeItSkybox(std::string pathSharderVs, std::string pathSharderF
     _model.materials[0].shader = LoadShader(TextFormat(pathSharderVs.c_str(), GLSL_VERSION),
                                             TextFormat(pathSharderFs.c_str(), GLSL_VERSION));
 
-    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "environmentMap"), (const int[1]){ MATERIAL_MAP_CUBEMAP }, SHADER_UNIFORM_INT);
-    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "doGamma"), (const int[1]) { 0 }, SHADER_UNIFORM_INT);
-    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "vflipped"), (const int[1]){ 0 }, SHADER_UNIFORM_INT);
+    const int a[1] = {MATERIAL_MAP_CUBEMAP};
+    const int b[1] = {0};
+    const int c[1] = {0};
+
+    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "environmentMap"), a, SHADER_UNIFORM_INT);
+    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "doGamma"), b, SHADER_UNIFORM_INT);
+    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "vflipped"), c, SHADER_UNIFORM_INT);
 
     ::Image img = LoadImage(pathImg.c_str());
     _model.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = LoadTextureCubemap(img, CUBEMAP_LAYOUT_AUTO_DETECT);
@@ -88,7 +92,8 @@ void rl::Model::makeItSkybox(std::string pathSharderVs, std::string pathSharderF
 
 void rl::Model::drawSkybox()
 {
-    DrawModel(_model, (Vector3){0, 0, 0}, 1.0f, WHITE);
+    Vector3 vec = { 0, 0, 0 };
+    DrawModel(_model, vec, 1.0f, WHITE);
 }
 
 /**
