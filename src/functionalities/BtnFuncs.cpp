@@ -29,6 +29,20 @@ void BF::backBtn(Bomberman *win, Btn *b, void *data)
     switchScene(win, 0);
 }
 
+void BF::pauseBtn(Bomberman *win, Btn *b, void *data)
+{
+    (void)b;
+    (void)data;
+    switchScene(win, 4);
+}
+
+void BF::unpauseBtn(Bomberman *win, Btn *b, void *data)
+{
+    (void)b;
+    (void)data;
+    switchScene(win, 3);
+}
+
 void BF::quitBtn(Bomberman *win, Btn *b, void *data)
 {
     (void)b;
