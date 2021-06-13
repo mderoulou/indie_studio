@@ -98,7 +98,6 @@ public:
 #include "object/Player.hpp"
 #include "object/Text.hpp"
 #include "object/Wall.hpp"
-#include "object/Background.hpp"
 #include "object/Box.hpp"
 #include "object/Preview.hpp"
 #include "object/GameOpt.hpp"

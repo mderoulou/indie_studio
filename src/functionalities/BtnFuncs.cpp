@@ -57,15 +57,20 @@ void BF::switchScene(Bomberman *win, int scene)
 
 void BF::repoLink(Bomberman *win, Btn *b, void *data)
 {
+    int ret = 0;
+
     (void)win;
     (void)b;
     (void)data;
     #ifdef __linux__
-        system("firefox https://github.com/EpitechIT2020/B-YEP-400-LIL-4-1-indiestudio-maxime.deroulou");
+        ret = system("firefox https://github.com/EpitechIT2020/B-YEP-400-LIL-4-1-indiestudio-maxime.deroulou");
+        (void)ret;
     #elif __APPLE__
-        system("open \"https://github.com/EpitechIT2020/B-YEP-400-LIL-4-1-indiestudio-maxime.deroulou\"");
+        ret = system("open \"https://github.com/EpitechIT2020/B-YEP-400-LIL-4-1-indiestudio-maxime.deroulou\"");
+        (void)ret;
     #elif _WIN32
-        system("explorer \"https://github.com/EpitechIT2020/B-YEP-400-LIL-4-1-indiestudio-maxime.deroulou\"");
+        ret = system("explorer \"https://github.com/EpitechIT2020/B-YEP-400-LIL-4-1-indiestudio-maxime.deroulou\"");
+        (void)ret;
     #else
         std::cerr << "Sorry ! This functionnality is not available on your OS!" << std::endl;
     #endif
@@ -118,6 +123,8 @@ void BF::skinBtn(Bomberman *win, Btn *b, void *data)
 void BF::addSkin(Bomberman *win, Btn *b, void *data)
 {
     std::ostringstream cmd("");
+    GameOpt *opts = (GameOpt *)data;
+    int ret = 0;
 
     (void)b;
     (void)data;
@@ -129,9 +136,11 @@ void BF::addSkin(Bomberman *win, Btn *b, void *data)
     }
     cmd << "curl https://minecraft.tools/download-skin/" << win->_manager->_settings._optSkin << " -o ../assets/skins/" << win->_manager->_settings._optSkin << ".png";
     #ifdef __linux__
-        system(cmd.str().c_str());
+        ret = system(cmd.str().c_str());
+        (void)ret;
     #elif _WIN32
-        system(cmd.str().c_str());
+        ret = system(cmd.str().c_str());
+        (void)ret;
     #else
         std::cerr << "Sorry ! This functionnality is not available on your OS!" << std::endl;
         return;
@@ -143,6 +152,7 @@ void BF::removeSkin(Bomberman *win, Btn *b, void *data)
 {
     std::ostringstream cmd("");
     uint32_t pos = 0;
+    GameOpt *opts = (GameOpt *)data;
 
     (void)b;
     (void)data;
@@ -165,6 +175,7 @@ void BF::loadSkin(Bomberman *win, Btn *b, void *data)
 {
     Preview *ptr = (Preview *)data;
     std::ostringstream cmd("");
+    int ret = 0;
 
     (void)b;
     (void)data;
@@ -172,9 +183,11 @@ void BF::loadSkin(Bomberman *win, Btn *b, void *data)
         return;
     cmd << "curl https://minecraft.tools/download-skin/" << win->_manager->_settings._optSkin << " -o ../assets/preview.png";
     #ifdef __linux__
-        system(cmd.str().c_str());
+        ret = system(cmd.str().c_str());
+        (void)ret;
     #elif _WIN32
-        system(cmd.str().c_str());
+        ret = system(cmd.str().c_str());
+        (void)ret;
     #else
         std::cerr << "Sorry ! This functionnality is not available on your OS!" << std::endl;
         return;
@@ -240,7 +253,7 @@ void BF::switchType(Bomberman *win, Btn *b, void *data)
     const std::string types[] = {"None", "Player", "IA"};
 
     if (!opts)
-        for (auto obj : win->_manager->_objs)
+        for (auto obj : win->_manager->_objs[win->_manager->_settings._scene])
             if (GameOpt *t = dynamic_cast<GameOpt *>(obj))
                 opts = t;
     opts->_types[index] += 1;
@@ -252,10 +265,10 @@ void BF::switchSkin(Bomberman *win, Btn *b, void *data)
 {
     static GameOpt *opts = 0;
     uint64_t index = (uint64_t)data;
-    uint64_t sindex = 0;
+    uint64_t sindex = -1;
 
     if (!opts)
-        for (auto obj : win->_manager->_objs)
+        for (auto obj : win->_manager->_objs[win->_manager->_settings._scene])
             if (GameOpt *t = dynamic_cast<GameOpt *>(obj))
                 opts = t;
     if (win->_manager->_settings._skins.size()) {
@@ -264,8 +277,29 @@ void BF::switchSkin(Bomberman *win, Btn *b, void *data)
                 sindex = x;
                 break;
             }
-        opts->_names[index] = win->_manager->_settings._skins[(sindex + 1) % (win->_manager->_settings._skins.size() - 1)];
+        if (sindex != -1) {
+            std::cout << sindex << std::endl;
+            opts->_names[index] = win->_manager->_settings._skins[(sindex + 1) % (win->_manager->_settings._skins.size())];
+            opts->_previews[index]->setTexture(std::string("../assets/skins/") + opts->_names[index]);
+            b->_text = opts->_names[index].substr(0, opts->_names[index].size() - 4);
+        } else {
+            opts->_names[index] = win->_manager->_settings._skins[0];
+            opts->_previews[index]->setTexture(std::string("../assets/skins/") + opts->_names[index]);
+            b->_text = opts->_names[index].substr(0, opts->_names[index].size() - 4);
+        }
+    } else {
+        opts->_names[index] = "skin.png";
         opts->_previews[index]->setTexture(std::string("../assets/skins/") + opts->_names[index]);
-        b->_text = opts->_names[index].substr(0, opts->_names[index].size() - 4);
+        b->_text = "skin";
     }
+}
+
+void BF::saveBtn(Bomberman *win, Btn *b, void *data)
+{
+
+}
+
+void BF::homeBtn(Bomberman *win, Btn *b, void *data)
+{
+
 }

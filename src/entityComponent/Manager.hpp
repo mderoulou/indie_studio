@@ -30,8 +30,7 @@ class ComponentManager
         ComponentManager(Bomberman *_bomberman);
         ~ComponentManager();
 
-        void addComponent(AObject *obj);
-        void removeComponent(AObject *to_rm); // UNSAFE FUNCTION; DO NOT USE
+        void addComponent(AObject *obj, int index);
         void clearComponents();
 
         void simulate();
@@ -40,7 +39,8 @@ class ComponentManager
 
         int size() const { return _objs.size(); };
         Bomberman *_bomberman;
-        std::vector<AObject *> _objs;
+        //std::vector<AObject *> _objs;
+        std::vector<std::vector<AObject *>> _objs;
         UniTree<AObject, rl::Vec3, 3> *_PhysXTree;
         rl::Camera3d *_cam;
         Settings _settings;

@@ -82,7 +82,6 @@ src/entityComponent/object/Player.cpp
 src/entityComponent/object/Box.cpp
 src/entityComponent/object/Skybox.cpp
 src/entityComponent/object/Btn.cpp
-src/entityComponent/object/Background.cpp
 src/entityComponent/object/Input.cpp
 src/entityComponent/object/Slider.cpp
 src/entityComponent/object/List.cpp
