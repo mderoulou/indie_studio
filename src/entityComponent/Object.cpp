@@ -5,6 +5,7 @@
 ** Indie Object Class
 */
 
+#include <ostream>
 #include "Object.hpp"
 
 AObject::~AObject() {

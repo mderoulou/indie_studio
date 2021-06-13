@@ -13,6 +13,7 @@
 class Cube : public Object3D
 {
 public:
+    Cube() {};
     Cube(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene);
 
     void render(rl::Camera3d *cam) override;

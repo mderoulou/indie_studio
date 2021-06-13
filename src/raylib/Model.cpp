@@ -41,7 +41,7 @@ rl::Model::~Model()
         UnloadShader(_model.materials[0].shader);
         UnloadTexture(_model.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture);
     }
-    UnloadModel(_model);
+    //UnloadModel(_model);
 }
 
 void rl::Model::draw(rl::Vec3 pos, float scale, rl::Color color)

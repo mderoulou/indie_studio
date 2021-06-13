@@ -17,14 +17,15 @@ class Bomb;
 class Player : public Object3D
 {
 public:
-    Player(rl::Vec3 pos, float scale, rl::Color color, const std::string &path, int scene, bool _isKeyboad, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models); // load Specific texture
-    Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKeyboad, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models); // steve specific texture
+    Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool isKeyboard, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, const std::string path = "../assets/skins/skin.png");
+    Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
 
     void handleEvent() override;
     void move(rl::Vec3 newPos) override;
     void simulate() override;
     void render(rl::Camera3d *cam) override;
-    virtual bool explode(Bomb *) override;
+    bool explode(Bomb *) override;
+    std::shared_ptr<ByteObject> dump() override;
 
     std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _models;
     std::shared_ptr<rl::Texture> _texture;
@@ -33,12 +34,16 @@ public:
     rl::Vec3 _v = {0, 0, 0};
     rl::Vec3 _acc = {0, 0, 0};
 
+    bool _isKeyboard = true;
     bool _isKeyUsed = false;
     float _scale;
+    std::string _pathText;
     int _bombCount = 0;
     float _rotation = 0;
     float _frame = 0;
     Control *_controller = 0;
+private:
+    void makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
 };
 
 

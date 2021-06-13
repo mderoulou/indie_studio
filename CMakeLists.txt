@@ -89,6 +89,7 @@ src/entityComponent/object/List.cpp
 src/entityComponent/object/Bomb.cpp
 src/entityComponent/object/MusicManager.cpp
 src/entityComponent/Object.cpp
+src/entityComponent/ByteObject.cpp
 src/entityComponent/object/GameOpt.cpp
 src/functionalities/BtnFuncs.cpp
 src/Bomberman.cpp

@@ -9,7 +9,20 @@
 
 Control::Control() {}
 Control::Control(rl::Font f) : font(f) {}
+Control::Control(std::shared_ptr<ByteObject> obj, rl::Font f) : 
+    font(f)
+{
+    *obj >> keyUp >> keyDown >> keyLeft >> keyRight >> keyUse;
+    std::cout << "load controler" << std::endl;
+}
 Control::~Control() {}
+
+std::shared_ptr<ByteObject> Control::dump() {
+    std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
+    *obj << keyUp << keyDown << keyLeft << keyRight << keyUse;
+    std::cout << "dump controler" << std::endl;
+    return obj;
+}
 
 int GamepadManager::getActiveController() { 
     int gmpadButton = GetGamepadButtonPressed();
@@ -31,7 +44,25 @@ bool GamepadManager::gamepadAvailable() {
 
 Gamepad::Gamepad() {}
 Gamepad::Gamepad(rl::Font f) : Control(f) {}
+Gamepad::Gamepad(std::shared_ptr<ByteObject> obj, rl::Font f) :
+    Control(obj, f)
+{
+    *obj >> gamepad >> axisUp >> axisDown >> axisLeft >> axisRight >> lastAxis >> lastOrientation >> lastOrientation >> lastKey;
+    std::cout << "load Gamepad" << std::endl;
+}
+
 Gamepad::~Gamepad() {}
+
+std::shared_ptr<ByteObject> Gamepad::dump() {
+
+    std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
+    *obj = *Control::dump();
+    *obj << gamepad << axisUp << axisDown << axisLeft << axisRight << lastAxis << lastOrientation << lastOrientation << lastKey;
+
+    std::cout << "dump gamepad" << std::endl;
+    return obj;
+}
+
 float Gamepad::isKeyUp() {
     if (keyUp >= 32)
         return resolveAxis(keyUp - 32, axisUp);
@@ -144,7 +175,25 @@ bool Gamepad::setKey(int &key, bool &axisOrientation) {
 
 Keyboard::Keyboard() {};
 Keyboard::Keyboard(rl::Font f) : Control(f) {}
+Keyboard::Keyboard(std::shared_ptr<ByteObject> obj, rl::Font f) :
+    Control(obj, f)
+{
+    *obj >> lastKey;   
+    std::cout << "load Keyboard" << std::endl;
+
+}
+
 Keyboard::~Keyboard() {}
+
+std::shared_ptr<ByteObject> Keyboard::dump() {
+    std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
+    *obj = *obj + *Control::dump();
+    *obj << lastKey;
+    std::cout << "dump gamepad" << std::endl;
+    return obj;
+}
+
+
 float Keyboard::isKeyUp() {
     return IsKeyDown(keyUp) ? 1 :  0;
 }

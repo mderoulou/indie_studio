@@ -46,6 +46,8 @@ class Bomberman
         rl::Window *_win;
         bool _ending = false;
     private:
+        void loadMap();
+        void saveMap();
         void preLoad();
 };
 #endif

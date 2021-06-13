@@ -38,7 +38,7 @@ rl::Mesh::Mesh(rl::Image map, rl::Vec3 size, int type)
 
 rl::Mesh::~Mesh()
 {
-    UnloadMesh(_mesh);
+    //UnloadMesh(_mesh);
 }
 
 void rl::Mesh::computeTangents()

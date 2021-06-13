@@ -5,6 +5,8 @@
 ** Bomberman functions
 */
 
+#include <iostream>
+#include <fstream>
 #include "Bomberman.hpp"
 #include "rlgl.h"
 
@@ -35,9 +37,8 @@ Bomberman::Bomberman()
     _manager = new ComponentManager(this);
 
     preLoad();
-    Player *player = new Player(rl::Vec3(4.0f, 2.0f, 4.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
+
     //Player *player2 = new Player(rl::Vec3(8.0f, 2.0f, 8.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
-    _manager->addComponent(player);
     //_manager->addComponent(player2);
     // USED BY OTHERS :
     MusicManager *musicManager = new MusicManager(this);
@@ -73,9 +74,13 @@ Bomberman::Bomberman()
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::backBtn), 0, _t._btn, _t._ft));
     // ALL MENUS :
     _manager->addComponent(musicManager);
-    //Background *bg = new Background(rl::Vec3(1.0f, -23.0f, -2.0f), 3);
-    //_manager->addComponent(bg);
-    generateMap(medium);
+
+    if (0) {
+        Player *player = new Player(rl::Vec3(4.0f, 2.0f, 4.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
+        _manager->addComponent(player);
+        generateMap(medium);
+    } else 
+        loadMap();
     _win->changeFps(60);
 }
 
@@ -134,6 +139,7 @@ void Bomberman::launch()
         _manager->renderAll();
         _win->endDrawing();
     }
+    saveMap();
 }
 
 void Bomberman::preLoad()
@@ -165,5 +171,69 @@ void Bomberman::preLoad()
         _t._walking->push_back(std::make_shared<rl::Model>(objPath.str().c_str()));
         objPath.str("");
         objPath.clear();
+    }
+}
+
+void Bomberman::saveMap()
+{
+    std::ofstream file("save.yep", std::ofstream::trunc | std::ofstream::binary | std::ofstream::out);
+    if (!file.is_open()) return;
+    uint magic = 0x12345678; // MAGIIICCCCC
+    file.write((char *)&magic, sizeof(magic));   
+    std::cout << magic;
+    file << _manager->_objs.size();
+    std::cout << _manager->_objs.size();
+    for (auto &obj : _manager->_objs) {
+        file << *obj->dump();
+        std::cout << *obj->dump();
+    }
+}
+
+void Bomberman::loadMap()
+{
+    std::ifstream file("save.yep", std::ifstream::binary);
+    uint magic;
+    uint size;
+    std::cerr << "opening file" << std::endl;
+    if (!file.is_open()) return;
+    std::cerr << "file opened" << std::endl;
+    file.read((char *)&magic, sizeof(magic));
+    if (magic != 0x12345678) {
+        std::cerr << "Bad Magic Number "<< magic << std::endl;
+        return;
+    }    
+
+    file >> size;
+    std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
+    for (int i = 0; i < size; i++) {
+        int type;
+        file >> *obj;
+        if (!obj->size)
+            continue;
+        *obj >> type;
+        switch (type) {
+            case ByteObject::PLAYER:
+                //std::cout << "load Player" << std::endl;
+                _manager->addComponent(new Player(obj, _t._walking));
+                break;
+            case ByteObject::WALL:
+                //std::cout << "load Wall" << std::endl;
+                _manager->addComponent(new Wall(obj, _t._sb));
+                break;
+            case ByteObject::FLOOR:
+                //std::cout << "load Floor" << std::endl;
+                _manager->addComponent(new Floor(obj, _t._sb));
+                break;
+            case ByteObject::BOX:
+                //std::cout << "load Box" << std::endl;
+                _manager->addComponent(new Box(obj, _t._wood));
+                break;
+            case ByteObject::DEFAULT:
+                //std::cerr << "Default type " << type << std::endl;
+                break;
+            default:
+                std::cerr << "Bad Type : " << type << std::endl;
+                return;
+        }
     }
 }

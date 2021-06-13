@@ -48,12 +48,7 @@ void Bomb::move(rl::Vec3 newPos)
 
 void Bomb::simulate()
 {
-    bool debug = true;
-
     _time -= 1;
-    
-    if (debug)
-        std::cout << "Bomb time : " << _time << std::endl;
     
     if (_time % 6 == 0){
         _scale += 0.01;
@@ -63,7 +58,6 @@ void Bomb::simulate()
 
     if (_time <= 0) {
         // explode the bomb
-        std::cout << "BOM !" << std::endl;
         rl::Vec3 centered_pos = _pos + rl::Vec3(0, 2-_scale, 0);
         rl::Vec3 treeZone = {0.5, 2, 0.5};
         auto &PhysXTree = _manager->_PhysXTree;
@@ -86,7 +80,6 @@ void Bomb::simulate()
                         continue;
                     if (obj->explode(this))
                         wilbreak = true;
-                    std::cout << "hit" << std::endl;
                 }
                 if (wilbreak)
                     goto next;

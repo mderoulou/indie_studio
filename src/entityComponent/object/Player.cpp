@@ -18,55 +18,55 @@
 #define M_PI 3.14159265359
 #endif
 
-Player::Player(rl::Vec3 pos, float scale, rl::Color color, const std::string &pathText, int scene, bool _isKeyboad, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
+Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool isKeyboard, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText)
 {
+    _pos = pos;
     _scene = scene;
     _color = color;
     _scale = scale;
+    _pathText = pathText;
+    _texture = std::make_shared<rl::Texture>(_pathText);
     _rotation = 0;
-    _texture = std::make_shared<rl::Texture>(pathText);
-    if (_isKeyboad)
-        _controller = new Keyboard(rl::Font());
-    else
-        _controller = new Gamepad(rl::Font());
-    _isSolid = true;
-    _boundingBox._bd.min = pos + rl::Vec3{-0.25, 0.0, -0.25};
-    _boundingBox._bd.max = pos + rl::Vec3{0.25, 1.8, 0.25};
-    _models = models;
-}
-
-void Player::handleEvent(){
-    if (_controller->isKeyUse()) {
-        if (!_isKeyUsed){
-            std::cerr << "bomb" << std::endl;
-            this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this));
-        }
-        _isKeyUsed = true;
-    } else {
-        _isKeyUsed = false;
-    }
-}
-
-
-Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool _isKeyboad, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
-{
-    _pos = rl::Vec3(pos);
-    _color.a = color.a;
-    _color.r = color.r;
-    _color.g = color.g;
-    _color.b = color.b;
-    _rotation = 0;
-    _scale = scale;
-    _texture = std::make_shared<rl::Texture>("../assets/skins/skin.png");
     _frame = 0;
-    _scene = scene;
-    if (_isKeyboad)
+    _isKeyboard = isKeyboard;
+    if (isKeyboard)
         _controller = new Keyboard(rl::Font());
     else
         _controller = new Gamepad(rl::Font());
+    makeObj(models);
+}
+
+Player::Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
+{
+    (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _isKeyboard >> _scene;
+
+    makeObj(models);
+    if (_isKeyboard)
+        _controller = new Keyboard(obj, rl::Font());
+    else 
+        _controller = new Gamepad(obj, rl::Font());
+    
+    _pathText = std::string(&(obj->data[obj->cursor]));
+    _texture = std::make_shared<rl::Texture>(_pathText);
+}
+
+
+std::shared_ptr<ByteObject> Player::dump()
+{
+    std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
+    std::vector<char> name;
+    for (char &c : _pathText)
+        name.push_back(c);
+    name.push_back(0);
+    *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene) + *_controller->dump() + ByteObject(name, name.size());
+    return obj;
+}
+
+void Player::makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
+{
     _isSolid = true;
-    _boundingBox._bd.min = pos + rl::Vec3{-0.25, 0.0, -0.25};
-    _boundingBox._bd.max = pos + rl::Vec3{0.25, 1.8, 0.25};
+    _boundingBox._bd.min = _pos + rl::Vec3{-0.25, 0.0, -0.25};
+    _boundingBox._bd.max = _pos + rl::Vec3{0.25, 1.8, 0.25};
     _models = models;
 }
 
@@ -90,8 +90,7 @@ void Player::render(rl::Camera3d *cam)
         cam->endMode();
         return;
     }
-    for (auto model : *_models)
-        model->setMaterialTexture(0, _texture);
+    (*_models)[(int)_frame]->setMaterialTexture(0, _texture);
     (*_models)[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
     cam->endMode();
 }
@@ -183,7 +182,7 @@ void Player::simulate()
 
         if (hasMove){
             _v.x *= 0.9;
-            _v.y *= 0.9;
+            //_v.y *= 0.9;
             _v.z *= 0.9;
         }
 
@@ -246,5 +245,17 @@ void Player::simulate()
         _manager->_cam->endMode();
         move(_v);
     }
-
 }
+
+void Player::handleEvent()
+{
+    if (_controller->isKeyUse()) {
+        if (!_isKeyUsed){
+            this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this));
+        }
+        _isKeyUsed = true;
+    } else {
+        _isKeyUsed = false;
+    }
+}
+

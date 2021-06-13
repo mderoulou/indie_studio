@@ -12,11 +12,18 @@
 #include "Font.hpp"
 #include <iostream>
 #include <ostream>
+#include <memory>
+#include "../entityComponent/ByteObject.hpp"
+
+
+class ByteObject;
 
 class Control {
 public:
     Control();
     Control(rl::Font f);
+    Control(std::shared_ptr<ByteObject>, rl::Font f);
+    virtual std::shared_ptr<ByteObject> dump();
     virtual ~Control();
     virtual float isKeyUp() = 0;
     virtual float isKeyDown() = 0;
@@ -44,7 +51,9 @@ class Gamepad : public Control {
 public:
     Gamepad();
     Gamepad(rl::Font f);
+    Gamepad(std::shared_ptr<ByteObject> obj, rl::Font f);
     ~Gamepad();
+    virtual std::shared_ptr<ByteObject> dump() override;
     float isKeyUp();
     float isKeyDown();
     float isKeyLeft();
@@ -69,7 +78,9 @@ class Keyboard : public Control {
 public:
     Keyboard();
     Keyboard(rl::Font f);
+    Keyboard(std::shared_ptr<ByteObject> obj, rl::Font f);
     ~Keyboard();
+    virtual std::shared_ptr<ByteObject> dump() override;
     float isKeyUp();
     float isKeyDown();
     float isKeyLeft();
