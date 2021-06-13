@@ -21,6 +21,10 @@ Wall::Wall(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_
     _boundingBox._bd.max = pos+size/2 + rl::Vec3(0, 1, 0);
 }
 
+bool Wall::explode(Bomb *bombe) {
+    return true;
+}
+
 void Wall::render(rl::Camera3d *cam)
 {
     cam->beginMode();

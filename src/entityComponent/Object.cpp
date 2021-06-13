@@ -11,5 +11,5 @@ AObject::~AObject() {
 };
 
 bool AObject::explode(Bomb *bombe) {
-    return true;
+    return false;
 };

@@ -77,7 +77,7 @@ bool Player::explode(Bomb *other) {
     //d = {d[0]/norm, 0, d[2]/norm};
     d[1] += 1;
     d /= norm;
-    _v += d*2;
+    _v += d/1.5;
     return false;
 }
 
@@ -181,6 +181,13 @@ void Player::simulate()
         _v.y += _acc.y;
         _v.z += _acc.z;
 
+        if (hasMove){
+            _v.x *= 0.9;
+            _v.y *= 0.9;
+            _v.z *= 0.9;
+        }
+
+
         _acc.x = 0;
         _acc.y = -1/60.0;
         _acc.z = 0;
@@ -228,9 +235,11 @@ void Player::simulate()
                 if (dd[axe] * _v[axe] > 0) {
                     _v[axe] *= 0.1;
                 }
-                _v[(axe+1)%3] *= 0.8;
-                _v[(axe+2)%3] *= 0.8;
-                move(dd*-0.1);
+                if (axe == 1){
+                    _v[(axe+1)%3] *= 0.8;
+                    _v[(axe+2)%3] *= 0.8;
+                }
+                move(dd*-1);
             }
         }
 

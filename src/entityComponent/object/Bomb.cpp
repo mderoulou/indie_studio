@@ -37,7 +37,7 @@ bool Bomb::explode(Bomb *other) {
     d[1] += 0.5;
     d /= norm;
     _v += d/2;
-    return true;
+    return false;
 }
 
 
@@ -64,7 +64,7 @@ void Bomb::simulate()
     if (_time <= 0) {
         // explode the bomb
         std::cout << "BOM !" << std::endl;
-        rl::Vec3 centered_pos = _pos + rl::Vec3(0, 1, 0);
+        rl::Vec3 centered_pos = _pos + rl::Vec3(0, 2-_scale, 0);
         rl::Vec3 treeZone = {0.5, 2, 0.5};
         auto &PhysXTree = _manager->_PhysXTree;
 

@@ -18,6 +18,7 @@ public:
     void handleEvent() override {};
     void simulate() override {};
     void render(rl::Camera3d *cam) override;
+    virtual bool explode(Bomb *) override;
 
     std::shared_ptr<rl::Texture> _texture;
     std::shared_ptr<rl::Model> _model;
