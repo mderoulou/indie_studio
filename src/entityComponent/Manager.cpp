@@ -61,7 +61,7 @@ void ComponentManager::simulate()
 
 
     for (long unsigned int i = 0; i < _objs[6].size(); i++) {
-        auto obj = _objs[_settings._scene][i];
+        auto obj = _objs[6][i];
         obj->simulate();
     }
     for (long unsigned int i = 0; i < _objs[_settings._scene].size(); i++) {

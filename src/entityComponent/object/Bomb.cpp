@@ -29,11 +29,8 @@ Bomb::~Bomb() {
 }
 
 bool Bomb::explode(Bomb *other) {
-    //_time /= 2;
-    std::cout << "explode bomb" << std::endl;
     rl::Vec3 d = _pos - other->_pos;
     float norm = pow(d[0]*d[0]+d[1]*d[1]+d[2]*d[2], 0.5);
-    //d = {d[0]/norm, 0, d[2]/norm};
     d[1] += 0.5;
     d /= norm;
     _v += d/2;
