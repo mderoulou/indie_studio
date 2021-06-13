@@ -35,6 +35,7 @@ Bomberman::Bomberman()
     _manager = new ComponentManager(this);
 
     preLoad();
+    rl::Window::SetExitKey(-1);
     Player *player = new Player(rl::Vec3(4.0f, 2.0f, 4.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
     //Player *player2 = new Player(rl::Vec3(8.0f, 2.0f, 8.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
     _manager->addComponent(player);

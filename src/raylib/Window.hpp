@@ -39,6 +39,7 @@ class Window
         int getFps();
         int getScreenWidth() { return _width; };
         int getScreenHeight() { return _height; };
+        static void SetExitKey(int key) { ::SetExitKey(key); };
 
         // Cursor Functions
 
