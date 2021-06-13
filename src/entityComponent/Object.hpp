@@ -76,6 +76,7 @@ public:
 #include "object/Slider.hpp"
 #include "object/List.hpp"
 #include "object/MusicManager.hpp"
+#include "object/EscManager.hpp"
 #include "object/Player.hpp"
 #include "object/Text.hpp"
 #include "object/Wall.hpp"

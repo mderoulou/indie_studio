@@ -34,6 +34,8 @@ namespace BF {
     void setSound(Bomberman *win, Slider *s, void *data);
     void switchType(Bomberman *win, Btn *b, void *data);
     void switchSkin(Bomberman *win, Btn *b, void *data);
+    void pauseBtn(Bomberman *win, Btn *b, void *data);
+    void unpauseBtn(Bomberman *win, Btn *b, void *data);
 }
 
 #endif /* !BTNFUNCS_HPP_ */

@@ -74,6 +74,7 @@ Bomberman::Bomberman()
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::backBtn), 0, _t._btn, _t._ft));
     // ALL MENUS :
     _manager->addComponent(musicManager);
+    _manager->addComponent(new EscManager(this, -1));
     //Background *bg = new Background(rl::Vec3(1.0f, -23.0f, -2.0f), 3);
     //_manager->addComponent(bg);
     generateMap(medium);
