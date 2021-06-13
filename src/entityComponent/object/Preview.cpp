@@ -39,16 +39,12 @@ void Preview::move(rl::Vec3 newPos)
 
 void Preview::render(rl::Camera3d *cam)
 {
-    cam->beginMode();
 
-    if (_frame < 0 || _frame > 40) {
-        cam->endMode();
+    if (_frame < 0 || _frame > 40)
         return;
-    }
     for (auto model : *_models)
         model->setMaterialTexture(0, _texture);
     (*_models)[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
-    cam->endMode();
 }
 
 void Preview::simulate()

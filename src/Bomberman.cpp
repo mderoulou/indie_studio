@@ -32,18 +32,23 @@
 
 Bomberman::Bomberman()
 {
+    SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     std::srand(time(NULL));
-    _win = new rl::Window(800, 600, "Indie Studio");
+    _win = new rl::Window(1920, 1080, "Indie Studio");
     _manager = new ComponentManager(this);
 
     preLoad();
 
-    rl::Window::SetExitKey(-1);
+    //rl::Window::SetExitKey(-1);
     if (1) {
-        Player *player = new Player(rl::Vec3(4.0f, 2.0f, 4.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
-        _manager->addComponent(player);
-        generateMap(medium);
-    } else 
+        Player *player1 = new Player(rl::Vec3(4.0f, 2.0f, 4.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
+        _manager->addComponent(player1);
+        Player *player2 = new Player(rl::Vec3(8.0f, 2.0f, 8.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
+        _manager->addComponent(player2);
+        Player *player3 = new Player(rl::Vec3(8.0f, 2.0f, 8.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
+        _manager->addComponent(player3);
+        generateMap(mapSize::large);
+    } else
         loadMap();
 
     // USED BY OTHERS :
@@ -133,8 +138,9 @@ void Bomberman::launch()
     Skybox *skybox = new Skybox();
 
     while (!_win->ShouldClose() && !_ending) {
-        _win->clearBackground(rl::Color(255, 255, 255, 255));
         _win->beginDrawing();
+        ClearBackground(Color{255, 255, 255, 255});
+        _win->clearBackground(rl::Color(255, 255, 255, 255));
         skybox->render(_manager->_cam);
         _t._ft->drawFPS(5, 25);
         _manager->handleEvent();
@@ -194,6 +200,13 @@ void Bomberman::saveMap()
 
 void Bomberman::loadMap()
 {
+
+    int x = 32;
+    int y = 32;
+
+    _manager->_cam->setTarget(rl::Vec3(x / 2,  0, y / 2));
+    _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, y));
+
     std::ifstream file("save.yep", std::ifstream::binary);
     uint magic;
     uint size;

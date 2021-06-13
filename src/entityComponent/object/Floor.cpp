@@ -35,9 +35,7 @@ Floor::~Floor() {
 
 void Floor::render(rl::Camera3d *cam)
 {
-    cam->beginMode();
     _texture->drawTexture(_pos, _size, _color);
-    cam->endMode();
 }
 
 std::shared_ptr<ByteObject> Floor::dump()

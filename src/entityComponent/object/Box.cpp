@@ -40,9 +40,7 @@ void Box::makeObj(std::shared_ptr<rl::Texture> texture)
 
 void Box::render(rl::Camera3d *cam)
 {
-    cam->beginMode();
     _texture->drawTexture(_pos, _size, _color);
-    cam->endMode();
 }
 
 std::shared_ptr<ByteObject> Box::dump()

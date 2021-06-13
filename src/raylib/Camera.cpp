@@ -57,6 +57,7 @@ void rl::Camera3d::beginMode()
 {
     if (_isStarted) {
         TraceLog(LOG_WARNING, "3d Camera already began.");
+        throw;
         return;
     }
     _isStarted = true;
@@ -67,6 +68,7 @@ void rl::Camera3d::endMode()
 {
     if (!_isStarted) {
         TraceLog(LOG_WARNING, "3d Camera already ended.");
+        throw;
         return;
     }
     _isStarted = false;

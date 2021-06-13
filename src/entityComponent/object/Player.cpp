@@ -84,15 +84,11 @@ bool Player::explode(Bomb *other) {
 
 void Player::render(rl::Camera3d *cam)
 {
-    cam->beginMode();
 
-    if (_frame < 0 || _frame > 40) {
-        cam->endMode();
+    if (_frame < 0 || _frame > 40)
         return;
-    }
     (*_models)[(int)_frame]->setMaterialTexture(0, _texture);
     (*_models)[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
-    cam->endMode();
 }
 
 void Player::move(rl::Vec3 newPos)
@@ -196,11 +192,8 @@ void Player::simulate()
         rl::Vec3 pCenter = (rl::Vec3(_boundingBox._bd.min) + rl::Vec3(_boundingBox._bd.max))/2;
         rl::Vec3 pSize = rl::Vec3(_boundingBox._bd.max) - rl::Vec3(_boundingBox._bd.min);
         std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(pCenter, colideSize);
-        _manager->_cam->beginMode();
 
-        _boundingBox.draw({0, 255, 0, 255});
         for (AObject *&obj : vec) {
-            obj->_boundingBox.draw({255, 0, 0, 255});
             if (obj != this && _boundingBox.checkColissionBox(&obj->_boundingBox)) {
                 rl::Vec3 objSize = rl::Vec3(obj->_boundingBox._bd.max) - rl::Vec3(obj->_boundingBox._bd.min);
                 
@@ -242,7 +235,6 @@ void Player::simulate()
             }
         }
 
-        _manager->_cam->endMode();
         move(_v);
     }
 }

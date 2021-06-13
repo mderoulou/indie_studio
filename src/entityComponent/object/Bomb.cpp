@@ -109,14 +109,10 @@ void Bomb::simulate()
     rl::Vec3 pCenter = (rl::Vec3(_boundingBox._bd.min) + rl::Vec3(_boundingBox._bd.max))/2;
     rl::Vec3 pSize = rl::Vec3(_boundingBox._bd.max) - rl::Vec3(_boundingBox._bd.min);
     std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(pCenter, colideSize);
-    static int a = 0;
-    _manager->_cam->beginMode();
 
-    _boundingBox.draw({0, 255, 0, 255});
     for (AObject *&obj : vec) {
         if (obj == this)
             continue;
-        obj->_boundingBox.draw({255, 0, 0, 255});
         if (_boundingBox.checkColissionBox(&obj->_boundingBox)) {
             rl::Vec3 objSize = rl::Vec3(obj->_boundingBox._bd.max) - rl::Vec3(obj->_boundingBox._bd.min);
             
@@ -154,17 +150,12 @@ void Bomb::simulate()
             _v[(axe+2)%3] *= 0.95;
             move(dd*-0.1);
         }
-        a++;
     }
 
-    _manager->_cam->endMode();
     move(_v);
-
 }
 
 void Bomb::render(rl::Camera3d *cam)
 {
-    cam->beginMode();
     _model->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
-    cam->endMode();
 }

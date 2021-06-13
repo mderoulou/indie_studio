@@ -20,7 +20,5 @@ Background::Background(rl::Vec3 pos, int scene)
 
 void Background::render(rl::Camera3d *cam)
 {
-    cam->beginMode();
     _model->drawEx(_pos, rl::Vec3(0, 1, 0), 0,  rl::Vec3(_scale, _scale, _scale), _color);
-    cam->endMode();
 }

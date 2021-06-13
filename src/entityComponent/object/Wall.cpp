@@ -39,9 +39,7 @@ bool Wall::explode(Bomb *bombe) {
 
 void Wall::render(rl::Camera3d *cam)
 {
-    cam->beginMode();
     _texture->drawTexture(_pos, _size, _color);
-    cam->endMode();
 }
 
 std::shared_ptr<ByteObject> Wall::dump()

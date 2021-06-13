@@ -86,14 +86,17 @@ void ComponentManager::simulate()
 void ComponentManager::renderAll()
 {
     //std::cout << "[MANAGER] Rendering!" << std::endl;
-    for (auto obj : _objs) {
+    for (auto obj : _objs)
         if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
             if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->render(_cam);
+
+    _cam->beginMode();
+    for (auto obj : _objs)
         if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
             if (obj2->_scene == _settings._scene || obj2->_scene < 0)
                 obj->render(_cam);
-    }
+    _cam->endMode();
 }
 
 void ComponentManager::handleEvent()
@@ -108,46 +111,3 @@ void ComponentManager::handleEvent()
                 obj->handleEvent();
     }
 }
-
-/*
-void ComponentManager::moveAll()
-{
-    //std::cout << "[MANAGER] Moving Events!" << std::endl;
-    rl::Vec3 newPos(0, 0, 0);
-    float mov;
-
-    if (_gp->initialized) {
-        if ((mov = _gp->isKeyUp()) != 0) {
-            newPos.z = -0.1f * mov;
-            mov = 0;
-        }
-        if ((mov = _gp->isKeyDown()) != 0) {
-            newPos.z = 0.1f * mov;
-            mov = 0;
-        }
-        if ((mov = _gp->isKeyLeft()) != 0) {
-            newPos.x = -0.1f * mov;
-            mov = 0;
-        }
-        if ((mov = _gp->isKeyRight()) != 0) {
-            newPos.x = 0.1f * mov;
-            mov = 0;
-        }
-    }
-    if ((mov = _gp->isKeyDown()) != 0) {
-        newPos.z = 0.1f * mov;
-        mov = 0;
-    }
-    if ((mov = _gp->isKeyLeft()) != 0) {
-        newPos.x = -0.1f * mov;
-        mov = 0;
-    }
-    if ((mov = _gp->isKeyRight()) != 0) {
-        newPos.x = 0.1f * mov;
-        mov = 0;
-    }
-    
-    for (auto obj : _objs) {
-        obj->move(newPos);
-    }
-}*/
