@@ -251,7 +251,7 @@ void Player::handleEvent()
 {
     if (_controller->isKeyUse()) {
         if (!_isKeyUsed){
-            this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this));
+            this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this), _scene);
         }
         _isKeyUsed = true;
     } else {

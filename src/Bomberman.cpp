@@ -42,7 +42,7 @@ Bomberman::Bomberman()
     rl::Window::SetExitKey(-1);
     if (1) {
         Player *player = new Player(rl::Vec3(4.0f, 2.0f, 4.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
-        _manager->addComponent(player);
+        _manager->addComponent(player, 3);
         generateMap(medium);
     } else 
         loadMap();
@@ -50,40 +50,43 @@ Bomberman::Bomberman()
     // USED BY OTHERS :
     MusicManager *musicManager = new MusicManager(this);
     // HOME MENU :
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), _t._click, 0, this, &(BF::playBtn), (void *)musicManager, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Skins", 24,  rl::Rectangle(0,0,400,40), _t._click, 0, this, &(BF::skinBtn), 0, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 120.0), "Respository", 24,  rl::Rectangle(400,0,196,40), _t._click, 0, this, &(BF::repoLink), 0, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400,0,196,40), _t._click, 0, this, &(BF::optBtn), 0, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0,0,400,40), _t._click, 0, this, &(BF::quitBtn), 0, _t._btn, _t._ft));
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), _t._click, 0, this, &(BF::playBtn), (void *)musicManager, _t._btn, _t._ft), 0);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Skins", 24,  rl::Rectangle(0,0,400,40), _t._click, 0, this, &(BF::skinBtn), 0, _t._btn, _t._ft), 0);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 120.0), "Respository", 24,  rl::Rectangle(400,0,196,40), _t._click, 0, this, &(BF::repoLink), 0, _t._btn, _t._ft), 0);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400,0,196,40), _t._click, 0, this, &(BF::optBtn), 0, _t._btn, _t._ft), 0);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0,0,400,40), _t._click, 0, this, &(BF::quitBtn), 0, _t._btn, _t._ft), 0);
     // OPTIONS MENU :
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "FullScreen: OFF", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::fullScreen), 0, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::resolutionBtn), 0, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 120.0), "Map size: Small", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::mapSize), 0, _t._btn, _t._ft));
-    _manager->addComponent(new Slider(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040,0,300,40), rl::Rectangle(1340,0,16,40), 1, "Musics: 100%", this, &(BF::setMusic), (void *)musicManager, _t._btn, _t._btn, _t._ft));
-    _manager->addComponent(new Slider(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 240.0), 24, rl::Rectangle(1040,0,300,40), rl::Rectangle(1340,0,16,40), 1, "Sounds: 100%", this, &(BF::setSound), (void *)musicManager, _t._btn, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::backBtn), 0, _t._btn, _t._ft));
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "FullScreen: OFF", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::fullScreen), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::resolutionBtn), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 120.0), "Map size: Small", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::mapSize), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Slider(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040,0,300,40), rl::Rectangle(1340,0,16,40), 1, "Musics: 100%", this, &(BF::setMusic), (void *)musicManager, _t._btn, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Slider(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 240.0), 24, rl::Rectangle(1040,0,300,40), rl::Rectangle(1340,0,16,40), 1, "Sounds: 100%", this, &(BF::setSound), (void *)musicManager, _t._btn, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::backBtn), 0, _t._btn, _t._ft), 1);
     // SKINS MENU :
     Preview *preview = new Preview(rl::Vec3(7.5,2,13), 1, 5, -180, rl::Color(255, 255, 255, 255), _t._walking);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596,0,40,40), _t._click, 5, this, &(BF::addSkin), 0, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596,0,40,40), _t._click, 5, this, &(BF::removeSkin), 0, _t._btn, _t._ft));
-    _manager->addComponent(new Input(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-50.0, 0.0), _manager->_settings._optSkin, 16, 5, 24, this, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(270.0, 0.0), "Load Preview", 24, rl::Rectangle(400,0,196,40), _t._click, 5, this, &(BF::loadSkin), (void *)preview, _t._btn, _t._ft));
-    _manager->addComponent(preview);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), _t._click, 5, this, &(BF::backBtn), 0, _t._btn, _t._ft));
-    _manager->addComponent(new List(rl::Vec2(1.0/2, 7.0/20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins), &(BF::previewSkin), preview, _t._ft, true, 4));
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596,0,40,40), _t._click, 5, this, &(BF::addSkin), 0, _t._btn, _t._ft), 5);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596,0,40,40), _t._click, 5, this, &(BF::removeSkin), 0, _t._btn, _t._ft), 5);
+    _manager->addComponent(new Input(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-50.0, 0.0), _manager->_settings._optSkin, 16, 5, 24, this, _t._btn, _t._ft), 5);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(270.0, 0.0), "Load Preview", 24, rl::Rectangle(400,0,196,40), _t._click, 5, this, &(BF::loadSkin), (void *)preview, _t._btn, _t._ft), 5);
+    _manager->addComponent(preview, 5);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), _t._click, 5, this, &(BF::backBtn), 0, _t._btn, _t._ft), 5);
+    _manager->addComponent(new List(rl::Vec2(1.0/2, 7.0/20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins), &(BF::previewSkin), preview, _t._ft, true, 4), 5);
     //GAME LOBBY :
-    _manager->addComponent(new GameOpt(this, 2));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)0, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)1, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)2, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(304, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)3, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(104.0, 0.0), "Fight", 24,  rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::launchGame), 0, _t._btn, _t._ft));
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::backBtn), 0, _t._btn, _t._ft));
+    _manager->addComponent(new GameOpt(this, 2), 2);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)0, _t._btn, _t._ft), 2);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)1, _t._btn, _t._ft), 2);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)2, _t._btn, _t._ft), 2);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(304, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)3, _t._btn, _t._ft), 2);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(104.0, 0.0), "Fight", 24,  rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::launchGame), 0, _t._btn, _t._ft), 2);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::backBtn), 0, _t._btn, _t._ft), 2);
+    //PAUSE MENU:
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), _t._click, 4, this, &(BF::unpauseBtn), 0, _t._btn, _t._ft), 4);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Save", 24, rl::Rectangle(0,0,400,40), _t._click, 4, this, &(BF::saveBtn), 0, _t._btn, _t._ft), 4);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 120.0), "Quit", 24, rl::Rectangle(0,0,400,40), _t._click, 4, this, &(BF::homeBtn), 0, _t._btn, _t._ft), 4);
+
     // ALL MENUS :
-    _manager->addComponent(musicManager);
-
-    _manager->addComponent(new EscManager(this, -1));
-
+    _manager->addComponent(musicManager, 6);
+    _manager->addComponent(new EscManager(this, -1), 6);
     _win->changeFps(60);
 }
 
@@ -107,7 +110,7 @@ void Bomberman::generateMap(mapSize type)
         for (int j = 0; j < y; j += 1) {
             _manager->addComponent(new Floor(rl::Vec3(i, -1.0f, j),
                             rl::Vec3(1.02f, 1.02f, 1.02f),
-                            rl::Color(255, 255, 255, 255), 3, _t._sb));
+                            rl::Color(255, 255, 255, 255), 3, _t._sb), 3);
         }
     }
 
@@ -117,12 +120,12 @@ void Bomberman::generateMap(mapSize type)
             if (((xx+1) % 2 && (yy+1) % 2) || xx == 0 || xx == x-1 || yy == 0 || yy == y-1){
                 _manager->addComponent(new Wall(rl::Vec3(xx, 0.0f, yy),
                     rl::Vec3(1.02f, 1.02f, 1.02f),
-                    rl::Color(255, 255, 255, 255), 3, _t._sb));
+                    rl::Color(255, 255, 255, 255), 3, _t._sb), 3);
             } else {
                 if (rand() % 4)
                     _manager->addComponent(new Box(rl::Vec3(xx, 0.0f, yy),
                         rl::Vec3(1.02f, 1.02f, 1.02f),
-                        rl::Color(255, 255, 255, 255), 3, _t._wood));
+                        rl::Color(255, 255, 255, 255), 3, _t._wood), 3);
             }
         }
     }
@@ -187,8 +190,8 @@ void Bomberman::saveMap()
     file << _manager->_objs.size();
     std::cout << _manager->_objs.size();
     for (auto &obj : _manager->_objs) {
-        file << *obj->dump();
-        std::cout << *obj->dump();
+        file << *(obj[_manager->_settings._scene])->dump();
+        std::cout << *(obj[_manager->_settings._scene])->dump();
     }
 }
 
@@ -217,19 +220,19 @@ void Bomberman::loadMap()
         switch (type) {
             case ByteObject::PLAYER:
                 //std::cout << "load Player" << std::endl;
-                _manager->addComponent(new Player(obj, _t._walking));
+                _manager->addComponent(new Player(obj, _t._walking), 3);
                 break;
             case ByteObject::WALL:
                 //std::cout << "load Wall" << std::endl;
-                _manager->addComponent(new Wall(obj, _t._sb));
+                _manager->addComponent(new Wall(obj, _t._sb), 3);
                 break;
             case ByteObject::FLOOR:
                 //std::cout << "load Floor" << std::endl;
-                _manager->addComponent(new Floor(obj, _t._sb));
+                _manager->addComponent(new Floor(obj, _t._sb), 3);
                 break;
             case ByteObject::BOX:
                 //std::cout << "load Box" << std::endl;
-                _manager->addComponent(new Box(obj, _t._wood));
+                _manager->addComponent(new Box(obj, _t._wood), 3);
                 break;
             case ByteObject::DEFAULT:
                 //std::cerr << "Default type " << type << std::endl;
