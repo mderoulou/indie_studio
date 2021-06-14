@@ -189,6 +189,9 @@ void Bomberman::preLoad()
     _t._wood_mod->setMaterialTexture(0, _t._wood);
     
     _t._tnt_a = std::make_shared<rl::Model>("../assets/block/tnt.glb");
+    _t._power_speed = std::make_shared<rl::Model>("../assets/block/speed.glb");
+    _t._power_bomb = std::make_shared<rl::Model>("../assets/block/bomb.glb");
+    _t._power_size = std::make_shared<rl::Model>("../assets/block/explo.glb");
     _t._ft = std::make_shared<rl::Font>("../assets/minecraftia.ttf");
     _t._click = std::make_shared<rl::Sound>("../assets/musics/click.wav");
     _t._walking = std::make_shared<std::vector<std::shared_ptr<rl::Model>>>();
