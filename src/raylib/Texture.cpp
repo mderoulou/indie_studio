@@ -11,16 +11,19 @@
 rl::Texture::Texture(const std::string filename)
 {
     _texture = LoadTexture(filename.c_str());
+    SetTextureFilter(_texture, TEXTURE_FILTER_ANISOTROPIC_16X);
 }
 
 rl::Texture::Texture(rl::Image img)
 {
     _texture = LoadTextureFromImage(img.getImg());
+    SetTextureFilter(_texture, TEXTURE_FILTER_ANISOTROPIC_16X);
 }
 
 rl::Texture::Texture(rl::Image img, int layout)
 {
     _texture = LoadTextureCubemap(img.getImg(), layout);
+    SetTextureFilter(_texture, TEXTURE_FILTER_ANISOTROPIC_16X);
 }
 
 rl::Texture::~Texture()
