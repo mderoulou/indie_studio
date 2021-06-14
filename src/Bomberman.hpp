@@ -16,8 +16,6 @@
 
 class ComponentManager;
 
-enum mapSize { small = 11, medium = 17, large = 21};
-
 class allTexture
 {
     public:
@@ -44,7 +42,7 @@ class Bomberman
         ~Bomberman();
 
         void launch();
-        void generateMap(mapSize type);
+        void generateMap(int type);
         ComponentManager *_manager;
         allTexture _t;
         rl::Window *_win;

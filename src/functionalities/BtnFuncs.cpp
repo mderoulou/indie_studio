@@ -237,11 +237,11 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
             {(float)1  , 0, (float)(size-2)},
             {(float)(size-2), 0, (float)1},
         };
+        win->generateMap(size);
         for (int i = 0; i < 4; i++) {
             if (!go->_types[i]) // Ya pa de playeur
                 continue;
-            std::cout << std::string(std::string("../assets/skins/") + go->_names[i]) + ".png" << std::endl;
-            Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, win, std::string(std::string("../assets/skins/") + go->_names[i]) + ".png");
+            Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, win, std::string("../assets/skins/") + go->_names[i]);
             win->_manager->addComponent(player, 3);
         }
         switchScene(win, 3);

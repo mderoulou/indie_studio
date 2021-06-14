@@ -13,7 +13,7 @@ GameOpt::GameOpt(Bomberman *win, int scene, std::shared_ptr<rl::Font> font)
     : _win(win),
     _types(4, 0),
     _keys{ 
-        { KeyboardKey::KEY_Z, KeyboardKey::KEY_S, KeyboardKey::KEY_Q, KeyboardKey::KEY_D, KeyboardKey::KEY_E, KeyboardKey::KEY_A},
+        { KeyboardKey::KEY_W, KeyboardKey::KEY_S, KeyboardKey::KEY_A, KeyboardKey::KEY_D, KeyboardKey::KEY_E, KeyboardKey::KEY_Q},
         { KeyboardKey::KEY_UP, KeyboardKey::KEY_DOWN, KeyboardKey::KEY_LEFT, KeyboardKey::KEY_RIGHT, KeyboardKey::KEY_SPACE, KeyboardKey::KEY_ENTER},
         { KeyboardKey::KEY_FIVE, KeyboardKey::KEY_TWO, KeyboardKey::KEY_ONE, KeyboardKey::KEY_THREE, KeyboardKey::KEY_SIX, KeyboardKey::KEY_FOUR},
         { KeyboardKey::KEY_I, KeyboardKey::KEY_K, KeyboardKey::KEY_J, KeyboardKey::KEY_L, KeyboardKey::KEY_O, KeyboardKey::KEY_U}
@@ -25,7 +25,7 @@ GameOpt::GameOpt(Bomberman *win, int scene, std::shared_ptr<rl::Font> font)
     _win = win;
     _font = font;
     for (int x = 0; x < 4; x++)
-        _names.push_back("skin");
+        _names.push_back("skin.png");
     _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)0, win->_t._btn, _win->_t._ft), 2);
     _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)1, _win->_t._btn, _win->_t._ft), 2);
     _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)2, _win->_t._btn, _win->_t._ft), 2);

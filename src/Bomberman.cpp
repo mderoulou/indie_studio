@@ -43,7 +43,6 @@ Bomberman::Bomberman()
     //rl::Window::SetExitKey(-1);
     if (1) {
         
-        generateMap(large);
     } else 
         loadMap();
 
@@ -96,7 +95,7 @@ Bomberman::~Bomberman()
 
 #define PYTAGORE(x, y, z) (pow((float)(x)*(x)+(y)*(y)+(z)*(z), 0.5))
 
-void Bomberman::generateMap(mapSize type)
+void Bomberman::generateMap(int type)
 {
     int x = type;
     int y = type;
@@ -212,13 +211,6 @@ void Bomberman::saveMap()
 
 void Bomberman::loadMap()
 {
-
-    int x = large;
-    int y = large;
-
-    _manager->_cam->setTarget(rl::Vec3(x / 2,  0, y / 2));
-    _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, y));
-
     std::ifstream file("save.yep", std::ifstream::binary);
     uint magic;
     uint size;
@@ -231,7 +223,7 @@ void Bomberman::loadMap()
         return;
     }
     std::vector<std::vector<int>> keys{ 
-        { KeyboardKey::KEY_Z, KeyboardKey::KEY_S, KeyboardKey::KEY_Q, KeyboardKey::KEY_D, KeyboardKey::KEY_E, KeyboardKey::KEY_A},
+        { KeyboardKey::KEY_W, KeyboardKey::KEY_S, KeyboardKey::KEY_A, KeyboardKey::KEY_D, KeyboardKey::KEY_E, KeyboardKey::KEY_Q},
         { KeyboardKey::KEY_UP, KeyboardKey::KEY_DOWN, KeyboardKey::KEY_LEFT, KeyboardKey::KEY_RIGHT, KeyboardKey::KEY_SPACE, KeyboardKey::KEY_ENTER},
         { KeyboardKey::KEY_FIVE, KeyboardKey::KEY_TWO, KeyboardKey::KEY_ONE, KeyboardKey::KEY_THREE, KeyboardKey::KEY_SIX, KeyboardKey::KEY_FOUR},
         { KeyboardKey::KEY_I, KeyboardKey::KEY_K, KeyboardKey::KEY_J, KeyboardKey::KEY_L, KeyboardKey::KEY_O, KeyboardKey::KEY_U}
