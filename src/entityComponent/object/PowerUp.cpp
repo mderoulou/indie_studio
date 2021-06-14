@@ -140,6 +140,6 @@ std::shared_ptr<ByteObject> PowerSpeed::dump() {
 
 void PowerSpeed::apllyToPlayer(Player *p) {
     PowerUp::apllyToPlayer(p);
-    p->_speedFactor += 0.2;
+    p->_speedFactor += 0.1;
 }
 

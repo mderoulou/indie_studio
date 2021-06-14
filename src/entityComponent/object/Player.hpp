@@ -47,7 +47,7 @@ public:
     int _bombCount = 0;
     float _rotation = 0;
     float _frame = 0;
-    float _speedFactor = 1;
+    float _speedFactor = 0.8;
     Control *_controller = 0;
 private:
     void makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);

@@ -66,7 +66,7 @@ void Bomb::simulate()
             {0, 0, -1},
         };
 
-        Particle *p = new Particle(centered_pos-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(100, 50, 50, 150), _scene, _model, rand()%120+60);
+        Particle *p = new Particle(centered_pos-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(255, 255, 255, 255), _scene, _manager->_bomberman->_t._smoke, rand()%60+60);
         _manager->addComponent(p, _scene);
 
         for (int axis_nb = 0; axis_nb < 4; axis_nb++){
@@ -84,7 +84,7 @@ void Bomb::simulate()
                 if (wilbreak)
                     goto next;
                 if (i > 0){
-                    Particle *p = new Particle(offset-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(100, 50, 50, 150), _scene, _model, rand()%60+60);
+                    Particle *p = new Particle(offset-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(255, 255, 255, 255), _scene, _manager->_bomberman->_t._smoke, rand()%60+60);
                     _manager->addComponent(p, _scene);
                 }
             }
