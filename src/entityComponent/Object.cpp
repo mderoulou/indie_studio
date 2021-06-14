@@ -14,3 +14,7 @@ AObject::~AObject() {
 bool AObject::explode(Bomb *bombe) {
     return false;
 };
+
+rl::Vec3 AObject::boudingBoxCenter() {
+    return ((rl::Vec3)_boundingBox._bd.min + (rl::Vec3)_boundingBox._bd.max)/2;
+}

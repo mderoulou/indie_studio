@@ -34,7 +34,7 @@ Bomberman::Bomberman()
 {
     SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     std::srand(time(NULL));
-    _win = new rl::Window(800, 600, "Indie Studio");
+    _win = new rl::Window(1920, 1080, "Indie Studio");
     _win->setWindowIcon(rl::Image("../assets/logo.png"));
     _manager = new ComponentManager(this);
 
@@ -42,9 +42,17 @@ Bomberman::Bomberman()
 
     //rl::Window::SetExitKey(-1);
     if (1) {
-        Player *player = new Player(rl::Vec3(4.0f, 2.0f, 4.0f), 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
-        _manager->addComponent(player, 3);
-        generateMap(medium);
+        rl::Vec3 spawnPoints[] = {
+            {1.  , 0, 1.},
+            {large-2., 0, large-2.},
+            {1.  , 0, large-2.},
+            {large-2., 0, 1.},
+        };
+        for (int i = 0; i < 4; i++) {
+            Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
+            _manager->addComponent(player, 3);
+        }
+        generateMap(large);
     } else 
         loadMap();
 
@@ -98,6 +106,8 @@ Bomberman::~Bomberman()
     delete _manager;
 }
 
+#define PYTAGORE(x, y, z) (pow((float)(x)*(x)+(y)*(y)+(z)*(z), 0.5))
+
 void Bomberman::generateMap(mapSize type)
 {
     int x = type;
@@ -105,6 +115,13 @@ void Bomberman::generateMap(mapSize type)
 
     _manager->_cam->setTarget(rl::Vec3(x / 2,  0, y / 2));
     _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, y));
+
+    rl::Vec2 spawnPoints[] = {
+        {1., 1.},
+        {x-1., y-1.},
+        {1., y-1.},
+        {x-1., 1.},
+    };
 
     // Create the ground
     for (int i = 0; i < x; i += 1) {
@@ -123,13 +140,19 @@ void Bomberman::generateMap(mapSize type)
                     rl::Vec3(1.02f, 1.02f, 1.02f),
                     rl::Color(255, 255, 255, 255), 3, _t._sb), 3);
             } else {
-                if (rand() % 4)
+                if (rand() % 4){
+                    for (auto &vec : spawnPoints)
+                        if (PYTAGORE(vec.x - xx, vec.y - yy, 0) < 3)
+                            goto skip;
                     _manager->addComponent(new Box(rl::Vec3(xx, 0.0f, yy),
                         rl::Vec3(1.02f, 1.02f, 1.02f),
                         rl::Color(255, 255, 255, 255), 3, _t._wood), 3);
+                    skip:;
+                }
             }
         }
     }
+    
 }
 
 void Bomberman::launch()
@@ -188,12 +211,9 @@ void Bomberman::saveMap()
     if (!file.is_open()) return;
     uint magic = 0x12345678; // MAGIIICCCCC
     file.write((char *)&magic, sizeof(magic));   
-    std::cout << magic;
-    file << _manager->_objs.size();
-    std::cout << _manager->_objs.size();
-    for (auto &obj : _manager->_objs) {
-        file << *(obj[_manager->_settings._scene])->dump();
-        std::cout << *(obj[_manager->_settings._scene])->dump();
+    file << _manager->_objs[3].size();
+    for (auto &obj : _manager->_objs[3]) {
+        file << obj->dump();
     }
 }
 

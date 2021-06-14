@@ -39,6 +39,18 @@ void ComponentManager::clearComponents()
     _objs[_settings._scene].clear();
 }
 
+void ComponentManager::fillPhysXTree(int scene) {
+    // rebuilt physicX tree
+    if (scene == -1)
+        scene = _settings._scene;
+    delete _PhysXTree;
+    _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
+    for (auto obj : _objs[scene])
+        if (obj->_isSolid)
+            _PhysXTree->addData(obj);
+
+}
+
 void ComponentManager::simulate()
 {
     // remove designated objects
@@ -52,13 +64,7 @@ void ComponentManager::simulate()
         }
     }
 
-    // rebuilt physicX tree
-    delete _PhysXTree;
-    _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
-    for (auto obj : _objs[_settings._scene])
-        if (obj->_isSolid)
-            _PhysXTree->addData(obj);
-
+    fillPhysXTree(-1);
 
     for (long unsigned int i = 0; i < _objs[6].size(); i++) {
         auto obj = _objs[6][i];

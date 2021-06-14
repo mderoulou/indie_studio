@@ -25,7 +25,6 @@ public:
     virtual bool explode(Bomb *) override;
 
     std::shared_ptr<rl::Model> _model;
-    std::shared_ptr<rl::Texture> _texture;
     Player *_player;
     float _scale;
     int _time;

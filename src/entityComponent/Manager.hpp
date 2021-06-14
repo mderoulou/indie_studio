@@ -31,6 +31,7 @@ class ComponentManager
         ~ComponentManager();
 
         void addComponent(AObject *obj, int index);
+        void fillPhysXTree(int scene = -1);
         void clearComponents();
 
         void simulate();

@@ -25,6 +25,7 @@ public:
     void simulate() override;
     void render(rl::Camera3d *cam) override;
     bool explode(Bomb *) override;
+    void die();
     std::shared_ptr<ByteObject> dump() override;
 
     std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _models;
@@ -33,9 +34,13 @@ public:
 
     rl::Vec3 _v = {0, 0, 0};
     rl::Vec3 _acc = {0, 0, 0};
+    rl::Vec3 _direction = {0, 1, 0};
+    rl::Vec3 _deadVec = {0, 0, 0};
 
     bool _isKeyboard = true;
     bool _isKeyUsed = false;
+    bool _isDead = false;
+    int _deathTime = 30;
     float _scale;
     std::string _pathText;
     int _bombCount = 0;

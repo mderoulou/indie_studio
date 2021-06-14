@@ -69,15 +69,23 @@ void Player::makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> mo
     _boundingBox._bd.max = _pos + rl::Vec3{0.25, 1.8, 0.25};
     _models = models;
 }
+void Player::die() {
+    _isDead = true;
+}
 
 bool Player::explode(Bomb *other) {
     std::cout << "explode player" << std::endl;
     rl::Vec3 d = _pos - other->_pos;
     float norm = pow(d[0]*d[0]+d[1]*d[1]+d[2]*d[2], 0.5);
     //d = {d[0]/norm, 0, d[2]/norm};
+    //_deadVec = {acos(d[0]/norm), acos(d[1]/norm), acos(d[2]/norm)};
+    _deadVec = {-d[2], 0, -d[0]};
+    _rotation = 0;
     d[1] += 1;
     d /= norm;
     _v += d/1.5;
+    _color = {255, 128, 128, 255};
+    die();
     return false;
 }
 
@@ -88,7 +96,7 @@ void Player::render(rl::Camera3d *cam)
     if (_frame < 0 || _frame > 40)
         return;
     (*_models)[(int)_frame]->setMaterialTexture(0, _texture);
-    (*_models)[(int)_frame]->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
+    (*_models)[(int)_frame]->drawEx(_pos, _direction, _rotation, rl::Vec3(_scale, _scale, _scale), _color);
 }
 
 void Player::move(rl::Vec3 newPos)
@@ -112,9 +120,16 @@ void Player::simulate()
     //std::cout << "[MANAGER] Moving Events!" << std::endl;
 
     // controller 
-    if (_controller) {
+    bool hasMove = false;
+    if (_isDead){
+        _deathTime;
+        _rotation = _rotation*0.9 + 90*0.1;
+        _direction = _direction*0.9 + _deadVec*0.1;
+        float norm = pow(_direction[0]*_direction[0]+_direction[1]*_direction[1]+_direction[2]*_direction[2], 0.5);
+        if (_deathTime <= 0)
+            _toRemove = true;
+    } else if (_controller) {
         float mov = 0;
-        bool hasMove = false;
         if (!_controller->initialized)
             _controller->init();
         if ((mov = _controller->isKeyUp()) != 0) { 
@@ -150,97 +165,99 @@ void Player::simulate()
             _rotation += 360; 
         }
 
+
         if (std::isnormal(angle))
             _rotation = _rotation*0.8 + (angle)*0.2;
-        
-
-        // player animation
-        _frame += acc_mult * pow(pow(_v.x, 2) + pow(_v.z, 2), 0.5) * 100;
-       
-        if (_v.x*_v.x + _v.z*_v.z < 0.01 && _frame > 0 && !hasMove) {
-            if ((int)_frame == 20)
-                _frame = 0;
-            if ((int)_frame%20 > 10)
-                _frame += 1;
-            else
-                _frame -= 1;
-        }
-       
-        if (_frame >= 40)
-            _frame = 0;
-        else if (_frame <= 0)
-            _frame = 0;
-
-
-        _v.x += _acc.x;
-        _v.y += _acc.y;
-        _v.z += _acc.z;
-
-        if (hasMove){
-            _v.x *= 0.9;
-            //_v.y *= 0.9;
-            _v.z *= 0.9;
-        }
-
-
-        _acc.x = 0;
-        _acc.y = -1/60.0;
-        _acc.z = 0;
-
-        //collide with Solid Object
-        rl::Vec3 colideSize = {3, 3, 3};
-        rl::Vec3 pCenter = (rl::Vec3(_boundingBox._bd.min) + rl::Vec3(_boundingBox._bd.max))/2;
-        rl::Vec3 pSize = rl::Vec3(_boundingBox._bd.max) - rl::Vec3(_boundingBox._bd.min);
-        std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(pCenter, colideSize);
-
-        for (AObject *&obj : vec) {
-            if (obj != this && _boundingBox.checkColissionBox(&obj->_boundingBox)) {
-                rl::Vec3 objSize = rl::Vec3(obj->_boundingBox._bd.max) - rl::Vec3(obj->_boundingBox._bd.min);
-                
-                rl::Vec3 objCenter = (rl::Vec3(obj->_boundingBox._bd.max) + rl::Vec3(obj->_boundingBox._bd.min))/2;
-                rl::Vec3 d = pCenter-objCenter;
-
-                char signe[3];
-                for (int i = 0 ; i < 3; i++){
-                    signe[i] = d[i] > 0 ? 1 : -1;
-                    d[i] = abs(d[i]);
-                }
-
-                rl::Vec3 dd = d-((objSize+pSize)/2);
-
-                float min = dd[0];
-                int axe = 0;
-                for (int i = 1; i < 3; i++)
-                    if (abs(dd[i]) < abs(min)){
-                        min = dd[i];
-                        axe = i;
-                    }
-                for (int i = 0; i < 3; i++)
-                    if (i != axe){
-                        dd[i] = 0;
-                    }
-                
-                for (int i = 0 ; i < 3; i++){
-                    dd[i] *= signe[i];
-                }
-
-                if (dd[axe] * _v[axe] > 0) {
-                    _v[axe] *= 0.1;
-                }
-                if (axe == 1){
-                    _v[(axe+1)%3] *= 0.8;
-                    _v[(axe+2)%3] *= 0.8;
-                }
-                move(dd*-1);
-            }
-        }
-
-        move(_v);
     }
+    
+    // player animation
+    _frame += acc_mult * pow(pow(_v.x, 2) + pow(_v.z, 2), 0.5) * 100;
+    
+    if (_v.x*_v.x + _v.z*_v.z < 0.01 && _frame > 0 && !hasMove) {
+        if ((int)_frame == 20)
+            _frame = 0;
+        if ((int)_frame % 20 > 10)
+            _frame += 1;
+        else
+            _frame -= 1;
+    }
+    
+    if (_frame >= 40)
+        _frame = 0;
+    else if (_frame <= 0)
+        _frame = 0;
+
+
+    _v.x += _acc.x;
+    _v.y += _acc.y;
+    _v.z += _acc.z;
+
+    if (hasMove){
+        _v.x *= 0.9;
+        //_v.y *= 0.9;
+        _v.z *= 0.9;
+    }
+
+
+    _acc.x = 0;
+    _acc.y = -1/60.0;
+    _acc.z = 0;
+
+    //collide with Solid Object
+    rl::Vec3 colideSize = {3, 3, 3};
+    rl::Vec3 pCenter = (rl::Vec3(_boundingBox._bd.min) + rl::Vec3(_boundingBox._bd.max))/2;
+    rl::Vec3 pSize = rl::Vec3(_boundingBox._bd.max) - rl::Vec3(_boundingBox._bd.min);
+    std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(pCenter, colideSize);
+
+    for (AObject *&obj : vec) {
+        if (obj != this && _boundingBox.checkColissionBox(&obj->_boundingBox)) {
+            rl::Vec3 objSize = rl::Vec3(obj->_boundingBox._bd.max) - rl::Vec3(obj->_boundingBox._bd.min);
+            
+            rl::Vec3 objCenter = (rl::Vec3(obj->_boundingBox._bd.max) + rl::Vec3(obj->_boundingBox._bd.min))/2;
+            rl::Vec3 d = pCenter-objCenter;
+
+            char signe[3];
+            for (int i = 0 ; i < 3; i++){
+                signe[i] = d[i] > 0 ? 1 : -1;
+                d[i] = abs(d[i]);
+            }
+
+            rl::Vec3 dd = d-((objSize+pSize)/2);
+
+            float min = dd[0];
+            int axe = 0;
+            for (int i = 1; i < 3; i++)
+                if (abs(dd[i]) < abs(min)){
+                    min = dd[i];
+                    axe = i;
+                }
+            for (int i = 0; i < 3; i++)
+                if (i != axe){
+                    dd[i] = 0;
+                }
+            
+            for (int i = 0 ; i < 3; i++){
+                dd[i] *= signe[i];
+            }
+
+            if (dd[axe] * _v[axe] > 0) {
+                _v[axe] *= 0.1;
+            }
+            if (axe == 1){
+                _v[(axe+1)%3] *= 0.8;
+                _v[(axe+2)%3] *= 0.8;
+            }
+            move(dd*-1);
+        }
+    }
+
+    move(_v);
 }
 
 void Player::handleEvent()
 {
+    if (_isDead)
+        return;
     if (_controller->isKeyUse()) {
         if (!_isKeyUsed){
             this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this), _scene);

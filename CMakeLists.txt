@@ -86,6 +86,7 @@ src/entityComponent/object/Input.cpp
 src/entityComponent/object/Slider.cpp
 src/entityComponent/object/List.cpp
 src/entityComponent/object/Bomb.cpp
+src/entityComponent/object/Particle.cpp
 src/entityComponent/object/MusicManager.cpp
 src/entityComponent/object/EscManager.cpp
 src/entityComponent/Object.cpp

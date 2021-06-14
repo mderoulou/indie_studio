@@ -1,99 +1,65 @@
 /*
-** EPITECH PROJECT, 2020
-** YEP Indie Studio
+** EPITECH PROJECT, 2021
+** indie_studio
 ** File description:
-** Bomb
+** Particle
 */
 
-#include "Bomb.hpp"
+#include "Particle.hpp"
 
-Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, Player *player)
+Particle::Particle(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_ptr<rl::Texture> texture, int life)
+    : Cube(pos, size, color, scene)
 {
-    _player = player;
+    makeObj(texture, life);
+}
+
+Particle::Particle(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<rl::Model> model, int life) {
     _pos = rl::Vec3(pos);
+    _life = life;
     _scene = scene;
     _color = color;
     _scale = scale;
-    _explosed = false;
-    _time = time;
     _model = model;
-    _player->_bombCount += 1;
-    _isSolid = true;
+    _isSolid = false;
     _boundingBox._bd.min = pos-scale;
     _boundingBox._bd.max = pos+scale;
 }
 
-Bomb::~Bomb() {
-    _player->_bombCount -= 1;
-
+Particle::~Particle()
+{
 }
 
-bool Bomb::explode(Bomb *other) {
+bool Particle::explode(Bomb *other) {
     rl::Vec3 d = _pos - other->_pos;
     float norm = pow(d[0]*d[0]+d[1]*d[1]+d[2]*d[2], 0.5);
     d[1] += 0.5;
     d /= norm;
-    _v += d/3;
+    _v += d/2;
     return false;
 }
 
-
-void Bomb::move(rl::Vec3 newPos)
+void Particle::makeObj(std::shared_ptr<rl::Texture> texture, int life)
 {
-    AObject::move(newPos);
+    _life = life;
+    _isBreakable = false;
+    _texture = texture;
+    _isSolid = false;
+    _boundingBox._bd.min = _pos-_size/2;
+    _boundingBox._bd.max = _pos+_size/2;
 }
 
-void Bomb::simulate()
+void Particle::render(rl::Camera3d *cam)
 {
-    _time -= 1;
-    
-    if (_time % 6 == 0){
-        _scale += 0.01;
-        _boundingBox._bd.min = _pos-_scale;
-        _boundingBox._bd.max = _pos+_scale;
-    }
+    if (_texture)
+        _texture->drawTexture(_pos, _size, _color);
+    else if (_model)
+        _model->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
+}
 
-    if (_time <= 0) {
-        // explode the bomb
-        rl::Vec3 centered_pos = boudingBoxCenter() + rl::Vec3(0, 2-_scale, 0);
-        rl::Vec3 treeZone = {0.5, 2, 0.5};
-        auto &PhysXTree = _manager->_PhysXTree;
-
-        rl::Vec3 axis[4] = {
-            {1, 0, 0},
-            {-1, 0, 0},
-            {0, 0, 1},
-            {0, 0, -1},
-        };
-
-        for (int axis_nb = 0; axis_nb < 4; axis_nb++){
-            int x = 0;
-            rl::Vec3 offset = centered_pos;
-            for (int i = 0; i <= _explosionRadius; i++) {
-                auto vec = PhysXTree->getInArea(offset, treeZone);
-                bool wilbreak = false;
-                for (auto &obj : vec){
-                    if (obj == this)
-                        continue;
-                    if (obj->explode(this))
-                        wilbreak = true;
-                }
-                if (wilbreak)
-                    goto next;
-                offset += axis[axis_nb];
-            }
-            next:;
-        }
-        for (int i = 0; i < 128; i++){
-            rl::Vec3 randvec = {(rand()%128-64.0)/64, (rand()%128-64.0)/64, (rand()%128-64.0)/64};
-            _manager->addComponent(new Particle(_pos + randvec, 0.1, rl::Color(255, 255, 255, 255), _scene, _model, rand()%120), _scene);
-        }
-
-        _explosed = true;
+void Particle::simulate() {
+    _life--;
+    if (_life <= 0)
         _toRemove = true;
-    }
-
-
     // physic
     _v.x += _acc.x;
     _v.y += _acc.y;
@@ -153,10 +119,6 @@ void Bomb::simulate()
             move(dd*-0.1);
         }
     }
-    move(_v);
-}
 
-void Bomb::render(rl::Camera3d *cam)
-{
-    _model->drawEx(_pos, rl::Vec3(0, 1, 0), _rotation, rl::Vec3(_scale, _scale, _scale), _color);
+    move(_v);
 }
