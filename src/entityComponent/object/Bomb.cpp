@@ -84,7 +84,7 @@ void Bomb::simulate()
                 if (wilbreak)
                     goto next;
                 if (i > 0){
-                    Particle *p = new Particle(offset-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(100, 50, 50, 150), _scene, _model, rand()%120+60);
+                    Particle *p = new Particle(offset-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(100, 50, 50, 150), _scene, _model, rand()%60+60);
                     _manager->addComponent(p, _scene);
                 }
             }
@@ -127,7 +127,7 @@ void Bomb::simulate()
     std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(pCenter, colideSize);
 
     for (AObject *&obj : vec) {
-        if (obj == this)
+        if (obj == this || dynamic_cast<Bomb *>(obj))
             continue;
         if (_boundingBox.checkColissionBox(&obj->_boundingBox)) {
             rl::Vec3 objSize = rl::Vec3(obj->_boundingBox._bd.max) - rl::Vec3(obj->_boundingBox._bd.min);

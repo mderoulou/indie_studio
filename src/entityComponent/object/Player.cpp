@@ -38,7 +38,7 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool isKey
 
 Player::Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
 {
-    (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _isKeyboard >> _scene >> _explosionRadius;
+    (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _isKeyboard >> _scene >> _explosionRadius >> _maxBombCount >> _speedFactor;
 
     makeObj(models);
     if (_isKeyboard)
@@ -57,7 +57,7 @@ std::shared_ptr<ByteObject> Player::dump()
     for (char &c : _pathText)
         name.push_back(c);
     name.push_back(0);
-    *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene << _explosionRadius) + *_controller->dump() + ByteObject(name, name.size());
+    *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene << _explosionRadius << _maxBombCount << _speedFactor) + *_controller->dump() + ByteObject(name, name.size());
     return obj;
 }
 
@@ -127,14 +127,13 @@ double findAngle(rl::Vec2 vec)
 
 void Player::simulate()
 {
-    float acc_mult = 0.05; 
+    float acc_mult = 0.05 * _speedFactor; 
 
     //std::cout << "[MANAGER] Moving Events!" << std::endl;
 
     // controller 
     bool hasMove = false;
     if (_isDead){
-        _deathTime;
         _rotation = _rotation*0.9 + 90*0.1;
         _direction = _direction*0.9 + _deadVec*0.1;
         float norm = pow(_direction[0]*_direction[0]+_direction[1]*_direction[1]+_direction[2]*_direction[2], 0.5);
@@ -150,6 +149,7 @@ void Player::simulate()
         _manager->addComponent(p, _scene);
         if (_deathTime <= 0)
             _toRemove = true;
+        _deathTime--;
     } else if (_controller) {
         float mov = 0;
         if (!_controller->initialized)
@@ -190,6 +190,13 @@ void Player::simulate()
 
         if (std::isnormal(angle))
             _rotation = _rotation*0.8 + (angle)*0.2;
+    
+        auto vec = boudingBoxCenter();
+        if (vec[1] > 2) {
+            _pos[1] -= vec[1]-2;
+        } else if (vec[1] < 0) {
+            _pos[1] += 0-vec[1];
+        }
     }
     
     // player animation
@@ -281,7 +288,7 @@ void Player::handleEvent()
     if (_isDead)
         return;
     if (_controller->isKeyUse()) {
-        if (!_isKeyUsed){
+        if (!_isKeyUsed && _bombCount < _maxBombCount){
             this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this, _explosionRadius), _scene);
         }
         _isKeyUsed = true;

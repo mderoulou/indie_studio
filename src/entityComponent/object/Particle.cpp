@@ -41,7 +41,6 @@ bool Particle::explode(Bomb *other) {
 void Particle::makeObj(std::shared_ptr<rl::Texture> texture, int life)
 {
     _life = life;
-    _isBreakable = false;
     _texture = texture;
     _isSolid = false;
     _boundingBox._bd.min = _pos-_size/2;

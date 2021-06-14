@@ -52,6 +52,7 @@ Bomberman::Bomberman()
             Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
             _manager->addComponent(player, 3);
         }
+        
         generateMap(large);
     } else 
         loadMap();
