@@ -15,7 +15,7 @@ GameOpt::GameOpt(Bomberman *win, int scene, std::shared_ptr<rl::Font> font)
     _keys{ 
         { KeyboardKey::KEY_W, KeyboardKey::KEY_S, KeyboardKey::KEY_A, KeyboardKey::KEY_D, KeyboardKey::KEY_E, KeyboardKey::KEY_Q},
         { KeyboardKey::KEY_UP, KeyboardKey::KEY_DOWN, KeyboardKey::KEY_LEFT, KeyboardKey::KEY_RIGHT, KeyboardKey::KEY_SPACE, KeyboardKey::KEY_ENTER},
-        { KeyboardKey::KEY_FIVE, KeyboardKey::KEY_TWO, KeyboardKey::KEY_ONE, KeyboardKey::KEY_THREE, KeyboardKey::KEY_SIX, KeyboardKey::KEY_FOUR},
+        { KeyboardKey::KEY_KP_5, KeyboardKey::KEY_KP_2, KeyboardKey::KEY_KP_1, KeyboardKey::KEY_KP_3, KeyboardKey::KEY_KP_6, KeyboardKey::KEY_KP_4},
         { KeyboardKey::KEY_I, KeyboardKey::KEY_K, KeyboardKey::KEY_J, KeyboardKey::KEY_L, KeyboardKey::KEY_O, KeyboardKey::KEY_U}
     }
 {
