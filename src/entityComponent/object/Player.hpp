@@ -40,14 +40,17 @@ public:
     bool _isKeyboard = true;
     bool _isKeyUsed = false;
     bool _isDead = false;
-    int _deathTime = 30;
+    int _deathTime = 60;
+    int _explosionRadius = 1;
     float _scale;
     std::string _pathText;
+    int _maxBombCount = 1;
     int _bombCount = 0;
     float _rotation = 0;
     float _frame = 0;
     uint16_t _cId;
     std::shared_ptr<Controls> _controller = 0;
+    float _speedFactor = 0.8;
 private:
     void makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
 };

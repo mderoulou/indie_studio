@@ -30,6 +30,10 @@ class allTexture
         std::shared_ptr<rl::Sound> _click;
         std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _walking; // Walking Animation
         std::shared_ptr<rl::Model> _tnt_a;
+        std::shared_ptr<rl::Model> _smoke;
+        std::shared_ptr<rl::Model> _power_speed;
+        std::shared_ptr<rl::Model> _power_bomb;
+        std::shared_ptr<rl::Model> _power_size;
         rl::Mesh _cube_mesh = {1, 1, 1};
 };
 

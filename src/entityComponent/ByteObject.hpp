@@ -27,6 +27,7 @@ class ByteObject
             FLOOR,
             IA,
             DEFAULT,
+            POWERUP,
         };
 
         ByteObject() {

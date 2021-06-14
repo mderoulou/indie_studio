@@ -25,7 +25,24 @@ Box::~Box()
 
 bool Box::explode(Bomb *){
     _toRemove = true;
-    std::cout << "explode" << std::endl;
+
+    Particle *p = new Particle(_pos + _size*(0.2/2), _size*0.8, rl::Color(200, 200, 200, 255), _scene, _texture, 120);
+    _manager->addComponent(p, _scene);
+
+    int r = rand() % 9;
+    PowerUp *powerUp;
+    if (r == 0) {
+        powerUp = new PowerBombsPower(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_size);
+    } else if (r == 1) {
+        powerUp = new PowerBombsCount(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_bomb);
+    } else if (r == 2) {
+        powerUp = new PowerSpeed(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_speed);
+    } else {
+        goto noPowerUp;
+    }
+    _manager->addComponent(powerUp, 3);
+    noPowerUp:;
+
     return true;
 }
 
@@ -48,5 +65,5 @@ std::shared_ptr<ByteObject> Box::dump()
     std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
     
     (*obj) << ByteObject::BOX << _pos << _size << _color << _scene;
-    return obj;obj;
+    return obj;
 }

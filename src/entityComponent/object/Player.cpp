@@ -34,14 +34,13 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, std::share
 
 Player::Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::shared_ptr<Controls> controls)
 {
-    (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _scene;
+    (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _isKeyboard >> _scene >> _explosionRadius >> _maxBombCount >> _speedFactor;
 
     makeObj(models);
     //_controls = controls;
     _pathText = std::string(&(obj->data[obj->cursor]));
     _texture = std::make_shared<rl::Texture>(_pathText);
 }
-
 
 std::shared_ptr<ByteObject> Player::dump()
 {
@@ -50,7 +49,8 @@ std::shared_ptr<ByteObject> Player::dump()
     for (char &c : _pathText)
         name.push_back(c);
     name.push_back(0);
-    *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _scene) + ByteObject(name, name.size());
+    //*obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene << _explosionRadius << _maxBombCount << _speedFactor) + *_controller->dump() + ByteObject(name, name.size());
+    *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene << _explosionRadius << _maxBombCount << _speedFactor) + ByteObject(name, name.size());
     return obj;
 }
 
@@ -61,7 +61,20 @@ void Player::makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> mo
     _boundingBox._bd.max = _pos + rl::Vec3{0.25, 1.8, 0.25};
     _models = models;
 }
+
 void Player::die() {
+    for (int i = 0; i < 32; i++){
+        rl::Vec3 randvec = {
+            (float)(rand()%128-64.0)/64,
+            (float)(rand()%128-64.0)/64,
+            (float)(rand()%128-64.0)/64};
+        Particle *p = new Particle(boudingBoxCenter()+rl::Vec3(0, 0.2, 0), 0.1, rl::Color(255, 50, 50, 255), _scene, _manager->_bomberman->_t._tnt_a, rand()%120+60);
+        p->_v[0] = randvec[0];
+        p->_v[1] = abs(randvec[1])*2;
+        p->_v[2] = randvec[2];
+        p->_v /= 6;
+        _manager->addComponent(p, _scene);
+    }
     _isDead = true;
 }
 
@@ -107,19 +120,29 @@ double findAngle(rl::Vec2 vec)
 
 void Player::simulate()
 {
-    float acc_mult = 0.05; 
+    float acc_mult = 0.05 * _speedFactor; 
 
     //std::cout << "[MANAGER] Moving Events!" << std::endl;
 
     // controller 
     bool hasMove = false;
     if (_isDead){
-        _deathTime;
         _rotation = _rotation*0.9 + 90*0.1;
         _direction = _direction*0.9 + _deadVec*0.1;
         float norm = pow(_direction[0]*_direction[0]+_direction[1]*_direction[1]+_direction[2]*_direction[2], 0.5);
+        rl::Vec3 randvec = {
+            (float)(rand()%128-64.0)/64,
+            (float)(rand()%128-64.0)/64,
+            (float)(rand()%128-64.0)/64};
+        Particle *p = new Particle(_pos+rl::Vec3(0, 0.2, 0), 0.1, rl::Color(255, 50, 50, 255), _scene, _manager->_bomberman->_t._tnt_a, rand()%120+60);
+        p->_v[0] = randvec[0];
+        p->_v[1] = abs(randvec[1])*2;
+        p->_v[2] = randvec[2];
+        p->_v /= 6;
+        _manager->addComponent(p, _scene);
         if (_deathTime <= 0)
             _toRemove = true;
+        _deathTime;
     } else if (_controller) {
         float mov = 0;
         if ((mov = _controller->isKeyUp()) != 0) { 
@@ -158,6 +181,13 @@ void Player::simulate()
 
         if (std::isnormal(angle))
             _rotation = _rotation*0.8 + (angle)*0.2;
+    
+        auto vec = boudingBoxCenter();
+        if (vec[1] > 2) {
+            _pos[1] -= vec[1]-2;
+        } else if (vec[1] < 0) {
+            _pos[1] += 0-vec[1];
+        }
     }
     
     // player animation
@@ -248,8 +278,8 @@ void Player::handleEvent()
     if (_isDead)
         return;
     if (_controller->isKeyUse()) {
-        if (!_isKeyUsed){
-            this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this), _scene);
+        if (!_isKeyUsed && _bombCount < _maxBombCount){
+            this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this, _explosionRadius), _scene);
         }
         _isKeyUsed = true;
     } else {

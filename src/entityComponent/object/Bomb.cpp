@@ -7,8 +7,9 @@
 
 #include "Bomb.hpp"
 
-Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, Player *player)
+Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, Player *player, int explosionRadius)
 {
+    _explosionRadius = explosionRadius;
     _player = player;
     _pos = rl::Vec3(pos);
     _scene = scene;
@@ -25,7 +26,6 @@ Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, st
 
 Bomb::~Bomb() {
     _player->_bombCount -= 1;
-
 }
 
 bool Bomb::explode(Bomb *other) {
@@ -33,7 +33,7 @@ bool Bomb::explode(Bomb *other) {
     float norm = pow(d[0]*d[0]+d[1]*d[1]+d[2]*d[2], 0.5);
     d[1] += 0.5;
     d /= norm;
-    _v += d/3;
+    _v += d/2;
     return false;
 }
 
@@ -66,10 +66,13 @@ void Bomb::simulate()
             {0, 0, -1},
         };
 
+        Particle *p = new Particle(centered_pos-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(255, 255, 255, 255), _scene, _manager->_bomberman->_t._smoke, rand()%60+60);
+        _manager->addComponent(p, _scene);
+
         for (int axis_nb = 0; axis_nb < 4; axis_nb++){
             int x = 0;
             rl::Vec3 offset = centered_pos;
-            for (int i = 0; i <= _explosionRadius; i++) {
+            for (int i = 0; i <= _explosionRadius; i++, offset += axis[axis_nb]) {
                 auto vec = PhysXTree->getInArea(offset, treeZone);
                 bool wilbreak = false;
                 for (auto &obj : vec){
@@ -80,16 +83,24 @@ void Bomb::simulate()
                 }
                 if (wilbreak)
                     goto next;
-                offset += axis[axis_nb];
+                if (i > 0){
+                    Particle *p = new Particle(offset-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(255, 255, 255, 255), _scene, _manager->_bomberman->_t._smoke, rand()%60+60);
+                    _manager->addComponent(p, _scene);
+                }
             }
             next:;
         }
-        for (int i = 0; i < 128; i++){
+        for (int i = 0; i < 32; i++){
             rl::Vec3 randvec = {
                 (float)(rand()%128-64.0)/64,
                 (float)(rand()%128-64.0)/64,
                 (float)(rand()%128-64.0)/64};
-            _manager->addComponent(new Particle(_pos + randvec, 0.1, rl::Color(255, 255, 255, 255), _scene, _model, rand()%120), _scene);
+            Particle *p = new Particle(_pos + randvec, 0.1, rl::Color(255, 255, 255, 255), _scene, _model, rand()%120+60);
+            p->_v[0] = randvec[0];
+            p->_v[1] = abs(randvec[1]);
+            p->_v[2] = randvec[2];
+            p->_v /= 2;
+            _manager->addComponent(p, _scene);
         }
 
         _explosed = true;
@@ -116,7 +127,7 @@ void Bomb::simulate()
     std::vector<AObject *> vec = _manager->_PhysXTree->getInArea(pCenter, colideSize);
 
     for (AObject *&obj : vec) {
-        if (obj == this)
+        if (obj == this || dynamic_cast<Bomb *>(obj))
             continue;
         if (_boundingBox.checkColissionBox(&obj->_boundingBox)) {
             rl::Vec3 objSize = rl::Vec3(obj->_boundingBox._bd.max) - rl::Vec3(obj->_boundingBox._bd.min);

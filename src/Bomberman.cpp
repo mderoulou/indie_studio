@@ -116,7 +116,7 @@ void Bomberman::generateMap(mapSize type)
         for (int j = 0; j < y; j += 1) {
             _manager->addComponent(new Floor(rl::Vec3(i, -1.0f, j),
                             rl::Vec3(1.02f, 1.02f, 1.02f),
-                            rl::Color(255, 255, 255, 255), 3, _t._sb), 3);
+                            rl::Color(200, 200, 200, 255), 3, _t._sb), 3);
         }
     }
 
@@ -177,6 +177,10 @@ void Bomberman::preLoad()
     _t._wood_mod->setMaterialTexture(0, _t._wood);
     
     _t._tnt_a = std::make_shared<rl::Model>("../assets/block/tnt.glb");
+    _t._power_speed = std::make_shared<rl::Model>("../assets/block/speed.glb");
+    _t._power_bomb = std::make_shared<rl::Model>("../assets/block/bomb.glb");
+    _t._power_size = std::make_shared<rl::Model>("../assets/block/explo.glb");
+    _t._smoke = std::make_shared<rl::Model>("../assets/block/smoke.glb");
     _t._ft = std::make_shared<rl::Font>("../assets/minecraftia.ttf");
     std::cout << _t._ft << std::endl;
     _t._click = std::make_shared<rl::Sound>("../assets/musics/click.wav");
@@ -202,15 +206,15 @@ void Bomberman::saveMap()
     file.write((char *)&magic, sizeof(magic));   
     file << _manager->_objs[3].size();
     for (auto &obj : _manager->_objs[3]) {
-        file << obj->dump();
+        file << *obj->dump();
     }
 }
 
 void Bomberman::loadMap()
 {
 
-    int x = 32;
-    int y = 32;
+    int x = large;
+    int y = large;
 
     _manager->_cam->setTarget(rl::Vec3(x / 2,  0, y / 2));
     _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, y));

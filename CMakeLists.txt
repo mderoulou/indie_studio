@@ -79,6 +79,7 @@ src/entityComponent/object/Floor.cpp
 src/entityComponent/object/Preview.cpp
 src/entityComponent/object/Player.cpp
 src/entityComponent/object/Box.cpp
+src/entityComponent/object/PowerUp.cpp
 src/entityComponent/object/Skybox.cpp
 src/entityComponent/object/Btn.cpp
 src/entityComponent/object/Input.cpp
