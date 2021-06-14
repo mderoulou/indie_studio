@@ -43,10 +43,10 @@ Bomberman::Bomberman()
     //rl::Window::SetExitKey(-1);
     if (1) {
         rl::Vec3 spawnPoints[] = {
-            {1.  , 0, 1.},
-            {large-2., 0, large-2.},
-            {1.  , 0, large-2.},
-            {large-2., 0, 1.},
+            {(float)1  , 0, (float)1},
+            {(float)(large-2), 0, (float)(large-2)},
+            {(float)1  , 0, (float)(large-2)},
+            {(float)(large-2), 0, (float)1},
         };
         for (int i = 0; i < 4; i++) {
             Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
@@ -117,10 +117,10 @@ void Bomberman::generateMap(mapSize type)
     _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, y));
 
     rl::Vec2 spawnPoints[] = {
-        {1., 1.},
-        {x-1., y-1.},
-        {1., y-1.},
-        {x-1., 1.},
+        {(float)1, (float)1},
+        {(float)(x-1), (float)(y-1)},
+        {(float)1, (float)(y-1)},
+        {(float)(x-1), (float)1},
     };
 
     // Create the ground

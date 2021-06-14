@@ -66,8 +66,6 @@ class AObject : public IObject
             DIMENSION3,
         };
 
-        dimension _dimension;
-
     private:
 };
 
