@@ -85,7 +85,10 @@ void Bomb::simulate()
             next:;
         }
         for (int i = 0; i < 128; i++){
-            rl::Vec3 randvec = {(rand()%128-64.0)/64, (rand()%128-64.0)/64, (rand()%128-64.0)/64};
+            rl::Vec3 randvec = {
+                (float)(rand()%128-64.0)/64,
+                (float)(rand()%128-64.0)/64,
+                (float)(rand()%128-64.0)/64};
             _manager->addComponent(new Particle(_pos + randvec, 0.1, rl::Color(255, 255, 255, 255), _scene, _model, rand()%120), _scene);
         }
 
