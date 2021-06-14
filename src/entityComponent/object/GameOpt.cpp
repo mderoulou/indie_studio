@@ -24,12 +24,8 @@ GameOpt::GameOpt(Bomberman *win, int scene, std::shared_ptr<rl::Font> font)
     _scene = scene;
     _win = win;
     _font = font;
-    if (win->_manager->_settings._skins.size())
-        for (int x = 0; x < 4; x++)
-            _names.push_back(win->_manager->_settings._skins[0].substr(0, win->_manager->_settings._skins[0].size() - 4));
-    else
-        for (int x = 0; x < 4; x++)
-            _names.push_back("skin");
+    for (int x = 0; x < 4; x++)
+        _names.push_back("skin");
     _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)0, win->_t._btn, _win->_t._ft), 2);
     _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)1, _win->_t._btn, _win->_t._ft), 2);
     _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)2, _win->_t._btn, _win->_t._ft), 2);
