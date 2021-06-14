@@ -25,6 +25,7 @@ class ByteObject
             BOX,
             WALL,
             FLOOR,
+            IA,
             DEFAULT,
         };
 

@@ -263,6 +263,9 @@ void Bomberman::loadMap()
                 //std::cout << "load Box" << std::endl;
                 _manager->addComponent(new Box(obj, _t._wood), 3);
                 break;
+            case ByteObject::IA:
+                _manager->addComponent(new Ia(obj, _t._walking), 3);
+                break;
             case ByteObject::DEFAULT:
                 //std::cerr << "Default type " << type << std::endl;
                 break;

@@ -30,7 +30,6 @@ public:
 
     std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _models;
     std::shared_ptr<rl::Texture> _texture;
-    rl::ModelAnimation *_anim;
 
     rl::Vec3 _v = {0, 0, 0};
     rl::Vec3 _acc = {0, 0, 0};

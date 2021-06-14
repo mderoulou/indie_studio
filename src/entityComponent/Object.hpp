@@ -106,5 +106,6 @@ public:
 #include "object/Skybox.hpp"
 #include "object/Floor.hpp"
 #include "object/Particle.hpp"
+#include "object/Ia.hpp"
 
 #endif
