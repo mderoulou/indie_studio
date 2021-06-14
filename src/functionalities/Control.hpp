@@ -42,6 +42,7 @@ class KeyBoard : public Controls {
 class GamePad : public Controls {
     public:
         GamePad(uint16_t id) : Controls(id) {};
+        float resolveAxis(int axis, bool inv);
         float isKeyUp() override;
         float isKeyDown() override;
         float isKeyLeft() override;

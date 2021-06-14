@@ -77,24 +77,29 @@ int KeyBoard::isKeyOther()
 *                             *
 \*****************************/
 
+float GamePad::resolveAxis(int axis, bool inv)
+{
+    return inv ? rl::GamePad::GetGamepadAxisMovement(_id, axis) : -rl::GamePad::GetGamepadAxisMovement(_id, axis);
+}
+
 float GamePad::isKeyUp()
 {
-    return rl::GamePad::GetGamepadAxisMovement(_id, 0);
+    return GamePad::resolveAxis(1, 0);
 }
 
 float GamePad::isKeyDown()
 {
-    return rl::GamePad::GetGamepadAxisMovement(_id, 1);
+    return GamePad::resolveAxis(1, 1);
 }
 
 float GamePad::isKeyLeft()
 {
-    return rl::GamePad::GetGamepadAxisMovement(_id, 0);
+    return GamePad::resolveAxis(0, 0);
 }
 
 float GamePad::isKeyRight()
 {
-    return rl::GamePad::GetGamepadAxisMovement(_id, 1);
+    return GamePad::resolveAxis(0, 1);
 }
 
 int GamePad::isKeyUse()
