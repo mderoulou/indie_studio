@@ -128,7 +128,7 @@ void Bomberman::generateMap(mapSize type)
         for (int j = 0; j < y; j += 1) {
             _manager->addComponent(new Floor(rl::Vec3(i, -1.0f, j),
                             rl::Vec3(1.02f, 1.02f, 1.02f),
-                            rl::Color(255, 255, 255, 255), 3, _t._sb), 3);
+                            rl::Color(200, 200, 200, 255), 3, _t._sb), 3);
         }
     }
 

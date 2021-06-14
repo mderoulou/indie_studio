@@ -98,6 +98,7 @@ public:
 #include "object/Text.hpp"
 #include "object/Wall.hpp"
 #include "object/Box.hpp"
+#include "object/PowerUp.hpp"
 #include "object/Preview.hpp"
 #include "object/GameOpt.hpp"
 #include "object/Bomb.hpp"

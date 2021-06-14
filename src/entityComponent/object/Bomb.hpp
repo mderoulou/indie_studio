@@ -15,7 +15,7 @@
 class Bomb : public Object3D
 {
 public:
-    Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, Player *player);
+    Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, std::shared_ptr<rl::Model> model, Player *player, int explosionRadius);
     ~Bomb();
 
     void handleEvent() override {};
@@ -29,7 +29,7 @@ public:
     float _scale;
     int _time;
     bool _explosed;
-    int _explosionRadius = 2;
+    int _explosionRadius;
     float _rotation = 0;
     rl::Vec3 _v = {0, 0, 0};
     rl::Vec3 _acc = {0, 0, 0};

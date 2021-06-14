@@ -40,6 +40,7 @@ public:
     bool _isKeyUsed = false;
     bool _isDead = false;
     int _deathTime = 30;
+    int _explosionRadius = 1;
     float _scale;
     std::string _pathText;
     int _bombCount = 0;

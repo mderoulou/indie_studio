@@ -2,36 +2,35 @@
 ** EPITECH PROJECT, 2021
 ** indie_studio
 ** File description:
-** Box
+** PowerUp
 */
 
-#include "Box.hpp"
+#include "PowerUp.hpp"
 
-Box::Box(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_ptr<rl::Texture> texture)
+PowerUp::PowerUp(rl::Vec3 pos, rl::Vec3 size, rl::Color color, int scene, std::shared_ptr<rl::Texture> texture)
     : Cube(pos, size, color, scene)
 {
     makeObj(texture);
 }
 
-Box::Box(std::shared_ptr<ByteObject> &obj, std::shared_ptr<rl::Texture> texture)
+PowerUp::PowerUp(std::shared_ptr<ByteObject> &obj, std::shared_ptr<rl::Texture> texture)
 {
     (*obj) >> _pos >> _size >> _color >> _scene;
     makeObj(texture);
 }
 
-Box::~Box()
+PowerUp::~PowerUp()
 {
 }
 
-bool Box::explode(Bomb *){
+bool PowerUp::explode(Bomb *){
     _toRemove = true;
-
     Particle *p = new Particle(_pos + _size*(0.2/2), _size*0.8, rl::Color(200, 200, 200, 255), _scene, _texture, 120);
     _manager->addComponent(p, _scene);
     return true;
 }
 
-void Box::makeObj(std::shared_ptr<rl::Texture> texture)
+void PowerUp::makeObj(std::shared_ptr<rl::Texture> texture)
 {
     _isBreakable = true;
     _texture = texture;
@@ -40,15 +39,15 @@ void Box::makeObj(std::shared_ptr<rl::Texture> texture)
     _boundingBox._bd.max = _pos+_size/2 + rl::Vec3(0, 1, 0);
 }
 
-void Box::render(rl::Camera3d *cam)
+void PowerUp::render(rl::Camera3d *cam)
 {
     _texture->drawTexture(_pos, _size, _color);
 }
 
-std::shared_ptr<ByteObject> Box::dump()
+std::shared_ptr<ByteObject> PowerUp::dump()
 {
     std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
     
-    (*obj) << ByteObject::BOX << _pos << _size << _color << _scene;
+    (*obj) << ByteObject::POWERUP << _pos << _size << _color << _scene;
     return obj;
 }
