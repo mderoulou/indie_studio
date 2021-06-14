@@ -327,5 +327,6 @@ void BF::saveBtn(Bomberman *win, Btn *b, void *data)
 
 void BF::homeBtn(Bomberman *win, Btn *b, void *data)
 {
-
+    win->_manager->_objs[3].clear();
+    switchScene(win, 0);
 }

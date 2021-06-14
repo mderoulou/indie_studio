@@ -11,7 +11,6 @@
 #include "entityComponent/Manager.hpp"
 #include "functionalities/BtnFuncs.hpp"
 #include "Indie.hpp"
-
 #include <memory>
 
 class ComponentManager;
@@ -50,6 +49,8 @@ class Bomberman
     private:
         void loadMap();
         void saveMap();
+        void createUI();
         void preLoad();
+        void setupWin();
 };
 #endif

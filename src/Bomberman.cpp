@@ -36,54 +36,17 @@ Bomberman::Bomberman()
     std::srand(time(NULL));
     _win = new rl::Window(800, 600, "Indie Studio");
     _win->setWindowIcon(rl::Image("../assets/logo.png"));
-    _manager = new ComponentManager(this);
-
+    std::unique_ptr<rl::Texture> logo = std::make_unique<rl::Texture>("../assets/menus/noui.png");
+    while (!_win->ShouldClose()) {
+        _win->beginDrawing();
+        _win->clearBackground(rl::Color(255, 255, 255, 255));
+        logo->draw(0, 0, rl::Color(255, 255, 255, 255));
+        _win->endDrawing();
+        break;
+    }
     preLoad();
-
-    //rl::Window::SetExitKey(-1);
-    if (1) {
-        
-    } else 
-        loadMap();
-
-    // USED BY OTHERS :
-    MusicManager *musicManager = new MusicManager(this);
-    // HOME MENU :
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), _t._click, 0, this, &(BF::playBtn), (void *)musicManager, _t._btn, _t._ft), 0);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Skins", 24,  rl::Rectangle(0,0,400,40), _t._click, 0, this, &(BF::skinBtn), 0, _t._btn, _t._ft), 0);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 120.0), "Respository", 24,  rl::Rectangle(400,0,196,40), _t._click, 0, this, &(BF::repoLink), 0, _t._btn, _t._ft), 0);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400,0,196,40), _t._click, 0, this, &(BF::optBtn), 0, _t._btn, _t._ft), 0);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0,0,400,40), _t._click, 0, this, &(BF::quitBtn), 0, _t._btn, _t._ft), 0);
-    // OPTIONS MENU :
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "FullScreen: OFF", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::fullScreen), 0, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::resolutionBtn), 0, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 120.0), "Map size: Small", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::mapSize), 0, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Slider(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040,0,300,40), rl::Rectangle(1340,0,16,40), 1, "Musics: 100%", this, &(BF::setMusic), (void *)musicManager, _t._btn, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Slider(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 240.0), 24, rl::Rectangle(1040,0,300,40), rl::Rectangle(1340,0,16,40), 1, "Sounds: 100%", this, &(BF::setSound), (void *)musicManager, _t._btn, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), _t._click, 1, this, &(BF::backBtn), 0, _t._btn, _t._ft), 1);
-    // SKINS MENU :
-    Preview *preview = new Preview(rl::Vec3(7.5,2,13), 1, 5, -180, rl::Color(255, 255, 255, 255), _t._walking);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596,0,40,40), _t._click, 5, this, &(BF::addSkin), 0, _t._btn, _t._ft), 5);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596,0,40,40), _t._click, 5, this, &(BF::removeSkin), 0, _t._btn, _t._ft), 5);
-    _manager->addComponent(new Input(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(-50.0, 0.0), _manager->_settings._optSkin, 16, 5, 24, this, _t._btn, _t._ft), 5);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 4.0/20), rl::Vec2(270.0, 0.0), "Load Preview", 24, rl::Rectangle(400,0,196,40), _t._click, 5, this, &(BF::loadSkin), (void *)preview, _t._btn, _t._ft), 5);
-    _manager->addComponent(preview, 5);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), _t._click, 5, this, &(BF::backBtn), 0, _t._btn, _t._ft), 5);
-    _manager->addComponent(new List(rl::Vec2(1.0/2, 7.0/20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins), &(BF::previewSkin), preview, _t._ft, true, 4), 5);
-    //GAME LOBBY :
-    GameOpt *go = new GameOpt(this, 2, _t._ft);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(104.0, 0.0), "Fight", 24,  rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::launchGame), (void *)go, _t._btn, _t._ft), 2);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::backBtn), 0, _t._btn, _t._ft), 2);
-    _manager->addComponent(go, 2);
-    //PAUSE MENU:
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), _t._click, 4, this, &(BF::unpauseBtn), 0, _t._btn, _t._ft), 4);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Save", 24, rl::Rectangle(0,0,400,40), _t._click, 4, this, &(BF::saveBtn), 0, _t._btn, _t._ft), 4);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 120.0), "Quit", 24, rl::Rectangle(0,0,400,40), _t._click, 4, this, &(BF::homeBtn), 0, _t._btn, _t._ft), 4);
-
-    // ALL MENUS :
-    _manager->addComponent(musicManager, 6);
-    _manager->addComponent(new EscManager(this, -1), 6);
-    _win->changeFps(60);
+    createUI();
+    setupWin();
 }
 
 Bomberman::~Bomberman()
@@ -162,11 +125,13 @@ void Bomberman::launch()
 
 void Bomberman::preLoad()
 {
+    _manager = new ComponentManager(this);
     BF::loadAll(this); //Load all available skins;
     rl::Sound::InitAudioDevice(); // Init audio
 
     _t._btn = std::make_shared<rl::Texture>("../assets/menus/btns.png");
-    
+    _t._ft = std::make_shared<rl::Font>("../assets/minecraftia.ttf");
+
     _t._sb = std::make_shared<rl::Texture>("../assets/block/stone-bricks.png");
     _t._sb_mod = std::make_shared<rl::Model>(_t._cube_mesh);
     _t._sb_mod->setMaterialTexture(0, _t._sb);
@@ -180,8 +145,6 @@ void Bomberman::preLoad()
     _t._power_bomb = std::make_shared<rl::Model>("../assets/block/bomb.glb");
     _t._power_size = std::make_shared<rl::Model>("../assets/block/explo.glb");
     _t._smoke = std::make_shared<rl::Model>("../assets/block/smoke.glb");
-    _t._ft = std::make_shared<rl::Font>("../assets/minecraftia.ttf");
-    std::cout << _t._ft << std::endl;
     _t._click = std::make_shared<rl::Sound>("../assets/musics/click.wav");
     _t._walking = std::make_shared<std::vector<std::shared_ptr<rl::Model>>>();
     std::ostringstream objPath("");
@@ -195,6 +158,53 @@ void Bomberman::preLoad()
         objPath.str("");
         objPath.clear();
     }
+}
+
+void Bomberman::createUI()
+{
+    // USED BY OTHERS :
+    MusicManager* musicManager = new MusicManager(this);
+    // HOME MENU :
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::playBtn), (void*)musicManager, _t._btn, _t._ft), 0);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Skins", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::skinBtn), 0, _t._btn, _t._ft), 0);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(104.0, 120.0), "Respository", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::repoLink), 0, _t._btn, _t._ft), 0);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::optBtn), 0, _t._btn, _t._ft), 0);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::quitBtn), 0, _t._btn, _t._ft), 0);
+    // OPTIONS MENU :
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "FullScreen: OFF", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::fullScreen), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::resolutionBtn), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), "Map size: Small", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::mapSize), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Slider(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, "Musics: 100%", this, &(BF::setMusic), (void*)musicManager, _t._btn, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Slider(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 240.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, "Sounds: 100%", this, &(BF::setSound), (void*)musicManager, _t._btn, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::backBtn), 0, _t._btn, _t._ft), 1);
+    // SKINS MENU :
+    Preview* preview = new Preview(rl::Vec3(7.5, 2, 13), 1, 5, -180, rl::Color(255, 255, 255, 255), _t._walking);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596, 0, 40, 40), _t._click, 5, this, &(BF::addSkin), 0, _t._btn, _t._ft), 5);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596, 0, 40, 40), _t._click, 5, this, &(BF::removeSkin), 0, _t._btn, _t._ft), 5);
+    _manager->addComponent(new Input(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-50.0, 0.0), _manager->_settings._optSkin, 16, 5, 24, this, _t._btn, _t._ft), 5);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(270.0, 0.0), "Load Preview", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 5, this, &(BF::loadSkin), (void*)preview, _t._btn, _t._ft), 5);
+    _manager->addComponent(preview, 5);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 5, this, &(BF::backBtn), 0, _t._btn, _t._ft), 5);
+    _manager->addComponent(new List(rl::Vec2(1.0 / 2, 7.0 / 20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins), &(BF::previewSkin), preview, _t._ft, true, 4), 5);
+    //GAME LOBBY :
+    GameOpt* go = new GameOpt(this, 2, _t._ft);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(104.0, 0.0), "Fight", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 2, this, &(BF::launchGame), (void*)go, _t._btn, _t._ft), 2);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 2, this, &(BF::backBtn), 0, _t._btn, _t._ft), 2);
+    _manager->addComponent(go, 2);
+    //PAUSE MENU:
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::unpauseBtn), 0, _t._btn, _t._ft), 4);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::saveBtn), 0, _t._btn, _t._ft), 4);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), "Quit", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::homeBtn), 0, _t._btn, _t._ft), 4);
+
+    // ALL MENUS :
+    _manager->addComponent(musicManager, 6);
+    _manager->addComponent(new EscManager(this, -1), 6);
+}
+
+void Bomberman::setupWin()
+{
+    _win->changeFps(60);
+    rl::Window::SetExitKey(-1);
 }
 
 void Bomberman::saveMap()
