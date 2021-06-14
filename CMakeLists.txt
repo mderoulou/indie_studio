@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
 project(bomberman)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-Og")
+if (UNIX)
+    set(CMAKE_CXX_FLAGS "-Og")
+endif()
 
 # Set this to the minimal version you want to support
 find_package(raylib 3.0 QUIET) # Let CMake search for a raylib-config.cmake
@@ -45,7 +47,12 @@ endif()
 
 # Debug Mode
 
-SET(CMAKE_BUILD_TYPE DEBUG)
+if (UNIX)
+    SET(CMAKE_BUILD_TYPE DEBUG)
+endif()
+if (WIN32)
+    SET(CMAKE_BUILD_TYPE RELEASE)
+endif()
 
 # -I
 
