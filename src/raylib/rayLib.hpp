@@ -21,6 +21,7 @@
 #include "Window.hpp"
 #include "RenderTexture.hpp"
 #include "KeyBoard.hpp"
+#include "GamePad.hpp"
 #include "Font.hpp"
 #include "Shader.hpp"
 #include "Mesh.hpp"
@@ -30,6 +31,5 @@
 #include "Mouse.hpp"
 #include "Music.hpp"
 #include "Sound.hpp"
-#include "Gamepad.hpp"
 
 #endif

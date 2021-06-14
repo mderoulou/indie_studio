@@ -10,6 +10,7 @@
 
 #include "../Object.hpp"
 #include "../Manager.hpp"
+#include "../../raylib/rayLib.hpp"
 
 class Preview : public Object3D
 {
@@ -28,6 +29,7 @@ public:
     float _rotation;
     float _frame = 0;
     void setTexture(const std::string filename);
+    bool _disabled;
 private:
     void loadAnims();
 };

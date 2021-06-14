@@ -9,6 +9,7 @@
 #define PLAYER_HPP_
 
 #include "../Object.hpp"
+#include "../../functionalities/Control.hpp"
 #include "../../raylib/rayLib.hpp"
 #include <vector>
 
@@ -17,8 +18,8 @@ class Bomb;
 class Player : public Object3D
 {
 public:
-    Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool isKeyboard, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, const std::string path = "../assets/skins/skin.png");
-    Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
+    Player(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<Controls> controls, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, Bomberman *win, const std::string path = "../assets/skins/skin.png");
+    Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::shared_ptr<Controls> controls);
 
     void handleEvent() override;
     void move(rl::Vec3 newPos) override;
@@ -45,7 +46,8 @@ public:
     int _bombCount = 0;
     float _rotation = 0;
     float _frame = 0;
-    Control *_controller = 0;
+    uint16_t _cId;
+    std::shared_ptr<Controls> _controller = 0;
 private:
     void makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
 };

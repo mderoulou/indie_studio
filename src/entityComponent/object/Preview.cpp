@@ -23,6 +23,7 @@ Preview::Preview(rl::Vec3 pos, float scale, int scene, float rotation, rl::Color
     _rotation = rotation;//-170
     _texture = std::make_shared<rl::Texture>("../assets/skins/skin.png");
     _models = models;
+    _disabled = false;
 }
 
 void Preview::setTexture(const std::string filename)
@@ -39,8 +40,7 @@ void Preview::move(rl::Vec3 newPos)
 
 void Preview::render(rl::Camera3d *cam)
 {
-
-    if (_frame < 0 || _frame > 40)
+    if (_frame < 0 || _frame > 40 || _disabled)
         return;
     for (auto model : *_models)
         model->setMaterialTexture(0, _texture);

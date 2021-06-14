@@ -22,6 +22,8 @@ class Settings
         uint16_t _sizeMap;
         float _mVol;
         float _sVol;
+        int _width;
+        int _height;
 };
 
 class ComponentManager

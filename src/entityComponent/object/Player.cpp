@@ -18,7 +18,7 @@
 #define M_PI 3.14159265359
 #endif
 
-Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool isKeyboard, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText)
+Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<Controls> controls, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, Bomberman *bomberman, std::string pathText)
 {
     _pos = pos;
     _scene = scene;
@@ -28,24 +28,16 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, bool isKey
     _texture = std::make_shared<rl::Texture>(_pathText);
     _rotation = 0;
     _frame = 0;
-    _isKeyboard = isKeyboard;
-    if (isKeyboard)
-        _controller = new Keyboard(rl::Font());
-    else
-        _controller = new Gamepad(rl::Font());
+    _controller = controls;
     makeObj(models);
 }
 
-Player::Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
+Player::Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::shared_ptr<Controls> controls)
 {
-    (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _isKeyboard >> _scene;
+    (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _scene;
 
     makeObj(models);
-    if (_isKeyboard)
-        _controller = new Keyboard(obj, rl::Font());
-    else 
-        _controller = new Gamepad(obj, rl::Font());
-    
+    //_controls = controls;
     _pathText = std::string(&(obj->data[obj->cursor]));
     _texture = std::make_shared<rl::Texture>(_pathText);
 }
@@ -58,7 +50,7 @@ std::shared_ptr<ByteObject> Player::dump()
     for (char &c : _pathText)
         name.push_back(c);
     name.push_back(0);
-    *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene) + *_controller->dump() + ByteObject(name, name.size());
+    *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _scene) + ByteObject(name, name.size());
     return obj;
 }
 
@@ -130,8 +122,6 @@ void Player::simulate()
             _toRemove = true;
     } else if (_controller) {
         float mov = 0;
-        if (!_controller->initialized)
-            _controller->init();
         if ((mov = _controller->isKeyUp()) != 0) { 
             _acc.z = -acc_mult * mov;
             hasMove = true;
@@ -250,7 +240,6 @@ void Player::simulate()
             move(dd*-1);
         }
     }
-
     move(_v);
 }
 

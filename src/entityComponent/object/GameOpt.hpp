@@ -9,6 +9,7 @@
 #define GAMEOPT_HPP_
 
 #include "../Object.hpp"
+#include "../../functionalities/Control.hpp"
 
 /*
 ** TYPES :
@@ -18,10 +19,16 @@
 */ 
 class GameOpt : public Object2D {
     public:
-        GameOpt(Bomberman *win, int scene);
-        std::vector<std::string> _names;
-        std::vector<int> _types;
-        std::vector<Preview *> _previews;
+        GameOpt(Bomberman *win, int scene, std::shared_ptr<rl::Font> font);
+        
+        void simulate() override;
+        std::vector<std::string> _names; // Player Names -> skins /To save -< Taille fixe 4
+        std::vector<int> _types; // Player Types -> cf TYPES UP /To save -< Taille fixe 4
+        std::vector<Preview *> _previews; // Previews ptr; (in component manager)
+        std::vector<Btn *> _btns; 
+        std::vector<std::shared_ptr<Controls>> _controllers;
+        std::vector<std::vector<int>> _keys;
+        std::shared_ptr<rl::Font> _font;
         Bomberman *_win;
 };
 

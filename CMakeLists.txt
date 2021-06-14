@@ -72,7 +72,6 @@ src/raylib/Shader.cpp
 src/raylib/Mesh.cpp
 src/raylib/Rectangle.cpp
 src/raylib/Camera.cpp
-src/raylib/Gamepad.cpp
 src/entityComponent/Manager.cpp
 src/entityComponent/object/Cube.cpp
 src/entityComponent/object/Wall.cpp
@@ -94,6 +93,7 @@ src/entityComponent/Object.cpp
 src/entityComponent/ByteObject.cpp
 src/entityComponent/object/GameOpt.cpp
 src/functionalities/BtnFuncs.cpp
+src/functionalities/Control.cpp
 src/Bomberman.cpp
 src/main.cpp
 )

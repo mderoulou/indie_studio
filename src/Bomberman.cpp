@@ -34,7 +34,7 @@ Bomberman::Bomberman()
 {
     SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     std::srand(time(NULL));
-    _win = new rl::Window(1920, 1080, "Indie Studio");
+    _win = new rl::Window(800, 600, "Indie Studio");
     _win->setWindowIcon(rl::Image("../assets/logo.png"));
     _manager = new ComponentManager(this);
 
@@ -42,16 +42,7 @@ Bomberman::Bomberman()
 
     //rl::Window::SetExitKey(-1);
     if (1) {
-        rl::Vec3 spawnPoints[] = {
-            {(float)1  , 0, (float)1},
-            {(float)(large-2), 0, (float)(large-2)},
-            {(float)1  , 0, (float)(large-2)},
-            {(float)(large-2), 0, (float)1},
-        };
-        for (int i = 0; i < 4; i++) {
-            Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, true, _t._walking);
-            _manager->addComponent(player, 3);
-        }
+        
         generateMap(large);
     } else 
         loadMap();
@@ -81,13 +72,10 @@ Bomberman::Bomberman()
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0,0,400,40), _t._click, 5, this, &(BF::backBtn), 0, _t._btn, _t._ft), 5);
     _manager->addComponent(new List(rl::Vec2(1.0/2, 7.0/20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins), &(BF::previewSkin), preview, _t._ft, true, 4), 5);
     //GAME LOBBY :
-    _manager->addComponent(new GameOpt(this, 2), 2);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)0, _t._btn, _t._ft), 2);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)1, _t._btn, _t._ft), 2);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)2, _t._btn, _t._ft), 2);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(304, 0.0), "Player", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::switchType), (void *)3, _t._btn, _t._ft), 2);
-    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(104.0, 0.0), "Fight", 24,  rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::launchGame), 0, _t._btn, _t._ft), 2);
+    GameOpt *go = new GameOpt(this, 2, _t._ft);
+    _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(104.0, 0.0), "Fight", 24,  rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::launchGame), (void *)go, _t._btn, _t._ft), 2);
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 19.0/20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400,0,196,40), _t._click, 2, this, &(BF::backBtn), 0, _t._btn, _t._ft), 2);
+    _manager->addComponent(go, 2);
     //PAUSE MENU:
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0,0,400,40), _t._click, 4, this, &(BF::unpauseBtn), 0, _t._btn, _t._ft), 4);
     _manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(0.0, 60.0), "Save", 24, rl::Rectangle(0,0,400,40), _t._click, 4, this, &(BF::saveBtn), 0, _t._btn, _t._ft), 4);
@@ -190,6 +178,7 @@ void Bomberman::preLoad()
     
     _t._tnt_a = std::make_shared<rl::Model>("../assets/block/tnt.glb");
     _t._ft = std::make_shared<rl::Font>("../assets/minecraftia.ttf");
+    std::cout << _t._ft << std::endl;
     _t._click = std::make_shared<rl::Sound>("../assets/musics/click.wav");
     _t._walking = std::make_shared<std::vector<std::shared_ptr<rl::Model>>>();
     std::ostringstream objPath("");
@@ -236,8 +225,15 @@ void Bomberman::loadMap()
     if (magic != 0x12345678) {
         std::cerr << "Bad Magic Number "<< magic << std::endl;
         return;
-    }    
-
+    }
+    std::vector<std::vector<int>> keys{ 
+        { KeyboardKey::KEY_Z, KeyboardKey::KEY_S, KeyboardKey::KEY_Q, KeyboardKey::KEY_D, KeyboardKey::KEY_E, KeyboardKey::KEY_A},
+        { KeyboardKey::KEY_UP, KeyboardKey::KEY_DOWN, KeyboardKey::KEY_LEFT, KeyboardKey::KEY_RIGHT, KeyboardKey::KEY_SPACE, KeyboardKey::KEY_ENTER},
+        { KeyboardKey::KEY_FIVE, KeyboardKey::KEY_TWO, KeyboardKey::KEY_ONE, KeyboardKey::KEY_THREE, KeyboardKey::KEY_SIX, KeyboardKey::KEY_FOUR},
+        { KeyboardKey::KEY_I, KeyboardKey::KEY_K, KeyboardKey::KEY_J, KeyboardKey::KEY_L, KeyboardKey::KEY_O, KeyboardKey::KEY_U}
+    };
+    
+    int playerCount = 0;
     file >> size;
     std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
     for (int i = 0; i < size; i++) {
@@ -249,7 +245,8 @@ void Bomberman::loadMap()
         switch (type) {
             case ByteObject::PLAYER:
                 //std::cout << "load Player" << std::endl;
-                _manager->addComponent(new Player(obj, _t._walking), 3);
+                ///_manager->addComponent(new Player(obj, _t._walking, , 3);
+                playerCount++;
                 break;
             case ByteObject::WALL:
                 //std::cout << "load Wall" << std::endl;

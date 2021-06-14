@@ -15,6 +15,7 @@ namespace rl {
 class KeyBoard {
     public:
         static int GetCharPressed() { return ::GetCharPressed(); };
+        static int GetKeyPressed() { return ::GetKeyPressed(); };
         static bool IsKeyPressed(int key) { return ::IsKeyPressed(key); };
         static bool IsKeyReleased(int key) { return ::IsKeyReleased(key); };
         static bool IsKeyDown(int key) { return ::IsKeyDown(key); };

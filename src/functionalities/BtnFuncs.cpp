@@ -222,9 +222,29 @@ void BF::previewSkin(Bomberman *win, void *data, std::string str)
 
 void BF::launchGame(Bomberman *win, Btn *b, void *data)
 {
-    // std::thread count(BF::countDown, (MusicManager *)data);
-    // count.join();
-    switchScene(win, 3);
+    int count = 0;
+    GameOpt *go = (GameOpt *)data;
+
+    for (auto types : go->_types) {
+        if (types)
+            count++;
+    }
+    if (count >= 2) {
+        int size = 11 + 6 * win->_manager->_settings._sizeMap;
+        rl::Vec3 spawnPoints[] = {
+            {(float)1  , 0, (float)1},
+            {(float)(size-2), 0, (float)(size-2)},
+            {(float)1  , 0, (float)(size-2)},
+            {(float)(size-2), 0, (float)1},
+        };
+        for (int i = 0; i < 4; i++) {
+            if (!go->_types[i]) // Ya pa de playeur
+                continue;
+            Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, win, std::string(std::string("../assets/skins/") + go->_names[i]) + ".png");
+            win->_manager->addComponent(player, 3);
+        }
+        switchScene(win, 3);
+    }
 }
 
 void BF::setMusic(Bomberman *win, Slider *s, void *data)
@@ -250,14 +270,19 @@ void BF::switchType(Bomberman *win, Btn *b, void *data)
 {
     static GameOpt *opts = 0;
     uint64_t index = (uint64_t)data;
-    const std::string types[] = {"None", "Player", "IA"};
+    const std::string types[] = {"None", "IA"};
 
     if (!opts)
         for (auto obj : win->_manager->_objs[win->_manager->_settings._scene])
             if (GameOpt *t = dynamic_cast<GameOpt *>(obj))
                 opts = t;
     opts->_types[index] += 1;
-    opts->_types[index] %= 3;
+    opts->_types[index] %= 2;
+    opts->_controllers[index] = 0;
+    if (!opts->_types[index])
+        opts->_previews[index]->_disabled = true;
+    else
+        opts->_previews[index]->_disabled = false;
     b->_text = std::string(types[opts->_types[index]]);
 }
 
