@@ -225,6 +225,17 @@ void BF::previewSkin(Bomberman *win, void *data, std::string str)
     ptr->setTexture(std::string(std::string("../assets/skins/") + str) + ".png");
 }
 
+void countDown(Bomberman* win)
+{
+    win->_manager->_mm->playSound("3.ogg");
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    win->_manager->_mm->playSound("2.ogg");
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    win->_manager->_mm->playSound("1.ogg");
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    win->_manager->_mm->playSound("fight.ogg");
+}
+
 void BF::launchGame(Bomberman *win, Btn *b, void *data)
 {
     int count = 0;
@@ -249,6 +260,7 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
             Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, win, std::string("../assets/skins/") + go->_names[i]);
             win->_manager->addComponent(player, 3);
         }
+        countDown(win);
         switchScene(win, 3);
     }
 }
@@ -345,5 +357,6 @@ void BF::loadGame(Bomberman *win, Btn *b, void *data)
 {
     win->_manager->_objs[3].clear();
     win->loadMap();
+    countDown(win);
     switchScene(win, 3);
 }

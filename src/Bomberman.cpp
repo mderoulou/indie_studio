@@ -166,6 +166,7 @@ void Bomberman::createUI()
     std::vector<std::string>sizes{"Map size: Small", "Map size: Medium", "Map size: Large"};
     // USED BY OTHERS :
     MusicManager* musicManager = new MusicManager(this);
+    _manager->_mm = musicManager;
     // HOME MENU :
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::playBtn), (void*)musicManager, _t._btn, _t._ft), 0);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Skins", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::skinBtn), 0, _t._btn, _t._ft), 0);
@@ -223,11 +224,6 @@ void Bomberman::saveSettings()
     file.write((char *)&_manager->_settings._sVol, sizeof(_manager->_settings._sVol));
     file.write((char *)&_manager->_settings._width, sizeof(_manager->_settings._width));
     file.write((char *)&_manager->_settings._height, sizeof(_manager->_settings._height));
-    std::cout << "Size " << _manager->_settings._sizeMap << std::endl;
-    std::cout << "mVOl " << _manager->_settings._mVol << std::endl;
-    std::cout << "sVOl " << _manager->_settings._sVol << std::endl;
-    std::cout << "X " << _manager->_settings._width << std::endl;
-    std::cout << "Y " << _manager->_settings._height << std::endl;
     std::cerr << "Settings successfully saved!" << std::endl;
 }
 
@@ -249,15 +245,11 @@ void Bomberman::loadSettings()
     file.read((char *)&_manager->_settings._sVol, sizeof(_manager->_settings._sVol));
     file.read((char *)&_manager->_settings._width, sizeof(_manager->_settings._width));
     file.read((char *)&_manager->_settings._height, sizeof(_manager->_settings._height));
-    std::cout << "Size " << _manager->_settings._sizeMap << std::endl;
-    std::cout << "mVOl " << _manager->_settings._mVol << std::endl;
-    std::cout << "sVOl " << _manager->_settings._sVol << std::endl;
-    std::cout << "X " << _manager->_settings._width << std::endl;
-    std::cout << "Y " << _manager->_settings._height << std::endl;
     file.close();
     if (_manager->_settings._fScreen)
         _win->setFullscreen();
-    _win->setWindowSize(_manager->_settings._width, _manager->_settings._height);
+    if (_manager->_settings._width >= 800)
+        _win->setWindowSize(_manager->_settings._width, _manager->_settings._height);
     std::cerr << "Settings successfully loaded!" << std::endl;
 }
 

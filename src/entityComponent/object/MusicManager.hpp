@@ -16,7 +16,7 @@ class MusicManager : public Object2D {
         ~MusicManager();
 
         void playMusic();
-        void playSound(const std::string &name);
+        void playSound(const std::string &name, bool multi = true);
         void render(rl::Camera3d *cam) override;
         float _mVol;
         float _sVol;
