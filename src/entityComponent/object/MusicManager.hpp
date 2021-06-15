@@ -22,7 +22,7 @@ class MusicManager : public Object2D {
         float _sVol;
     private:
         rl::Music *_music;
-        rl::Sound *_sound;
+        std::shared_ptr<rl::Sound> _sound;
         Bomberman *_win;
         std::vector<std::string> _musics;
         std::vector<std::string> _voices;
