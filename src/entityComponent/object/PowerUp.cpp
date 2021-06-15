@@ -64,7 +64,7 @@ std::shared_ptr<ByteObject> PowerUp::dump()
 }
 
 void PowerUp::apllyToPlayer(Player *p) {
-    // TOTO: sound (player take powerup)
+    _manager->_mm->playSound("powerup.ogg");
 }
 
 void PowerUp::simulate()

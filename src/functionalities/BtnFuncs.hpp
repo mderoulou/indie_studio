@@ -29,7 +29,6 @@ namespace BF {
     void mapSize(Bomberman *win, Btn *b, void *data);
     void previewSkin(Bomberman *win, void *data, std::string str);
     void launchGame(Bomberman *win, Btn *b, void *data);
-    void countDown(MusicManager *mm);
     void setMusic(Bomberman *win, Slider *s, void *data);
     void setSound(Bomberman *win, Slider *s, void *data);
     void switchType(Bomberman *win, Btn *b, void *data);

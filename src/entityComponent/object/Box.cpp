@@ -43,7 +43,7 @@ bool Box::explode(Bomb *){
     _manager->addComponent(powerUp, 3);
     noPowerUp:;
 
-    // TOTO: sound (wooden box destroy by bombe)
+    _manager->_mm->playSound("wood.ogg");
 
     return true;
 }

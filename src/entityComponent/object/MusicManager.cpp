@@ -47,7 +47,7 @@ void MusicManager::playMusic()
     std::cout << "Playing :" << std::string(std::string("../assets/musics/") + _musics[id])<< std::endl;
 }
 
-void MusicManager::playSound(const std::string &name)
+void MusicManager::playSound(const std::string &name, bool multi)
 {
     if (_sound != nullptr) {
         delete _sound;
@@ -57,7 +57,10 @@ void MusicManager::playSound(const std::string &name)
         if (title == name) {
             _sound = new rl::Sound(std::string(std::string("../assets/voices/") + name));
             _sound->setVolume(_win->_manager->_settings._sVol);
-            _sound->play();
+            if (multi)
+                _sound->playMulti();
+            else
+                _sound->play();
         }
 }
 

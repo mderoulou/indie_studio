@@ -74,7 +74,7 @@ void Player::die() {
         _manager->addComponent(p, _scene);
     }
     _isDead = true;
-    // TOTO: sound (player die)
+    _manager->_mm->playSound("hurt.ogg");
 }
 
 bool Player::explode(Bomb *other) {
@@ -119,8 +119,7 @@ double findAngle(rl::Vec2 vec)
 
 void Player::simulate()
 {
-    float acc_mult = 0.05 * _speedFactor; 
-
+    float acc_mult = 0.05 * _speedFactor;
     //std::cout << "[MANAGER] Moving Events!" << std::endl;
 
     // controller 
@@ -187,7 +186,6 @@ void Player::simulate()
         } else if (vec[1] < 0) {
             _pos[1] += 0-vec[1];
         }
-        // TOTO: sound (player walking)
 
     }
     physiX(acc_mult, hasMove);
@@ -197,7 +195,6 @@ void Player::physiX(float acc_mult, bool hasMove) {
         // player animation
     _frame += acc_mult * pow(pow(_v.x, 2) + pow(_v.z, 2), 0.5) * 100;
     if (!((int)_frame % 20)) {
-        // TOTO: sound (player foot hit the ground)
     }
     
 
