@@ -18,7 +18,7 @@
 #define M_PI 3.14159265359
 #endif
 
-Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<Controls> controls, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, Bomberman *bomberman, std::string pathText)
+Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<Controls> controls, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText)
 {
     _pos = pos;
     _scene = scene;
@@ -190,8 +190,11 @@ void Player::simulate()
         // TOTO: sound (player walking)
 
     }
-    
-    // player animation
+    physiX(acc_mult, hasMove);
+}
+
+void Player::physiX(float acc_mult, bool hasMove) {
+        // player animation
     _frame += acc_mult * pow(pow(_v.x, 2) + pow(_v.z, 2), 0.5) * 100;
     if (!((int)_frame % 20)) {
         // TOTO: sound (player foot hit the ground)
@@ -282,7 +285,7 @@ void Player::handleEvent()
 {
     if (_isDead)
         return;
-    if (_controller->isKeyUse()) {
+    if (_controller && _controller->isKeyUse()) {
         if (!_isKeyUsed && _bombCount < _maxBombCount){
             this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this, _explosionRadius), _scene);
         }

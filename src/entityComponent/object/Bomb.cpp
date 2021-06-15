@@ -17,6 +17,7 @@ Bomb::Bomb(rl::Vec3 pos, float scale, rl::Color color, int scene, float time, st
     _scale = scale;
     _explosed = false;
     _time = time;
+    _maxTime = time;
     _model = model;
     _player->_bombCount += 1;
     _isSolid = true;

@@ -5,7 +5,6 @@
 ** Ia
 */
 
-#include "../Object.hpp"
 #include "../Manager.hpp"
 
 #include <sstream>
@@ -19,43 +18,109 @@
 #define M_PI 3.14159265359
 #endif
 
-PlayerAI::PlayerAI(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText)
+
+PlayerAI::PlayerAI(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<Controls> controls, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText) : 
+    Player(pos, scale, color, scene, controls, models, pathText)
 {
-    _pos = pos;
-    _scene = scene;
-    _color = color;
-    _scale = scale;
-    _pathText = pathText;
-    _texture = std::make_shared<rl::Texture>(_pathText);
-    _rotation = 0;
-    _frame = 0;
-    makeObj(models);
+
 }
 
-PlayerAI::PlayerAI(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
+PlayerAI::PlayerAI(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::shared_ptr<Controls> controls) : 
+    Player(obj, models, controls)
 {
-    (*obj) >> _pos >> _v >> _acc >> _scale >> _rotation >> _frame >> _scene;
-
-    makeObj(models);
-    _pathText = std::string(&(obj->data[obj->cursor]));
-    _texture = std::make_shared<rl::Texture>(_pathText);
 }
 
-void PlayerAI::makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
-{
-    _isSolid = true;
-    _boundingBox._bd.min = _pos + rl::Vec3{-0.25, 0.0, -0.25};
-    _boundingBox._bd.max = _pos + rl::Vec3{0.25, 1.8, 0.25};
-    _models = models;
+PlayerAI *PlayerAI::factory(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models) {
+    std::cout << "load IA" << std::endl;
+    int type;
+    *obj >> type;
+    std::shared_ptr<ControlsAI> controls = std::make_shared<ControlsAI>();
+    PlayerAI *p = new PlayerAI(obj, models, controls);
+    controls->setPlayer(p);
+    return p;
 }
 
-std::shared_ptr<ByteObject> PlayerAI::dump()
-{
+PlayerAI *PlayerAI::factory(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText) {
+    std::cout << "create IA" << std::endl;
+    
+    std::shared_ptr<ControlsAI> controls = std::make_shared<ControlsAI>();
+    PlayerAI *p = new PlayerAI(pos, scale, color, scene, controls, models, pathText);
+    controls->setPlayer(p);
+    return p;
+}
+
+std::shared_ptr<ByteObject> PlayerAI::dump() {
     std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
-    std::vector<char> name;
-    for (char &c : _pathText)
-        name.push_back(c);
-    name.push_back(0);
-    *obj = ((*obj) << ByteObject::IA << _pos << _v << _acc << _scale << _rotation << _frame << _scene) + ByteObject(name, name.size());
+    *obj << ByteObject::PLAYERAI;
+    std::cout << "dump IA" << std::endl;
+    *obj = *obj + *Player::dump();
     return obj;
 }
+
+// AI CONTROLLER
+
+ControlsAI::ControlsAI() :
+    Controls(-1)
+{
+}
+
+void ControlsAI::setPlayer(PlayerAI *player) {
+    _player = player;
+}
+
+void ControlsAI::simulate() {
+    _frame = _player->_manager->_frame;
+    rl::Vec3 pos = {(float)round((*_player)[0]), 0, (float)round((*_player)[2])};
+    auto &map = _player->_manager->_AImapValues;
+    rl::Vec3 axis[5] = {
+        {1, 0, 0},
+        {-1, 0, 0},
+        {0, 0, 1},
+        {0, 0, -1},
+        {0, 0, 0},
+    };
+
+    int best = map[(int)pos[0]][(int)pos[2]];
+    int bestID = 4;
+    for (int axeID = 0; axeID < 4; axeID++) {
+        rl::Vec3 vec = axis[axeID] + pos;
+        if (map[(int)pos[0]][(int)pos[2]] < best) {
+            best = map[(int)pos[0]][(int)pos[2]];
+            bestID = axeID;
+        }
+    }
+    _axis = axis[bestID];
+    std::cout << "simulate" << std::endl;
+}
+
+float ControlsAI::isKeyUp() {
+    if (_frame != _player->_manager->_frame)
+        simulate();
+    return abs(-_axis[2]);
+}
+
+float ControlsAI::isKeyDown() {
+    if (_frame != _player->_manager->_frame)
+        simulate();
+    return abs(_axis[2]);
+}
+
+float ControlsAI::isKeyLeft() {
+    if (_frame != _player->_manager->_frame)
+        simulate();
+    return abs(-_axis[0]);
+}
+
+float ControlsAI::isKeyRight() {
+    if (_frame != _player->_manager->_frame)
+        simulate();
+    return abs(_axis[0]);
+}
+
+int ControlsAI::isKeyUse() {
+    if (_frame != _player->_manager->_frame)
+        simulate();
+    return _use;
+}
+
+

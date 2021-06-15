@@ -12,37 +12,54 @@
 #include "../Object.hpp"
 #include "../../raylib/rayLib.hpp"
 #include <vector>
+#include <algorithm>
 
-
-class PlayerAI : public Object3D
+class PlayerAI : public Player
 {
     public:
-        PlayerAI(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText);
-        PlayerAI(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
+        PlayerAI(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<Controls> controls, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText);
+        PlayerAI(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::shared_ptr<Controls> controls);
 
-        void handleEvent() override {};
-        void move(rl::Vec3 newPos) override {};
-        void simulate() override {};
-        void render(rl::Camera3d *cam) override {};
+        static PlayerAI *factory(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
+        static PlayerAI *factory(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText);
 
         std::shared_ptr<ByteObject> dump() override;
-
-        std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _models;
-        std::shared_ptr<rl::Texture> _texture;
-
-        rl::Vec3 _v = {0, 0, 0};
-        rl::Vec3 _acc = {0, 0, 0};
-        rl::Vec3 _direction = {0, 1, 0};
-        rl::Vec3 _deadVec = {0, 0, 0};
-
-        bool _isDead = false;
-        float _scale;
-        std::string _pathText;
-        int _bombCount = 0;
-        float _rotation = 0;
-        float _frame = 0;
     private:
-        void makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
+};
+
+class ControlsAI : public Controls {
+    public:
+        ControlsAI();
+        void setPlayer(PlayerAI *player);
+        void simulate();
+
+        float isKeyUp() override;
+        float isKeyDown() override;
+        float isKeyLeft() override;
+        float isKeyRight() override;
+        int isKeyUse() override;
+        int isKeyOther() override {return 0;};
+
+
+        PlayerAI *_player;
+        uint _frame = 0;
+        rl::Vec3 _axis = {0, 0, 0};
+        bool _use = false;
+
+        enum cellType {
+            EMPTY = 0,
+            BLOCKING = 1,
+            FREE = 2,
+            BLOCKEPLOSION = 128,
+            BOX = 4 | BLOCKING | BLOCKEPLOSION,
+            WALL = 8 | BLOCKING | BLOCKEPLOSION,
+            BOMB = 16 | BLOCKING,
+            PLAYER = 32 | BLOCKING,
+            POWERUP = 64 | FREE,
+        };
+
+    private:
+
 };
 
 #endif

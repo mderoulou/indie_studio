@@ -7,11 +7,6 @@
 
 #include "BoundingBox.hpp"
 
-rl::BoundingBox::BoundingBox(rl::Mesh *mesh)
-{
-    _bd = MeshBoundingBox(mesh->getMesh());
-}
-
 rl::BoundingBox::BoundingBox(rl::Vec3 max, rl::Vec3 min)
 {
     _bd.max = max;

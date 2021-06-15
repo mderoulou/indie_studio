@@ -55,17 +55,13 @@ class AObject : public IObject
         virtual float &operator[](int i) {return boudingBoxCenter()[i];}
         rl::Vec3 boudingBoxCenter();
 
-        rl::Vec3 _pos;
+        rl::Vec3 _pos = {0, 0, 0};
         int _scene = 0;
         bool _toRemove = false;
         bool _isSolid = false;
-        rl::BoundingBox _boundingBox = {rl::Vec3(0, 0, 0), rl::Vec3(0, 0, 0)};
-        ComponentManager *_manager;
-        enum dimension {
-            DIMENSION2,
-            DIMENSION3,
-        };
-
+        rl::BoundingBox _boundingBox;
+        ComponentManager *_manager = 0;
+        rl::Color _color = {255, 255, 255, 255};
     private:
 };
 
@@ -77,13 +73,11 @@ public:
     void simulate() override {};
     void render(rl::Camera3d *cam) override { (void)cam; };
 
-    rl::Color _color;
 };
 
 class Object3D : public AObject
 {
 public:
-    rl::Color _color = {255, 255, 255, 255};
 };
 
 

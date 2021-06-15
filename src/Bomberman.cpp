@@ -110,6 +110,11 @@ void Bomberman::launch()
 {
     Skybox *skybox = new Skybox();
 
+    _manager->_objs[3].clear();
+    loadMap();
+    _manager->_settings._scene = 3;
+    
+
     while (!_win->ShouldClose() && !_ending) {
         _win->beginDrawing();
         ClearBackground(Color{255, 255, 255, 255});
@@ -319,7 +324,7 @@ void Bomberman::loadMap()
         *obj >> type;
         switch (type) {
             case ByteObject::PLAYER:
-                //std::cout << "load Player" << std::endl;
+                std::cout << "load Player" << std::endl;
                 _manager->addComponent(new Player(obj, _t._walking, std::make_shared<KeyBoard>(-1, keys[playerCount])), 3);
                 playerCount++;
                 break;
@@ -335,8 +340,9 @@ void Bomberman::loadMap()
                 //std::cout << "load Box" << std::endl;
                 _manager->addComponent(new Box(obj, _t._wood), 3);
                 break;
-            case ByteObject::IA:
-                _manager->addComponent(new PlayerAI(obj, _t._walking), 3);
+            case ByteObject::PLAYERAI:
+            std::cout << "load IA" << std::endl;
+                _manager->addComponent(PlayerAI::factory(obj, _t._walking), 3);
                 break;
             case ByteObject::POWERUP:
                 _manager->addComponent(PowerUp::factory(obj, this), 3);

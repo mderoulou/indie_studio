@@ -19,7 +19,7 @@ class BoundingBox
 {
     public:
         BoundingBox(rl::Mesh *mesh);
-        BoundingBox(rl::Vec3 max, rl::Vec3 min);
+        BoundingBox(rl::Vec3 max = {0, 0, 0}, rl::Vec3 min = {0, 0, 0});
 
         void draw(rl::Color color);
         bool checkColissionBox(rl::BoundingBox *box);

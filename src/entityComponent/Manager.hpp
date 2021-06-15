@@ -41,6 +41,8 @@ class ComponentManager
         void renderAll();
         void handleEvent();
 
+        void computeAImap();
+
         int size() const { return _objs.size(); };
         Bomberman *_bomberman;
         //std::vector<AObject *> _objs;
@@ -48,6 +50,10 @@ class ComponentManager
         UniTree<AObject, rl::Vec3, 3> *_PhysXTree;
         rl::Camera3d *_cam;
         Settings _settings;
+        uint _frame = 0;
+        std::vector<std::vector<float>> _AImapValues;
+        std::vector<std::vector<int>> _AImap;
+        rl::Vec2 _currentMapSize = {0, 0};
     private:
         
     private:

@@ -22,10 +22,10 @@ class ByteObject
 
         enum ObjectType {
             PLAYER,
+            PLAYERAI,
             BOX,
             WALL,
             FLOOR,
-            IA,
             DEFAULT,
             POWERUP,
         };

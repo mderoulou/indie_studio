@@ -28,6 +28,7 @@ public:
     Player *_player;
     float _scale;
     int _time;
+    int _maxTime;
     bool _explosed;
     int _explosionRadius;
     float _rotation = 0;

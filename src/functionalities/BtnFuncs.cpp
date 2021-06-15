@@ -225,11 +225,16 @@ void BF::previewSkin(Bomberman *win, void *data, std::string str)
     ptr->setTexture(std::string(std::string("../assets/skins/") + str) + ".png");
 }
 
+/*
+** TYPES :
+** 0 void
+** 1 ply
+** 2 ia
+*/ 
 void BF::launchGame(Bomberman *win, Btn *b, void *data)
 {
     int count = 0;
     GameOpt *go = (GameOpt *)data;
-
     for (auto types : go->_types) {
         if (types)
             count++;
@@ -244,10 +249,16 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
         };
         win->generateMap(size);
         for (int i = 0; i < 4; i++) {
-            if (!go->_types[i]) // Ya pa de playeur
+            if (!go->_types[i])
                 continue;
-            Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, win, std::string("../assets/skins/") + go->_names[i]);
-            win->_manager->addComponent(player, 3);
+            if (go->_types[i] == 2) { // AI
+                PlayerAI *player = PlayerAI::factory(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
+                std::cout << "create IA for game" << std::endl;
+                win->_manager->addComponent(player, 3);
+            } else { // PLAYER
+                Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
+                win->_manager->addComponent(player, 3);
+            }
         }
         switchScene(win, 3);
     }

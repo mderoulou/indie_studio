@@ -18,15 +18,16 @@ class Bomb;
 class Player : public Object3D
 {
 public:
-    Player(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<Controls> controls, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, Bomberman *win, const std::string path = "../assets/skins/skin.png");
+    Player(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<Controls> controls, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, const std::string path = "../assets/skins/skin.png");
     Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::shared_ptr<Controls> controls);
 
-    void handleEvent() override;
+    virtual void handleEvent() override;
     void move(rl::Vec3 newPos) override;
-    void simulate() override;
+    virtual void simulate() override;
     void render(rl::Camera3d *cam) override;
     bool explode(Bomb *) override;
     void die();
+    void physiX(float acc_mult, bool hasMove);
     std::shared_ptr<ByteObject> dump() override;
 
     std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> _models;
