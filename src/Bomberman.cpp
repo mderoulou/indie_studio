@@ -336,7 +336,7 @@ void Bomberman::loadMap()
                 _manager->addComponent(new Box(obj, _t._wood), 3);
                 break;
             case ByteObject::IA:
-                _manager->addComponent(new PlayerIA(obj, _t._walking), 3);
+                _manager->addComponent(new PlayerAI(obj, _t._walking), 3);
                 break;
             case ByteObject::POWERUP:
                 _manager->addComponent(PowerUp::factory(obj, this), 3);
