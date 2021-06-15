@@ -23,8 +23,16 @@ public:
     virtual void apllyToPlayer(Player *p);
     void simulate() override;
 
+    static PowerUp *factory(std::shared_ptr<ByteObject> &obj, Bomberman *b);
+
     float _scale;
     float _rotation = 0;
+
+    enum type {
+        BOMBCOUNT,
+        BOMBPOWER,
+        SPEED,
+    };
 
     std::shared_ptr<rl::Model> _model;
 private:

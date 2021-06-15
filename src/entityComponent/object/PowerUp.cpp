@@ -27,6 +27,21 @@ PowerUp::~PowerUp()
 {
 }
 
+PowerUp *PowerUp::factory(std::shared_ptr<ByteObject> &obj, Bomberman *b) {
+    int type;
+    *obj >> type;
+    if (type == PowerUp::type::BOMBCOUNT) {
+        return new PowerBombsCount(obj, b->_t._power_bomb);
+    } else if (type == PowerUp::type::BOMBPOWER) {
+        return new PowerBombsPower(obj, b->_t._power_size);
+    } else if (type == PowerUp::type::SPEED) {
+        return new PowerSpeed(obj, b->_t._power_speed);
+    } else {
+        std::cerr << "invalid powerup type" << std::endl;
+    }
+    return new PowerUp(obj, b->_t._smoke);
+}
+
 void PowerUp::makeObj(std::shared_ptr<rl::Model> model)
 {
     _model = model;
@@ -44,7 +59,7 @@ std::shared_ptr<ByteObject> PowerUp::dump()
 {
     std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
     
-    (*obj) << _pos << _color << _scale << _scene;;
+    (*obj) << _pos << _color << _scale << _scene;
     return obj;
 }
 
@@ -89,7 +104,10 @@ PowerBombsCount::PowerBombsCount(std::shared_ptr<ByteObject> &obj, std::shared_p
 
 std::shared_ptr<ByteObject> PowerBombsCount::dump() {
     auto obj = PowerUp::dump();
-    return obj;
+    std::shared_ptr<ByteObject> obj1 = std::make_shared<ByteObject>();
+    *obj1 << ByteObject::POWERUP << PowerUp::type::BOMBCOUNT;
+    *obj1 = *obj1 + *obj;
+    return obj1;
 }
 
 void PowerBombsCount::apllyToPlayer(Player *p) {
@@ -112,7 +130,10 @@ PowerBombsPower::PowerBombsPower(std::shared_ptr<ByteObject> &obj, std::shared_p
 
 std::shared_ptr<ByteObject> PowerBombsPower::dump() {
     auto obj = PowerUp::dump();
-    return obj;
+    std::shared_ptr<ByteObject> obj1 = std::make_shared<ByteObject>();
+    *obj1 << ByteObject::POWERUP << PowerUp::type::BOMBPOWER;
+    *obj1 = *obj1 + *obj;
+    return obj1;
 }
 
 void PowerBombsPower::apllyToPlayer(Player *p) {
@@ -125,7 +146,6 @@ void PowerBombsPower::apllyToPlayer(Player *p) {
 PowerSpeed::PowerSpeed(rl::Vec3 pos, int scene, std::shared_ptr<rl::Model> model) :
     PowerUp(pos, model, scene)
 {
-
 }
 
 PowerSpeed::PowerSpeed(std::shared_ptr<ByteObject> &obj, std::shared_ptr<rl::Model> model) :
@@ -135,7 +155,10 @@ PowerSpeed::PowerSpeed(std::shared_ptr<ByteObject> &obj, std::shared_ptr<rl::Mod
 
 std::shared_ptr<ByteObject> PowerSpeed::dump() {
     auto obj = PowerUp::dump();
-    return obj;
+    std::shared_ptr<ByteObject> obj1 = std::make_shared<ByteObject>();
+    *obj1 << ByteObject::POWERUP << PowerUp::type::SPEED;
+    *obj1 = *obj1 + *obj;
+    return obj1;
 }
 
 void PowerSpeed::apllyToPlayer(Player *p) {

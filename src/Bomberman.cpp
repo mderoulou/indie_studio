@@ -65,7 +65,7 @@ void Bomberman::generateMap(int type)
     int y = type;
 
     _manager->_cam->setTarget(rl::Vec3(x / 2,  0, y / 2));
-    _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, y));
+    _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, 0.5));
 
     rl::Vec2 spawnPoints[] = {
         {(float)1, (float)1},
@@ -212,30 +212,18 @@ void Bomberman::setupWin()
     rl::Window::SetExitKey(-1);
 }
 
-void Bomberman::saveMap()
-{
-    std::ofstream file("save.yep", std::ofstream::trunc | std::ofstream::binary | std::ofstream::out);
-    if (!file.is_open()) return;
-    uint magic = 0x12345678; // MAGIIICCCCC
-    file.write((char *)&magic, sizeof(magic));   
-    file << _manager->_objs[3].size();
-    for (auto &obj : _manager->_objs[3]) {
-        file << *obj->dump();
-    }
-}
-
 void Bomberman::saveSettings()
 {
     std::ofstream file("settings.yep", std::ofstream::trunc | std::ofstream::binary | std::ofstream::out);
     if (!file.is_open()) return;
     uint magic = 0x87654321; // MAGIIICCCCC
     file.write((char *)&magic, sizeof(magic));   
-    file << _manager->_settings._sizeMap;
-    file << _manager->_settings._fScreen;
-    file << _manager->_settings._mVol;
-    file << _manager->_settings._sVol;
-    file << _manager->_settings._width;
-    file << _manager->_settings._height;
+    file.write((char *)&_manager->_settings._sizeMap, sizeof(_manager->_settings._sizeMap));
+    file.write((char *)&_manager->_settings._fScreen, sizeof(_manager->_settings._fScreen));
+    file.write((char *)&_manager->_settings._mVol, sizeof(_manager->_settings._mVol));
+    file.write((char *)&_manager->_settings._sVol, sizeof(_manager->_settings._sVol));
+    file.write((char *)&_manager->_settings._width, sizeof(_manager->_settings._width));
+    file.write((char *)&_manager->_settings._height, sizeof(_manager->_settings._height));
     std::cout << "Size " << _manager->_settings._sizeMap << std::endl;
     std::cout << "mVOl " << _manager->_settings._mVol << std::endl;
     std::cout << "sVOl " << _manager->_settings._sVol << std::endl;
@@ -251,22 +239,39 @@ void Bomberman::loadSettings()
     uint size;
     if (!file.is_open())
         return;
-    file >> magic;
+    file.read((char *)&magic, sizeof(magic));
     if (magic != 0x87654321) {
         std::cerr << "Settings : Bad Magic Number "<< magic << std::endl;
         return;
     }
-    file >>_manager->_settings._sizeMap;
-    file >> _manager->_settings._fScreen;
-    file >>_manager->_settings._mVol;
-    file >>_manager->_settings._sVol;
-    file >>_manager->_settings._width;
-    file >>_manager->_settings._height;
+    file.read((char *)&_manager->_settings._sizeMap, sizeof(_manager->_settings._sizeMap));
+    file.read((char *)&_manager->_settings._fScreen, sizeof(_manager->_settings._fScreen));
+    file.read((char *)&_manager->_settings._mVol, sizeof(_manager->_settings._mVol));
+    file.read((char *)&_manager->_settings._sVol, sizeof(_manager->_settings._sVol));
+    file.read((char *)&_manager->_settings._width, sizeof(_manager->_settings._width));
+    file.read((char *)&_manager->_settings._height, sizeof(_manager->_settings._height));
+    std::cout << "Size " << _manager->_settings._sizeMap << std::endl;
+    std::cout << "mVOl " << _manager->_settings._mVol << std::endl;
+    std::cout << "sVOl " << _manager->_settings._sVol << std::endl;
+    std::cout << "X " << _manager->_settings._width << std::endl;
+    std::cout << "Y " << _manager->_settings._height << std::endl;
     file.close();
     if (_manager->_settings._fScreen)
         _win->setFullscreen();
     _win->setWindowSize(_manager->_settings._width, _manager->_settings._height);
     std::cerr << "Settings successfully loaded!" << std::endl;
+}
+
+void Bomberman::saveMap()
+{
+    std::ofstream file("save.yep", std::ofstream::trunc | std::ofstream::binary | std::ofstream::out);
+    if (!file.is_open()) return;
+    uint magic = 0x12345678; // MAGIIICCCCC
+    file.write((char *)&magic, sizeof(magic));   
+    file << _manager->_objs[3].size();
+    for (auto &obj : _manager->_objs[3]) {
+        file << *obj->dump();
+    }
 }
 
 void Bomberman::loadMap()
@@ -318,6 +323,10 @@ void Bomberman::loadMap()
                 break;
             case ByteObject::IA:
                 _manager->addComponent(new PlayerIA(obj, _t._walking), 3);
+                break;
+            case ByteObject::POWERUP:
+                _manager->addComponent(PowerUp::factory(obj, this), 3);
+                //_manager->addComponent(new PowerUp(obj, _t._tnt_a), 3);
                 break;
             case ByteObject::DEFAULT:
                 //std::cerr << "Default type " << type << std::endl;

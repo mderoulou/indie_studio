@@ -343,5 +343,7 @@ void BF::saveSettings(Bomberman *win, Btn *b, void *data)
 
 void BF::loadGame(Bomberman *win, Btn *b, void *data)
 {
+    win->_manager->_objs[3].clear();
     win->loadMap();
+    switchScene(win, 3);
 }

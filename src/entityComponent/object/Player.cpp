@@ -37,7 +37,6 @@ Player::Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std
     (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _isKeyboard >> _scene >> _explosionRadius >> _maxBombCount >> _speedFactor;
 
     makeObj(models);
-    //_controls = controls;
     _pathText = std::string(&(obj->data[obj->cursor]));
     _texture = std::make_shared<rl::Texture>(_pathText);
 }
@@ -49,7 +48,6 @@ std::shared_ptr<ByteObject> Player::dump()
     for (char &c : _pathText)
         name.push_back(c);
     name.push_back(0);
-    //*obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene << _explosionRadius << _maxBombCount << _speedFactor) + *_controller->dump() + ByteObject(name, name.size());
     *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene << _explosionRadius << _maxBombCount << _speedFactor) + ByteObject(name, name.size());
     return obj;
 }
