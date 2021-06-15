@@ -19,7 +19,7 @@
 #define M_PI 3.14159265359
 #endif
 
-PlayerIA::PlayerIA(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText)
+PlayerAI::PlayerAI(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText)
 {
     _pos = pos;
     _scene = scene;
@@ -32,7 +32,7 @@ PlayerIA::PlayerIA(rl::Vec3 pos, float scale, rl::Color color, int scene, std::s
     makeObj(models);
 }
 
-PlayerIA::PlayerIA(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
+PlayerAI::PlayerAI(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
 {
     (*obj) >> _pos >> _v >> _acc >> _scale >> _rotation >> _frame >> _scene;
 
@@ -41,7 +41,7 @@ PlayerIA::PlayerIA(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector
     _texture = std::make_shared<rl::Texture>(_pathText);
 }
 
-void PlayerIA::makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
+void PlayerAI::makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models)
 {
     _isSolid = true;
     _boundingBox._bd.min = _pos + rl::Vec3{-0.25, 0.0, -0.25};
@@ -49,7 +49,7 @@ void PlayerIA::makeObj(std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> 
     _models = models;
 }
 
-std::shared_ptr<ByteObject> PlayerIA::dump()
+std::shared_ptr<ByteObject> PlayerAI::dump()
 {
     std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
     std::vector<char> name;

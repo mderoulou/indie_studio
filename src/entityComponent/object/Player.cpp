@@ -34,8 +34,8 @@ Player::Player(rl::Vec3 pos, float scale, rl::Color color, int scene, std::share
 
 Player::Player(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::shared_ptr<Controls> controls)
 {
-    (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _isKeyboard >> _scene >> _explosionRadius >> _maxBombCount >> _speedFactor;
-
+    (*obj) >> _pos >> _v >> _acc >> _isKeyUsed >> _scale >> _rotation >> _frame >> _isKeyboard >> _scene >> _explosionRadius >> _maxBombCount >> _speedFactor >> _rotation >> _deadVec >> _isDead;
+    _controller = controls;
     makeObj(models);
     _pathText = std::string(&(obj->data[obj->cursor]));
     _texture = std::make_shared<rl::Texture>(_pathText);
@@ -46,9 +46,9 @@ std::shared_ptr<ByteObject> Player::dump()
     std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
     std::vector<char> name;
     for (char &c : _pathText)
-        name.push_back(c);
+        name.push_back(c);  
     name.push_back(0);
-    *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene << _explosionRadius << _maxBombCount << _speedFactor) + ByteObject(name, name.size());
+    *obj = ((*obj) << ByteObject::PLAYER << _pos << _v << _acc << _isKeyUsed << _scale << _rotation << _frame << _isKeyboard << _scene << _explosionRadius << _maxBombCount << _speedFactor << _rotation << _deadVec << _isDead) + ByteObject(name, name.size());
     return obj;
 }
 
@@ -74,6 +74,7 @@ void Player::die() {
         _manager->addComponent(p, _scene);
     }
     _isDead = true;
+    // TOTO: sound (player die)
 }
 
 bool Player::explode(Bomb *other) {
@@ -186,11 +187,17 @@ void Player::simulate()
         } else if (vec[1] < 0) {
             _pos[1] += 0-vec[1];
         }
+        // TOTO: sound (player walking)
+
     }
     
     // player animation
     _frame += acc_mult * pow(pow(_v.x, 2) + pow(_v.z, 2), 0.5) * 100;
+    if (!((int)_frame % 20)) {
+        // TOTO: sound (player foot hit the ground)
+    }
     
+
     if (_v.x*_v.x + _v.z*_v.z < 0.01 && _frame > 0 && !hasMove) {
         if ((int)_frame == 20)
             _frame = 0;

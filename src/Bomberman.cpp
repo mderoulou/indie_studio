@@ -121,7 +121,6 @@ void Bomberman::launch()
         _manager->renderAll();
         _win->endDrawing();
     }
-    saveMap();
 }
 
 void Bomberman::preLoad()
@@ -268,6 +267,13 @@ void Bomberman::saveMap()
     if (!file.is_open()) return;
     uint magic = 0x12345678; // MAGIIICCCCC
     file.write((char *)&magic, sizeof(magic));   
+    file.write((char *)&_manager->_cam->position, sizeof(_manager->_cam->position));
+    file.write((char *)&_manager->_cam->target, sizeof(_manager->_cam->target));
+    file.write((char *)&_manager->_cam->up, sizeof(_manager->_cam->up));
+    file.write((char *)&_manager->_cam->fovy, sizeof(_manager->_cam->fovy));
+    file.write((char *)&_manager->_cam->projection, sizeof(_manager->_cam->projection));
+    file.write((char *)&_manager->_cam->_isStarted, sizeof(_manager->_cam->_isStarted));
+
     file << _manager->_objs[3].size();
     for (auto &obj : _manager->_objs[3]) {
         file << *obj->dump();
@@ -287,15 +293,23 @@ void Bomberman::loadMap()
         std::cerr << "Bad Magic Number "<< magic << std::endl;
         return;
     }
+    file.read((char *)&_manager->_cam->position, sizeof(_manager->_cam->position));
+    file.read((char *)&_manager->_cam->target, sizeof(_manager->_cam->target));
+    file.read((char *)&_manager->_cam->up, sizeof(_manager->_cam->up));
+    file.read((char *)&_manager->_cam->fovy, sizeof(_manager->_cam->fovy));
+    file.read((char *)&_manager->_cam->projection, sizeof(_manager->_cam->projection));
+    file.read((char *)&_manager->_cam->_isStarted, sizeof(_manager->_cam->_isStarted));
+
     std::vector<std::vector<int>> keys{ 
-        { KeyboardKey::KEY_W, KeyboardKey::KEY_S, KeyboardKey::KEY_A, KeyboardKey::KEY_D, KeyboardKey::KEY_E, KeyboardKey::KEY_Q},
-        { KeyboardKey::KEY_UP, KeyboardKey::KEY_DOWN, KeyboardKey::KEY_LEFT, KeyboardKey::KEY_RIGHT, KeyboardKey::KEY_SPACE, KeyboardKey::KEY_ENTER},
-        { KeyboardKey::KEY_KP_5, KeyboardKey::KEY_KP_2, KeyboardKey::KEY_KP_1, KeyboardKey::KEY_KP_3, KeyboardKey::KEY_KP_6, KeyboardKey::KEY_KP_4},
-        { KeyboardKey::KEY_I, KeyboardKey::KEY_K, KeyboardKey::KEY_J, KeyboardKey::KEY_L, KeyboardKey::KEY_O, KeyboardKey::KEY_U}
+        {KeyboardKey::KEY_W, KeyboardKey::KEY_S, KeyboardKey::KEY_A, KeyboardKey::KEY_D, KeyboardKey::KEY_E, KeyboardKey::KEY_Q},
+        {KeyboardKey::KEY_UP, KeyboardKey::KEY_DOWN, KeyboardKey::KEY_LEFT, KeyboardKey::KEY_RIGHT, KeyboardKey::KEY_SPACE, KeyboardKey::KEY_ENTER},
+        {KeyboardKey::KEY_KP_5, KeyboardKey::KEY_KP_2, KeyboardKey::KEY_KP_1, KeyboardKey::KEY_KP_3, KeyboardKey::KEY_KP_6, KeyboardKey::KEY_KP_4},
+        {KeyboardKey::KEY_I, KeyboardKey::KEY_K, KeyboardKey::KEY_J, KeyboardKey::KEY_L, KeyboardKey::KEY_O, KeyboardKey::KEY_U}
     };
     
-    int playerCount = 0;
     file >> size;
+    uint playerCount = 0;
+
     std::shared_ptr<ByteObject> obj = std::make_shared<ByteObject>();
     for (int i = 0; i < size; i++) {
         int type;
@@ -306,7 +320,7 @@ void Bomberman::loadMap()
         switch (type) {
             case ByteObject::PLAYER:
                 //std::cout << "load Player" << std::endl;
-                ///_manager->addComponent(new Player(obj, _t._walking, , 3);
+                _manager->addComponent(new Player(obj, _t._walking, std::make_shared<KeyBoard>(-1, keys[playerCount])), 3);
                 playerCount++;
                 break;
             case ByteObject::WALL:

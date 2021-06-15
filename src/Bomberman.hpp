@@ -16,6 +16,7 @@
 #include <memory>
 
 class ComponentManager;
+class GameOpt;
 
 class allTexture
 {

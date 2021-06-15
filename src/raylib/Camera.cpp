@@ -89,3 +89,8 @@ rl::Vec3 rl::Camera3d::getPosition()
 {
     return (rl::Vec3(this->position));
 }
+
+rl::Vec3 rl::Camera3d::getTarget()
+{
+    return (rl::Vec3(this->target));
+}

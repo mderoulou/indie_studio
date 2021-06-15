@@ -55,6 +55,9 @@ void Bomb::simulate()
 
     if (_time <= 0) {
         // explode the bomb
+        // TOTO: sound (Bombe exploding)
+
+
         rl::Vec3 centered_pos = boudingBoxCenter() + rl::Vec3(0, 2-_scale, 0);
         rl::Vec3 treeZone = {0.5, 2, 0.5};
         auto &PhysXTree = _manager->_PhysXTree;

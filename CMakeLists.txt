@@ -91,7 +91,7 @@ src/entityComponent/object/Skybox.cpp
 src/entityComponent/object/Btn.cpp
 src/entityComponent/object/Input.cpp
 src/entityComponent/object/Slider.cpp
-src/entityComponent/object/PlayerIA.cpp
+src/entityComponent/object/PlayerAI.cpp
 src/entityComponent/object/List.cpp
 src/entityComponent/object/Bomb.cpp
 src/entityComponent/object/Particle.cpp

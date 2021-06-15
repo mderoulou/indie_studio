@@ -14,11 +14,11 @@
 #include <vector>
 
 
-class PlayerIA : public Object3D
+class PlayerAI : public Object3D
 {
     public:
-        PlayerIA(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText);
-        PlayerIA(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
+        PlayerAI(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText);
+        PlayerAI(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
 
         void handleEvent() override {};
         void move(rl::Vec3 newPos) override {};
