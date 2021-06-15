@@ -47,6 +47,8 @@ void MusicManager::playMusic()
 
 void MusicManager::playSound(const std::string &name, bool multi)
 {
+    if (!rl::Sound::IsAudioDeviceReady())
+        return;
     for (std::string title : _voices)
         if (title == name) {
             _sound = std::make_shared<rl::Sound>(std::string(std::string("../assets/voices/") + name));
