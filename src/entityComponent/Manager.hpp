@@ -20,6 +20,7 @@ class Settings
         std::vector<std::string> _skins;
         int _scene;
         uint16_t _sizeMap;
+        bool _fScreen;
         float _mVol;
         float _sVol;
         int _width;

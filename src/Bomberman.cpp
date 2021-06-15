@@ -44,6 +44,7 @@ Bomberman::Bomberman()
         _win->endDrawing();
         break;
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
     preLoad();
     createUI();
     setupWin();
@@ -127,6 +128,7 @@ void Bomberman::preLoad()
 {
     _manager = new ComponentManager(this);
     BF::loadAll(this); //Load all available skins;
+    loadSettings();
     rl::Sound::InitAudioDevice(); // Init audio
 
     _t._btn = std::make_shared<rl::Texture>("../assets/menus/btns.png");
@@ -162,6 +164,7 @@ void Bomberman::preLoad()
 
 void Bomberman::createUI()
 {
+    std::vector<std::string>sizes{"Map size: Small", "Map size: Medium", "Map size: Large"};
     // USED BY OTHERS :
     MusicManager* musicManager = new MusicManager(this);
     // HOME MENU :
@@ -171,11 +174,12 @@ void Bomberman::createUI()
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::optBtn), 0, _t._btn, _t._ft), 0);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::quitBtn), 0, _t._btn, _t._ft), 0);
     // OPTIONS MENU :
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "FullScreen: OFF", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::fullScreen), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), std::string("FullScreen: ") + (_manager->_settings._fScreen ? "ON" : "OFF"), 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::fullScreen), 0, _t._btn, _t._ft), 1);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::resolutionBtn), 0, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), "Map size: Small", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::mapSize), 0, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Slider(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, "Musics: 100%", this, &(BF::setMusic), (void*)musicManager, _t._btn, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Slider(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 240.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, "Sounds: 100%", this, &(BF::setSound), (void*)musicManager, _t._btn, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), sizes[(int)_manager->_settings._sizeMap], 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::mapSize), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Slider(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, std::string(std::string("Musics: ") + std::to_string((int)(_manager->_settings._mVol * 100))) + "%", this, &(BF::setMusic), (void*)musicManager, _t._btn, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Slider(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 240.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, std::string(std::string("Sounds: ") + std::to_string((int)(_manager->_settings._sVol * 100))) + "%", this, &(BF::setSound), (void*)musicManager, _t._btn, _t._btn, _t._ft), 1);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, -60.0), "Save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::saveSettings), 0, _t._btn, _t._ft), 1);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::backBtn), 0, _t._btn, _t._ft), 1);
     // SKINS MENU :
     Preview* preview = new Preview(rl::Vec3(7.5, 2, 13), 1, 5, -180, rl::Color(255, 255, 255, 255), _t._walking);
@@ -188,6 +192,7 @@ void Bomberman::createUI()
     _manager->addComponent(new List(rl::Vec2(1.0 / 2, 7.0 / 20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins), &(BF::previewSkin), preview, _t._ft, true, 4), 5);
     //GAME LOBBY :
     GameOpt* go = new GameOpt(this, 2, _t._ft);
+    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, -60.0), "Load from save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 2, this, &(BF::loadGame), (void*)go, _t._btn, _t._ft), 2);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(104.0, 0.0), "Fight", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 2, this, &(BF::launchGame), (void*)go, _t._btn, _t._ft), 2);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 2, this, &(BF::backBtn), 0, _t._btn, _t._ft), 2);
     _manager->addComponent(go, 2);
@@ -217,6 +222,51 @@ void Bomberman::saveMap()
     for (auto &obj : _manager->_objs[3]) {
         file << *obj->dump();
     }
+}
+
+void Bomberman::saveSettings()
+{
+    std::ofstream file("settings.yep", std::ofstream::trunc | std::ofstream::binary | std::ofstream::out);
+    if (!file.is_open()) return;
+    uint magic = 0x87654321; // MAGIIICCCCC
+    file.write((char *)&magic, sizeof(magic));   
+    file << _manager->_settings._sizeMap;
+    file << _manager->_settings._fScreen;
+    file << _manager->_settings._mVol;
+    file << _manager->_settings._sVol;
+    file << _manager->_settings._width;
+    file << _manager->_settings._height;
+    std::cout << "Size " << _manager->_settings._sizeMap << std::endl;
+    std::cout << "mVOl " << _manager->_settings._mVol << std::endl;
+    std::cout << "sVOl " << _manager->_settings._sVol << std::endl;
+    std::cout << "X " << _manager->_settings._width << std::endl;
+    std::cout << "Y " << _manager->_settings._height << std::endl;
+    std::cerr << "Settings successfully saved!" << std::endl;
+}
+
+void Bomberman::loadSettings()
+{
+    std::ifstream file("settings.yep", std::ifstream::binary);
+    uint magic;
+    uint size;
+    if (!file.is_open())
+        return;
+    file >> magic;
+    if (magic != 0x87654321) {
+        std::cerr << "Settings : Bad Magic Number "<< magic << std::endl;
+        return;
+    }
+    file >>_manager->_settings._sizeMap;
+    file >> _manager->_settings._fScreen;
+    file >>_manager->_settings._mVol;
+    file >>_manager->_settings._sVol;
+    file >>_manager->_settings._width;
+    file >>_manager->_settings._height;
+    file.close();
+    if (_manager->_settings._fScreen)
+        _win->setFullscreen();
+    _win->setWindowSize(_manager->_settings._width, _manager->_settings._height);
+    std::cerr << "Settings successfully loaded!" << std::endl;
 }
 
 void Bomberman::loadMap()
@@ -277,4 +327,5 @@ void Bomberman::loadMap()
                 return;
         }
     }
+    file.close();
 }

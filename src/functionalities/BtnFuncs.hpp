@@ -38,6 +38,8 @@ namespace BF {
     void unpauseBtn(Bomberman *win, Btn *b, void *data);
     void saveBtn(Bomberman *win, Btn *b, void *data);
     void homeBtn(Bomberman *win, Btn *b, void *data);
+    void saveSettings(Bomberman *win, Btn *b, void *data);
+    void loadGame(Bomberman *win, Btn *b, void *data);
 }
 
 #endif /* !BTNFUNCS_HPP_ */

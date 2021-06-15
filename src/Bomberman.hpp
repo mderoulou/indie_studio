@@ -11,6 +11,8 @@
 #include "entityComponent/Manager.hpp"
 #include "functionalities/BtnFuncs.hpp"
 #include "Indie.hpp"
+#include <thread>
+#include <chrono>
 #include <memory>
 
 class ComponentManager;
@@ -46,9 +48,11 @@ class Bomberman
         allTexture _t;
         rl::Window *_win;
         bool _ending = false;
-    private:
-        void loadMap();
         void saveMap();
+        void saveSettings();
+        void loadMap();
+        void loadSettings();
+    private:
         void createUI();
         void preLoad();
         void setupWin();

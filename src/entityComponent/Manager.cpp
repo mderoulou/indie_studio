@@ -18,6 +18,7 @@ ComponentManager::ComponentManager(Bomberman *bomberman)
     _settings._sizeMap = 0.0;
     _settings._mVol = 1.0;
     _settings._sVol = 1.0;
+    _settings._fScreen = false;
     _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
     _bomberman = bomberman;
 }

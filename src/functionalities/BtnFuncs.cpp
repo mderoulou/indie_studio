@@ -82,10 +82,13 @@ void BF::fullScreen(Bomberman *win, Btn *b, void *data)
     if (win->_win->isFullscreen()) {
         b->_text = "Fullscreen: OFF";
         win->_win->setFullscreen();
+        win->_manager->_settings._fScreen = false;
     } else {
         b->_text = "Fullscreen: ON";
         win->_win->setFullscreen();
+        win->_manager->_settings._fScreen = true;
     }
+    win->_win->setWindowSize(win->_manager->_settings._width, win->_manager->_settings._height);
 }
 
 /* Supported :
@@ -110,6 +113,8 @@ void BF::resolutionBtn(Bomberman *win, Btn *b, void *data)
     }
     x = (x + 1) % 4;
     win->_win->setWindowSize(widths[x], heights[x]);
+    win->_manager->_settings._width = widths[x];
+    win->_manager->_settings._height = heights[x];
     b->_text = std::string("Resolution:") + texts[x];
 }
 
@@ -322,11 +327,21 @@ void BF::switchSkin(Bomberman *win, Btn *b, void *data)
 
 void BF::saveBtn(Bomberman *win, Btn *b, void *data)
 {
-
+    win->saveMap();
 }
 
 void BF::homeBtn(Bomberman *win, Btn *b, void *data)
 {
     win->_manager->_objs[3].clear();
     switchScene(win, 0);
+}
+
+void BF::saveSettings(Bomberman *win, Btn *b, void *data)
+{
+    win->saveSettings();
+}
+
+void BF::loadGame(Bomberman *win, Btn *b, void *data)
+{
+    win->loadMap();
 }
