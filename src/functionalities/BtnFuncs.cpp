@@ -12,7 +12,7 @@ void BF::playBtn(Bomberman *win, Btn *b, void *data)
     MusicManager *mm = (MusicManager *)data;
     (void)b;
     switchScene(win, 2);
-    mm->playSound("prepare_yourself.ogg");
+    mm->playSound("prepare_yourself.ogg", false);
 }
 
 void BF::optBtn(Bomberman *win, Btn *b, void *data)
@@ -227,13 +227,13 @@ void BF::previewSkin(Bomberman *win, void *data, std::string str)
 
 void countDown(Bomberman* win)
 {
-    win->_manager->_mm->playSound("3.ogg");
+    win->_manager->_mm->playSound("3.ogg", false);
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    win->_manager->_mm->playSound("2.ogg");
+    win->_manager->_mm->playSound("2.ogg", false);
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    win->_manager->_mm->playSound("1.ogg");
+    win->_manager->_mm->playSound("1.ogg", false);
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    win->_manager->_mm->playSound("fight.ogg");
+    win->_manager->_mm->playSound("fight.ogg", false);
 }
 
 void BF::launchGame(Bomberman *win, Btn *b, void *data)
@@ -257,8 +257,12 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
         for (int i = 0; i < 4; i++) {
             if (!go->_types[i]) // Ya pa de playeur
                 continue;
+            if (go->_types[i] == 2) {
+                std::cout << "NEW IA "<< std::endl;
+            } else {
             Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, win, std::string("../assets/skins/") + go->_names[i]);
             win->_manager->addComponent(player, 3);
+            }
         }
         countDown(win);
         switchScene(win, 3);
@@ -294,14 +298,16 @@ void BF::switchType(Bomberman *win, Btn *b, void *data)
         for (auto obj : win->_manager->_objs[win->_manager->_settings._scene])
             if (GameOpt *t = dynamic_cast<GameOpt *>(obj))
                 opts = t;
-    opts->_types[index] += 1;
-    opts->_types[index] %= 2;
+    if (!opts->_types[index])
+        opts->_types[index] = 2;
+    else
+        opts->_types[index] = 0;
     opts->_controllers[index] = 0;
     if (!opts->_types[index])
         opts->_previews[index]->_disabled = true;
     else
         opts->_previews[index]->_disabled = false;
-    b->_text = std::string(types[opts->_types[index]]);
+    b->_text = opts->_types[index] ? "IA" : "None";
 }
 
 void BF::switchSkin(Bomberman *win, Btn *b, void *data)
