@@ -30,8 +30,6 @@ MusicManager::~MusicManager()
 {
     if (_music != nullptr)
         delete _music;
-    if (_sound != nullptr)
-        delete _sound;
 }
 
 void MusicManager::playMusic()
@@ -49,13 +47,9 @@ void MusicManager::playMusic()
 
 void MusicManager::playSound(const std::string &name, bool multi)
 {
-    if (_sound != nullptr) {
-        delete _sound;
-        _sound = nullptr;
-    }
     for (std::string title : _voices)
         if (title == name) {
-            _sound = new rl::Sound(std::string(std::string("../assets/voices/") + name));
+            _sound = std::make_shared<rl::Sound>(std::string(std::string("../assets/voices/") + name));
             _sound->setVolume(_win->_manager->_settings._sVol);
             if (multi)
                 _sound->playMulti();
