@@ -167,6 +167,7 @@ void ComponentManager::computeAImap() {
     _AImapValues.resize(_currentMapSize.x+1);
     for (auto &vec : _AImapValues)
         vec.resize(_currentMapSize.y+1, 0); // standard cell attractiveness
+
     _boxCount = 0;
     _playerCount = 0;
     Player *player = 0;
@@ -216,12 +217,14 @@ void ComponentManager::computeAImap() {
         if (x > _currentMapSize.x || y > _currentMapSize.y)
             continue;
         if (auto obj2 = dynamic_cast<Wall *>(obj)) {
-            _AImapValues[x][y] += 500000000;
+            _AImapValues[x][y] += 50000000;
         } else if (auto obj2 = dynamic_cast<Box *>(obj)) {
-            _AImapValues[x][y] += 500000000;
+            _AImapValues[x][y] += 50000000;
         } else if (auto obj2 = dynamic_cast<Player *>(obj)) {
+            if (_boxCount == 0)
+                _AImapValues[x][y] += -120;
         } else if (auto obj2 = dynamic_cast<Bomb *>(obj)) {
-            _AImapValues[x][y] += 500000000;
+            _AImapValues[x][y] += 50000000;
             int explosionRadius = obj2->_explosionRadius;
             int time = obj2->_time;
             int maxTime = obj2->_maxTime;
@@ -240,7 +243,7 @@ void ComponentManager::computeAImap() {
                         break;
 
                     for (int axis_nb2 = 0; axis_nb2 < 4; axis_nb2++){
-                        _AImapValues[(int)offset[0]+axis[axis_nb2][0]][(int)offset[2]+axis[axis_nb2][2]] += 120;   
+                        _AImapValues[(int)offset[0]+axis[axis_nb2][0]][(int)offset[2]+axis[axis_nb2][2]] += 260;   
                     }
                     
                     if ((maxTime - time) > maxTime/3){
@@ -329,14 +332,13 @@ void ComponentManager::computeAImap() {
                 if (_AImap[x][y] & (ControlsAI::WILLDIESOON))
                     r2[x][y] = r1[x][y]*0.99 + bestscore*0.01; //;//;
                 else
-                    r2[x][y] = r1[x][y]*0.95 + bestscore*0.05;// + some/count*0.001; //;//;
+                    r2[x][y] = r1[x][y]*0.95 + bestscore*0.05; // + some/count*0.001; //;//;
             }
         }
         _AImapValues = buf;
-
     }
-
-    if (!(_frame % 30) && 0){
+    std::cout.precision(2);
+    if (!(_frame % 30) && 1){
         for (auto &vec : _AImapValues) {
             for (auto &val : vec){
                 std::cout << std::setw(8) << val << " ";

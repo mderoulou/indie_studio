@@ -73,8 +73,8 @@ void ControlsAI::setPlayer(PlayerAI *player) {
 void ControlsAI::simulate() {
     _frame = _player->_manager->_frame;
     rl::Vec3 pos = _player->boudingBoxCenter() + rl::Vec3(0.5, 0, 0.5);
-    auto &map = _player->_manager->_AImapValues;
-    auto &typeMap = _player->_manager->_AImap;
+    const auto &map = _player->_manager->_AImapValues;
+    const auto &typeMap = _player->_manager->_AImap;
     rl::Vec3 axis[5] = {
         {0, 0, 0},
         {0, 0, -1},
@@ -84,7 +84,7 @@ void ControlsAI::simulate() {
     };
 
     bool safe = true;
-    int best = map[(int)pos[0]][(int)pos[2]];
+    float best = map[(int)pos[0]][(int)pos[2]];
     int bestID = 0;
     for (int axeID = 1; axeID < 5; axeID++) {
         rl::Vec3 vec = axis[axeID] + pos;
