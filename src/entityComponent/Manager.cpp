@@ -194,13 +194,13 @@ void ComponentManager::computeAImap() {
         }
     }
 
-    if (_playerCount == 1) {    
+    if (_playerCount == 1 && _settings._scene == 3) {    
         _mm->playSound("winner.ogg", false);
         std::cout << "player " << player->_playerId << std::endl;
         // TODO VICTORY TRIGER
         _objs[3].clear();
         _settings._scene = 2;
-    } else if (_playerCount == 0) {
+    } else if (_playerCount == 0 && _settings._scene == 3) {
         std::cout << "draw" << std::endl;
         // TODO DRAW TRIGER
         _objs[3].clear();
