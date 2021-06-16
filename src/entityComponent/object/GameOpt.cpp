@@ -30,34 +30,39 @@ GameOpt::GameOpt(Bomberman *win, int scene, std::shared_ptr<rl::Font> font)
     _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)1, _win->_t._btn, _win->_t._ft), 2);
     _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)2, _win->_t._btn, _win->_t._ft), 2);
     _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(304.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)3, _win->_t._btn, _win->_t._ft), 2);
-    preview = new Preview(rl::Vec3(0.5,2,13), 0.75, 2, -160, rl::Color(255,255,255,255), _win->_t._walking);
+    
+    preview = new Preview(rl::Vec3(20, 0, -5), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
     b = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)0, _win->_t._btn, _win->_t._ft);
     _btns.push_back(b);
     _previews.push_back(preview);
     _win->_manager->addComponent(b, 2);
     _win->_manager->addComponent(preview, 2);
     preview->_disabled = true;
-    preview = new Preview(rl::Vec3(5,2,12), 0.75, 2, -180, rl::Color(255,255,255,255), _win->_t._walking);
+    
+    preview = new Preview(rl::Vec3(21, 0, -1), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
     b = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)1, _win->_t._btn, _win->_t._ft);
     _btns.push_back(b);
     _previews.push_back(preview);
     _win->_manager->addComponent(b, 2);
     _win->_manager->addComponent(preview, 2);
     preview->_disabled = true;
-    preview = new Preview(rl::Vec3(10,2,12), 0.75, 2, -180, rl::Color(255,255,255,255), _win->_t._walking);
+    
+    preview = new Preview(rl::Vec3(21, 0, 3), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
     b = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)2, _win->_t._btn, _win->_t._ft);
     _btns.push_back(b);
     _previews.push_back(preview);
     _win->_manager->addComponent(b, 2);
     _win->_manager->addComponent(preview, 2);
     preview->_disabled = true;
-    preview = new Preview(rl::Vec3(14.5,2,13), 0.75, 2, -200, rl::Color(255,255,255,255), _win->_t._walking);
+    
+    preview = new Preview(rl::Vec3(20, 0, 7), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
     b = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(304, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)3, _win->_t._btn, _win->_t._ft);
     _btns.push_back(b);
     _previews.push_back(preview);
     _win->_manager->addComponent(b, 2);
     _win->_manager->addComponent(preview, 2);
     preview->_disabled = true;
+    
     for (int x = 0; x < 4; x++)
         _controllers.push_back(0);
 }

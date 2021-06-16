@@ -21,7 +21,7 @@
 Skybox::Skybox()
 {
     _scene = 3;
-    _mesh = std::make_shared<rl::Mesh>(1.0f, 1.0f, 1.0f);
+    _mesh = std::make_shared<rl::Mesh>(10.0f, 10.0f, 10.0f);
     _skybox = std::make_shared<rl::Model>(*(_mesh.get()));
     (*_skybox).makeItSkybox("../assets/shader/skybox/glsl%i/skybox.vs",
                             "../assets/shader/skybox/glsl%i/skybox.fs",
