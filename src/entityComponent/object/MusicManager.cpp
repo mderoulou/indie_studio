@@ -35,38 +35,50 @@ MusicManager::~MusicManager()
 
 void MusicManager::playMusic()
 {
-    uint32_t id = std::rand() % _musics.size();
+    try {
+        uint32_t id = std::rand() % _musics.size();
 
-    if (_music != nullptr) {
-        delete _music;
-        _music = nullptr;
+        if (_music != nullptr) {
+            delete _music;
+            _music = nullptr;
+        }
+        if (!rl::Sound::IsAudioDeviceReady())
+            return;
+            _music = new rl::Music(std::string(std::string("../assets/musics/") + _musics[id]));
+            _music->play();
+            std::cout << "Playing :" << std::string(std::string("../assets/musics/") + _musics[id]) << std::endl;
+    } catch (...) {
+        std::cerr << "Unable to play music! Passing ..." << std::endl;
     }
-    if (!rl::Sound::IsAudioDeviceReady())
-        return;
-    _music = new rl::Music(std::string(std::string("../assets/musics/") + _musics[id]));
-    _music->play();
-    std::cout << "Playing :" << std::string(std::string("../assets/musics/") + _musics[id])<< std::endl;
 }
 
 void MusicManager::playSound(const std::string &name, bool multi)
 {
-    if (!rl::Sound::IsAudioDeviceReady())
-        return;
-    _sounds[name]->setVolume(_win->_manager->_settings._sVol);
-    if (multi)
-        _sounds[name]->playMulti();
-    else
-        _sounds[name]->play();
+    try {
+        if (!rl::Sound::IsAudioDeviceReady())
+            return;
+        _sounds[name]->setVolume(_win->_manager->_settings._sVol);
+        if (multi)
+            _sounds[name]->playMulti();
+        else
+            _sounds[name]->play();
+    } catch (...) {
+        std::cerr << "Unable to play sound! Passing ..." << std::endl;
+    }
 }
 
 void MusicManager::render(rl::Camera3d *cam)
 {
-    if (_win->_manager->_settings._scene <= 2 && _music == nullptr)
-        this->playMusic();
-    if (_music != nullptr && _music->getTimePlayed() + 2 >= _music->getTimeLength())
-        this->playMusic();
-    if (_music != nullptr) {
-        _music->update();
-        _music->setVolume(_win->_manager->_settings._mVol);
+    try {
+        if (_win->_manager->_settings._scene <= 2 && _music == nullptr)
+            this->playMusic();
+        if (_music != nullptr && _music->getTimePlayed() + 2 >= _music->getTimeLength())
+            this->playMusic();
+        if (_music != nullptr) {
+            _music->update();
+            _music->setVolume(_win->_manager->_settings._mVol);
+        }
+    } catch (...) {
+        std::cerr << "Error rendering musics! Passing ..." << std::endl;
     }
 }
