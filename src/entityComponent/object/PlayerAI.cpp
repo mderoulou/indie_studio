@@ -98,7 +98,7 @@ void ControlsAI::simulate() {
     }
 
 
-    rl::Vec3 target = {(int)pos[0], 0, (int)pos[2]};
+    rl::Vec3 target = {(float)(int)pos[0], 0, (float)(int)pos[2]};
     target += axis[bestID];
 
     _axis = target - _player->_pos;
