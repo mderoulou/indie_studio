@@ -51,7 +51,7 @@ class Bomberman
         bool _ending = false;
         void saveMap();
         void saveSettings();
-        void loadMap();
+        bool loadMap();
         void loadSettings();
     private:
         void createUI();

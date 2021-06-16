@@ -276,18 +276,18 @@ void Bomberman::saveMap()
     }
 }
 
-void Bomberman::loadMap()
+bool Bomberman::loadMap()
 {
     std::ifstream file("save.yep", std::ifstream::binary);
     uint magic;
     uint size;
     std::cerr << "opening file" << std::endl;
-    if (!file.is_open()) return;
+    if (!file.is_open()) return false;
     std::cerr << "file opened" << std::endl;
     file.read((char *)&magic, sizeof(magic));
     if (magic != 0x12345678) {
         std::cerr << "Bad Magic Number "<< magic << std::endl;
-        return;
+        return false;
     }
     file.read((char *)&_manager->_cam->position, sizeof(_manager->_cam->position));
     file.read((char *)&_manager->_cam->target, sizeof(_manager->_cam->target));
@@ -315,7 +315,7 @@ void Bomberman::loadMap()
         *obj >> type;
         switch (type) {
             case ByteObject::PLAYER:
-                std::cout << "load Player" << std::endl;
+                //std::cout << "load Player" << std::endl;
                 _manager->addComponent(new Player(obj, _t._walking, std::make_shared<KeyBoard>(-1, keys[playerCount])), 3);
                 playerCount++;
                 break;
@@ -332,7 +332,7 @@ void Bomberman::loadMap()
                 _manager->addComponent(new Box(obj, _t._wood), 3);
                 break;
             case ByteObject::PLAYERAI:
-            std::cout << "load IA" << std::endl;
+                //std::cout << "load IA" << std::endl;
                 _manager->addComponent(PlayerAI::factory(obj, _t._walking), 3);
                 break;
             case ByteObject::POWERUP:
@@ -344,8 +344,9 @@ void Bomberman::loadMap()
                 break;
             default:
                 std::cerr << "Bad Type : " << type << std::endl;
-                return;
+                return false;
         }
     }
     file.close();
+    return true;
 }

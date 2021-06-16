@@ -366,7 +366,8 @@ void BF::saveSettings(Bomberman *win, Btn *b, void *data)
 void BF::loadGame(Bomberman *win, Btn *b, void *data)
 {
     win->_manager->_objs[3].clear();
-    win->loadMap();
+    if (!win->loadMap())
+        return;
     countDown(win);
     rl::Mouse::HideCursor();
     switchScene(win, 3);
