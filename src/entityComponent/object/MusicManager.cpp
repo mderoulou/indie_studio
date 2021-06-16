@@ -41,6 +41,8 @@ void MusicManager::playMusic()
         delete _music;
         _music = nullptr;
     }
+    if (!rl::Sound::IsAudioDeviceReady())
+        return;
     _music = new rl::Music(std::string(std::string("../assets/musics/") + _musics[id]));
     _music->play();
     std::cout << "Playing :" << std::string(std::string("../assets/musics/") + _musics[id])<< std::endl;
@@ -48,6 +50,8 @@ void MusicManager::playMusic()
 
 void MusicManager::playSound(const std::string &name, bool multi)
 {
+    if (!rl::Sound::IsAudioDeviceReady())
+        return;
     _sounds[name]->setVolume(_win->_manager->_settings._sVol);
     if (multi)
         _sounds[name]->playMulti();
