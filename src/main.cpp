@@ -1,10 +1,14 @@
 #include "Indie.hpp"
 
-int main()
+int main(void)
 {
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
-    Bomberman game;
-
-    game.launch();
+    try {
+        Bomberman game;
+        game.launch();
+    } catch (...) {
+        return 84;
+    }
+    return 0;
 }
