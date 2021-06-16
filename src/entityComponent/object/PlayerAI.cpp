@@ -68,53 +68,78 @@ void ControlsAI::setPlayer(PlayerAI *player) {
     _player = player;
 }
 
+#define PYTAGORE(x, y, z) (pow((float)(x)*(x)+(y)*(y)+(z)*(z), 0.5))
+
 void ControlsAI::simulate() {
     _frame = _player->_manager->_frame;
-    rl::Vec3 pos = {(float)round((*_player)[0]), 0, (float)round((*_player)[2])};
+    rl::Vec3 pos = _player->boudingBoxCenter() + rl::Vec3(0.5, 0, 0.5);
     auto &map = _player->_manager->_AImapValues;
+    auto &typeMap = _player->_manager->_AImap;
     rl::Vec3 axis[5] = {
-        {1, 0, 0},
-        {-1, 0, 0},
-        {0, 0, 1},
-        {0, 0, -1},
         {0, 0, 0},
+        {0, 0, -1},
+        {-1, 0, 0},
+        {1, 0, 0},
+        {0, 0, 1},
     };
 
+    bool safe = true;
     int best = map[(int)pos[0]][(int)pos[2]];
-    int bestID = 4;
-    for (int axeID = 0; axeID < 4; axeID++) {
+    int bestID = 0;
+    for (int axeID = 1; axeID < 5; axeID++) {
         rl::Vec3 vec = axis[axeID] + pos;
-        if (map[(int)pos[0]][(int)pos[2]] < best) {
-            best = map[(int)pos[0]][(int)pos[2]];
+        if (map[(int)vec[0]][(int)vec[2]] < best) {
+            best = map[(int)vec[0]][(int)vec[2]];
             bestID = axeID;
         }
+        if (typeMap[(int)vec[0]][(int)vec[2]] & ControlsAI::cellType::WILLDIESOON)
+            safe = false;
+
     }
-    _axis = axis[bestID];
-    std::cout << "simulate" << std::endl;
+
+
+    rl::Vec3 target = {(int)pos[0], 0, (int)pos[2]};
+    target += axis[bestID];
+
+    _axis = target - _player->_pos;
+    _use = false;
+    if (best < 0 && !(_frame % 2) && bestID == 0 && !(typeMap[(int)pos[0]][(int)pos[2]] & ControlsAI::cellType::POWERUP) && safe) {
+        _use = true;
+        _player->_v = {0, 0, 0};
+    }
+  
 }
 
 float ControlsAI::isKeyUp() {
     if (_frame != _player->_manager->_frame)
         simulate();
-    return abs(-_axis[2]);
+    if (_axis[2] < 0)
+        return -_axis[2];
+    return 0;
 }
 
 float ControlsAI::isKeyDown() {
     if (_frame != _player->_manager->_frame)
         simulate();
-    return abs(_axis[2]);
+    if (_axis[2] > 0)
+        return _axis[2];
+    return 0;
 }
 
 float ControlsAI::isKeyLeft() {
     if (_frame != _player->_manager->_frame)
         simulate();
-    return abs(-_axis[0]);
+    if (_axis[0] < 0)
+        return -_axis[0];
+    return 0;
 }
 
 float ControlsAI::isKeyRight() {
     if (_frame != _player->_manager->_frame)
         simulate();
-    return abs(_axis[0]);
+    if (_axis[0] > 0)
+        return _axis[0];
+    return 0;
 }
 
 int ControlsAI::isKeyUse() {

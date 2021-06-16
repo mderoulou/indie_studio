@@ -49,13 +49,15 @@ class ControlsAI : public Controls {
         enum cellType {
             EMPTY = 0,
             BLOCKING = 1,
-            FREE = 2,
-            BLOCKEPLOSION = 128,
-            BOX = 4 | BLOCKING | BLOCKEPLOSION,
-            WALL = 8 | BLOCKING | BLOCKEPLOSION,
+            BLOCKEXPLOSION = 128,
+            BOX = 4 | BLOCKING | BLOCKEXPLOSION,
+            WALL = 8 | BLOCKING | BLOCKEXPLOSION,
             BOMB = 16 | BLOCKING,
-            PLAYER = 32 | BLOCKING,
-            POWERUP = 64 | FREE,
+            PLAYER = 32,
+            POWERUP = 64,
+            WILLDIE = 256,
+            WILLDIESOON = 1024,
+            WILLDAMGE = 512,
         };
 
     private:

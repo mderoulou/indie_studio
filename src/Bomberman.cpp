@@ -110,9 +110,9 @@ void Bomberman::launch()
 {
     Skybox *skybox = new Skybox();
 
-    _manager->_objs[3].clear();
-    loadMap();
-    _manager->_settings._scene = 3;
+    // _manager->_objs[3].clear();
+    // loadMap();
+    // _manager->_settings._scene = 3;
     
 
     while (!_win->ShouldClose() && !_ending) {

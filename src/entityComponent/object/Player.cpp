@@ -140,7 +140,7 @@ void Player::simulate()
         _manager->addComponent(p, _scene);
         if (_deathTime <= 0)
             _toRemove = true;
-        _deathTime;
+        _deathTime--;
     } else if (_controller) {
         float mov = 0;
         if ((mov = _controller->isKeyUp()) != 0) { 

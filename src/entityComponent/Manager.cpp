@@ -19,7 +19,7 @@ ComponentManager::ComponentManager(Bomberman *bomberman)
     _settings._mVol = 1.0;
     _settings._sVol = 1.0;
     _settings._fScreen = false;
-    _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(64000, 64000, 64000));
+    _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(1024, 1024, 1024));
     _bomberman = bomberman;
 }
 
@@ -111,14 +111,8 @@ void ComponentManager::handleEvent()
 void ComponentManager::computeAImap() {
     _currentMapSize = {0, 0};
     for (auto obj : _objs[3]) {
-        if (dynamic_cast<Wall *>(obj)) {
-        } else if (dynamic_cast<Box *>(obj)) {
-        } else if (dynamic_cast<Player *>(obj)) {
-        } else if (dynamic_cast<Bomb *>(obj)) {
-        } else if (dynamic_cast<PowerUp *>(obj)) {
-        } else {
+        if (!dynamic_cast<Floor *>(obj))
             continue;
-        }
 
 
         rl::Vec3 &pos = obj->_pos;
@@ -143,8 +137,10 @@ void ComponentManager::computeAImap() {
         if ((*obj)[0] < 0 || (*obj)[2] < 0)
             continue;
         rl::Vec3 pos = obj->_pos;
-        int x = pos[0];
-        int y = pos[2];
+        int x = round(pos[0]);
+        int y = round(pos[2]);
+        if (x > _currentMapSize.x || y > _currentMapSize.y)
+            continue;
         if (dynamic_cast<Wall *>(obj)) {
             _AImap[x][y] |= ControlsAI::cellType::WALL;
         } else if (dynamic_cast<Box *>(obj)) {
@@ -152,7 +148,7 @@ void ComponentManager::computeAImap() {
         } else if (dynamic_cast<Player *>(obj)) {
             _AImap[x][y] |= ControlsAI::cellType::PLAYER;
         } else if (dynamic_cast<Bomb *>(obj)) {
-            _AImap[x][y] |= ControlsAI::cellType::BOMB;
+            _AImap[x][y] |= ControlsAI::cellType::BOMB | ControlsAI::cellType::WILLDIE;
         } else if (dynamic_cast<PowerUp *>(obj)) {
             _AImap[x][y] |= ControlsAI::cellType::POWERUP;
         }
@@ -164,14 +160,16 @@ void ComponentManager::computeAImap() {
         rl::Vec3 pos = obj->_pos;
         int x = round(pos[0]);
         int y = round(pos[2]);
+        if (x > _currentMapSize.x || y > _currentMapSize.y)
+            continue;
         if (auto obj2 = dynamic_cast<Wall *>(obj)) {
-            _AImapValues[x][y] += 50000;
+            _AImapValues[x][y] += 500000000;
         } else if (auto obj2 = dynamic_cast<Box *>(obj)) {
-            _AImapValues[x][y] += 50000;
+            _AImapValues[x][y] += 500000000;
+
         } else if (auto obj2 = dynamic_cast<Player *>(obj)) {
-            _AImapValues[x][y] += 50000;
         } else if (auto obj2 = dynamic_cast<Bomb *>(obj)) {
-            _AImapValues[x][y] += 50000;
+            _AImapValues[x][y] += 500000000;
             int explosionRadius = obj2->_explosionRadius;
             int time = obj2->_time;
             int maxTime = obj2->_maxTime;
@@ -186,17 +184,101 @@ void ComponentManager::computeAImap() {
                 for (int i = 0; i <= explosionRadius; i++, offset += axis[axis_nb]) {
                     ControlsAI::cellType &cell = (ControlsAI::cellType &)_AImap[(int)offset[0]][(int)offset[2]];
                     float &cellVal = _AImapValues[(int)offset[0]][(int)offset[2]];
-                    if (cell & ControlsAI::cellType::BLOCKEPLOSION)
+                    if (cell & ControlsAI::cellType::BLOCKEXPLOSION)
                         break;
-                    cellVal += (maxTime - time)*10;
+                    if ((maxTime - time) > maxTime/3){
+                        _AImap[(int)offset[0]][(int)offset[2]] |= ControlsAI::cellType::WILLDIESOON;
+                        cellVal += (maxTime - time)*5000;
+                    }
+                    _AImap[(int)offset[0]][(int)offset[2]] |= ControlsAI::cellType::WILLDIE;
                 }
             }
         } else if (auto obj2 = dynamic_cast<PowerUp *>(obj)) {
-            _AImapValues[x][y] -= 100;
         }
     }
 
-    if (!(_frame % 30)&& 0){
+
+    for (auto obj : _objs[3]) {
+        if ((*obj)[0] < 0 || (*obj)[2] < 0)
+            continue;
+        rl::Vec3 pos = obj->_pos;
+        int x = round(pos[0]);
+        int y = round(pos[2]);
+        if (x > _currentMapSize.x || y > _currentMapSize.y)
+            continue;
+        if (auto obj2 = dynamic_cast<Wall *>(obj)) {
+        } else if (auto obj2 = dynamic_cast<Box *>(obj)) {
+            if (!(_AImap[x+1][y] & ControlsAI::cellType::WILLDIE)){
+                _AImap[x+1][y] |= ControlsAI::cellType::WILLDAMGE;
+                if (_AImapValues[x+1][y] > -240)
+                    _AImapValues[x+1][y] -= 30;
+            }
+            if (!(_AImap[x-1][y] & ControlsAI::cellType::WILLDIE)){
+                _AImap[x-1][y] |= ControlsAI::cellType::WILLDAMGE;
+                if (_AImapValues[x-1][y] > -240)
+                    _AImapValues[x-1][y] -= 30;
+            }
+            if (!(_AImap[x][y+1] & ControlsAI::cellType::WILLDIE)){
+                _AImap[x][y+1] |= ControlsAI::cellType::WILLDAMGE;
+                if (_AImapValues[x][y+1] > -240)
+                    _AImapValues[x][y+1] -= 30;
+            }
+            if (!(_AImap[x][y-1] & ControlsAI::cellType::WILLDIE)){
+                _AImap[x][y-1] |= ControlsAI::cellType::WILLDAMGE;
+                if (_AImapValues[x][y-1] > -240)
+                    _AImapValues[x][y-1] -= 30;
+            }
+
+        } else if (auto obj2 = dynamic_cast<Player *>(obj)) {
+            _AImapValues[x][y] -= 10;
+        } else if (auto obj2 = dynamic_cast<Bomb *>(obj)) {
+        } else if (auto obj2 = dynamic_cast<PowerUp *>(obj)) {
+            if (!(_AImap[x][y] & ControlsAI::cellType::WILLDIE))
+                _AImapValues[x][y] = -240;
+        }
+    }
+
+    auto buf = _AImapValues;
+    // smooth the grid
+    const auto &r1 = _AImapValues; 
+    auto &r2 = buf; 
+    for (int i = 0; i < 32; i++){
+        for (int x = 1; x < r1.size()-1; x++) {
+            for (int y = 1; y < r1[x].size()-1; y++) {
+                if (_AImap[x][y] & ControlsAI::cellType::BLOCKING)
+                    continue;
+                rl::Vec2 axes[5] = {
+                    {0, 0},
+                    {-1, 0},
+                    {1, 0},
+                    {0, -1},
+                    {0, 1},
+                };
+                int bestAxis = 0;
+                int count = 1;
+                float bestscore = r1[x][y];
+                float some = bestscore;
+                for (int axesID = 1; axesID < 5; axesID++) {
+                    if (r1[x+axes[axesID].x][y+axes[axesID].y] < bestscore) {
+                        bestAxis = axesID;
+                        bestscore = r1[x+axes[axesID].x][y+axes[axesID].y];
+                    }
+                    if (_AImap[x+axes[axesID].x][y+axes[axesID].y] & (ControlsAI::BLOCKING))
+                        continue;
+                    some += r1[x+axes[axesID].x][y+axes[axesID].y];
+                    count++;
+                }
+                if (_AImap[x][y] & (ControlsAI::WILLDIESOON))
+                    r2[x][y] = r1[x][y]*0.99 + bestscore*0.01; //;//;
+                else
+                    r2[x][y] = r1[x][y]*0.9 + bestscore*0.1;// + some/count*0.001; //;//;
+            }
+        }
+        _AImapValues = buf;
+
+    }
+
+    if (!(_frame % 30) && 0){
         for (auto &vec : _AImapValues) {
             for (auto &val : vec){
                 std::cout << std::setw(8) << val << " ";

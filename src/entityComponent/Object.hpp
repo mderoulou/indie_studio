@@ -52,7 +52,7 @@ class AObject : public IObject
         virtual void simulate() = 0;
         virtual bool explode(Bomb *bomb);
         virtual void render(rl::Camera3d *cam) = 0;
-        virtual float &operator[](int i) {return boudingBoxCenter()[i];}
+        virtual float &operator[](int i) {return _pos[i];}
         rl::Vec3 boudingBoxCenter();
 
         rl::Vec3 _pos = {0, 0, 0};
