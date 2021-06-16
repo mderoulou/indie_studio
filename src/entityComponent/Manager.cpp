@@ -338,7 +338,7 @@ void ComponentManager::computeAImap() {
         _AImapValues = buf;
     }
     std::cout.precision(2);
-    if (!(_frame % 30) && 1){
+    if (!(_frame % 30) && 0){
         for (auto &vec : _AImapValues) {
             for (auto &val : vec){
                 std::cout << std::setw(8) << val << " ";
