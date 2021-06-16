@@ -61,8 +61,9 @@ void rl::Vec3::drawCubeWires(rl::Vec3 size, rl::Color color)
     DrawCubeWiresV(rl::Vec3(this->x, this->y, this->z), size, color);
 }
 
+
 /*
-**  Vector 3 Functions
+**  Vector 4 Functions
 */
 
 rl::Vec4::Vec4()

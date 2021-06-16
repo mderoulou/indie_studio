@@ -146,7 +146,17 @@ class Vec3 : public ::Vector3
             z = val.z;
             return *this;
         }
-
+        
+        bool operator!=(const Vec3 &second)
+        {
+            if (x != second.x)
+                return true;
+            if (y != second.y)
+                return true;
+            if (z != second.z)
+                return true;
+            return false;
+        }
 
         void drawCube(rl::Vec3 size, rl::Color color);
         void drawCubeWires(rl::Vec3 size, rl::Color color);

@@ -64,6 +64,7 @@ class ComponentManager
         rl::Vec3 _set_target;
         void moveCamera(bool dynamic);
         void manageCamera();
+        bool verifyIsSet();
     private:
         
     private:

@@ -255,6 +255,7 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
             {(float)(size-2), 0, (float)1},
         };
         win->generateMap(size);
+        switchScene(win, 3);
         for (int i = 0; i < 4; i++) {
             if (!go->_types[i])
                 continue;
@@ -269,7 +270,6 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
         }
         countDown(win);
         rl::Mouse::HideCursor();
-        switchScene(win, 3);
     }
 }
 
