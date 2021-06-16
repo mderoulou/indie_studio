@@ -23,6 +23,8 @@ int Controls::newControls()
     int btn = rl::GamePad::GetGamepadButtonPressed();
     int key = rl::KeyBoard::GetKeyPressed();
 
+    if (key == 256)
+        return (-1);
     for (int x = 0; btn != -1 && x < 4; x++) {
         if (rl::GamePad::IsGamepadAvailable(x) && rl::GamePad::IsGamepadButtonDown(x, btn)) {
             return (x);
