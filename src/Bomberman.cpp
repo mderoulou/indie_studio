@@ -178,7 +178,9 @@ void Bomberman::createUI()
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::optBtn), 0, _t._btn, _t._ft), 0);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::quitBtn), 0, _t._btn, _t._ft), 0);
     // OPTIONS MENU :
+    #ifndef _WIN32
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), std::string("FullScreen: ") + (_manager->_settings._fScreen ? "ON" : "OFF"), 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::fullScreen), 0, _t._btn, _t._ft), 1);
+    #endif
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::resolutionBtn), 0, _t._btn, _t._ft), 1);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), sizes[(int)_manager->_settings._sizeMap], 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::mapSize), 0, _t._btn, _t._ft), 1);
     _manager->addComponent(new Slider(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, std::string(std::string("Musics: ") + std::to_string((int)(_manager->_settings._mVol * 100))) + "%", this, &(BF::setMusic), (void*)musicManager, _t._btn, _t._btn, _t._ft), 1);
