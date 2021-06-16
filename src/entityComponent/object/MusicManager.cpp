@@ -17,10 +17,10 @@ MusicManager::MusicManager(Bomberman *win)
         if (entry.path().extension().string() == ".mp3")
             _musics.push_back(entry.path().filename().string());
     for (const auto &entry : std::filesystem::directory_iterator("../assets/voices/"))
-        if (entry.path().extension().string() == ".ogg")
-            _voices.push_back(entry.path().filename().string());
+        if (entry.path().extension().string() == ".ogg") {
+            _sounds[entry.path().filename().string()] = std::make_unique<rl::Sound>(std::string("../assets/voices/") + entry.path().filename().string());
+        }
     _music = nullptr;
-    _sound = nullptr;
     _scene = -1;
     _mVol = 1.0;
     _sVol = 1.0;
@@ -28,6 +28,7 @@ MusicManager::MusicManager(Bomberman *win)
 
 MusicManager::~MusicManager()
 {
+    rl::Sound::StopSoundMulti();
     if (_music != nullptr)
         delete _music;
 }
@@ -47,17 +48,11 @@ void MusicManager::playMusic()
 
 void MusicManager::playSound(const std::string &name, bool multi)
 {
-    if (!rl::Sound::IsAudioDeviceReady())
-        return;
-    for (std::string title : _voices)
-        if (title == name) {
-            _sound = std::make_shared<rl::Sound>(std::string(std::string("../assets/voices/") + name));
-            _sound->setVolume(_win->_manager->_settings._sVol);
-            if (multi)
-                _sound->playMulti();
-            else
-                _sound->play();
-        }
+    _sounds[name]->setVolume(_win->_manager->_settings._sVol);
+    if (multi)
+        _sounds[name]->playMulti();
+    else
+        _sounds[name]->play();
 }
 
 void MusicManager::render(rl::Camera3d *cam)

@@ -9,6 +9,7 @@
 #define MUSICMANAGER_HPP_
 
 #include "../Object.hpp"
+#include <unordered_map>
 
 class MusicManager : public Object2D {
     public:
@@ -22,10 +23,9 @@ class MusicManager : public Object2D {
         float _sVol;
     private:
         rl::Music *_music;
-        std::shared_ptr<rl::Sound> _sound;
         Bomberman *_win;
         std::vector<std::string> _musics;
-        std::vector<std::string> _voices;
+        std::unordered_map<std::string, std::unique_ptr<rl::Sound>> _sounds;
 };
 
 #endif /* !MUSICMANAGER_HPP_ */
