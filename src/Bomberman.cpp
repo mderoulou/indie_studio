@@ -64,8 +64,6 @@ void Bomberman::generateMap(int type)
     int x = type;
     int y = type;
 
-    _manager->_cam->setTarget(rl::Vec3(x / 2,  0, y / 2));
-    _manager->_cam->moveCamera(rl::Vec3(x / 2,  0, y / 2) + rl::Vec3(0, x * 1.3, 0.5));
 
     rl::Vec2 spawnPoints[] = {
         {(float)1, (float)1},
@@ -121,6 +119,7 @@ void Bomberman::launch()
         _win->clearBackground(rl::Color(255, 255, 255, 255));
         skybox->render(_manager->_cam);
         _t._ft->drawFPS(5, 25);
+        _manager->manageCamera();
         _manager->handleEvent();
         _manager->simulate();
         _manager->renderAll();
@@ -187,7 +186,7 @@ void Bomberman::createUI()
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, -60.0), "Save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::saveSettings), 0, _t._btn, _t._ft), 1);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::backBtn), 0, _t._btn, _t._ft), 1);
     // SKINS MENU :
-    Preview* preview = new Preview(rl::Vec3(7.5, 2, 13), 1, 5, -180, rl::Color(255, 255, 255, 255), _t._walking);
+    Preview* preview = new Preview(rl::Vec3(21, -0.5, 3), 1.2, 5, 90, rl::Color(255, 255, 255, 255), _t._walking);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596, 0, 40, 40), _t._click, 5, this, &(BF::addSkin), 0, _t._btn, _t._ft), 5);
     _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596, 0, 40, 40), _t._click, 5, this, &(BF::removeSkin), 0, _t._btn, _t._ft), 5);
     _manager->addComponent(new Input(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-50.0, 0.0), _manager->_settings._optSkin, 16, 5, 24, this, _t._btn, _t._ft), 5);

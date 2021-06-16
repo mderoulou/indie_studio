@@ -139,7 +139,13 @@ class Vec3 : public ::Vector3
             return *this;
         }
 
-
+        Vec3 &operator=(Vec3 val)
+        {
+            x = val.x;
+            y = val.y;
+            z = val.z;
+            return *this;
+        }
 
 
         void drawCube(rl::Vec3 size, rl::Color color);

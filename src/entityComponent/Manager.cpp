@@ -10,8 +10,8 @@
 ComponentManager::ComponentManager(Bomberman *bomberman)
     : _objs(7)
 {
-    _cam = new rl::Camera3d(rl::Vec3(5.0f, 20.0f, 20.0f),
-                            rl::Vec3(0.0f, 0.0f, 0.0f),
+    _cam = new rl::Camera3d(rl::Vec3(1.0f, 1.0f, 1.0f),
+                            rl::Vec3(4.0f, 1.5f, 1.0f),
                             rl::Vec3(0.0f, 1.0f, 0.0f),
                             45.0f, 0);
     _settings._scene = 0;
@@ -106,6 +106,31 @@ void ComponentManager::handleEvent()
         obj->handleEvent();
     for (auto obj: _objs[_settings._scene])
         obj->handleEvent();
+}
+
+void ComponentManager::moveCamera(bool dynamic)
+{
+    if (dynamic) {
+
+    } else {
+        _cam->setTarget(_set_target);
+        _cam->moveCamera(_set_pos);
+    }
+}
+
+void ComponentManager::manageCamera()
+{
+    int size = 0;
+
+    if (_settings._scene == 3) {
+        size = 11 + 6 * _settings._sizeMap;
+        _set_pos = rl::Vec3(size / 2,  size * 1.3, (size / 2) + 0.5);
+        _set_target = rl::Vec3(size / 2,  0, size / 2);
+    } else {
+        _set_pos = rl::Vec3(1.0f, 1.0f, 1.0f);
+        _set_target = rl::Vec3(4.0f, 1.5f, 1.0f);
+    }
+    moveCamera(false);
 }
 
 void ComponentManager::computeAImap() {

@@ -10,6 +10,9 @@
 
 #include "../Indie.hpp"
 #include "UniTree.hpp"
+#include <sstream>
+#include <iostream>
+#include <iomanip>
 
 class Gamepad;
 
@@ -48,12 +51,19 @@ class ComponentManager
         MusicManager* _mm;
         std::vector<std::vector<AObject *>> _objs;
         UniTree<AObject, rl::Vec3, 3> *_PhysXTree;
-        rl::Camera3d *_cam;
         Settings _settings;
         uint _frame = 0;
         std::vector<std::vector<float>> _AImapValues;
         std::vector<std::vector<int>> _AImap;
         rl::Vec2 _currentMapSize = {0, 0};
+
+
+        // Camera
+        rl::Camera3d *_cam;
+        rl::Vec3 _set_pos;
+        rl::Vec3 _set_target;
+        void moveCamera(bool dynamic);
+        void manageCamera();
     private:
         
     private:
