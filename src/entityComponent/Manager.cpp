@@ -167,7 +167,7 @@ void ComponentManager::computeAImap() {
     _AImapValues.resize(_currentMapSize.x+1);
     for (auto &vec : _AImapValues)
         vec.resize(_currentMapSize.y+1, 0); // standard cell attractiveness
-
+    _boxCount = 0;
     for (auto obj : _objs[3]) {
         if ((*obj)[0] < 0 || (*obj)[2] < 0)
             continue;
@@ -180,6 +180,7 @@ void ComponentManager::computeAImap() {
             _AImap[x][y] |= ControlsAI::cellType::WALL;
         } else if (dynamic_cast<Box *>(obj)) {
             _AImap[x][y] |= ControlsAI::cellType::BOX;
+            _boxCount++;
         } else if (dynamic_cast<Player *>(obj)) {
             _AImap[x][y] |= ControlsAI::cellType::PLAYER;
         } else if (dynamic_cast<Bomb *>(obj)) {
@@ -221,6 +222,11 @@ void ComponentManager::computeAImap() {
                     float &cellVal = _AImapValues[(int)offset[0]][(int)offset[2]];
                     if (cell & ControlsAI::cellType::BLOCKEXPLOSION)
                         break;
+
+                    for (int axis_nb2 = 0; axis_nb2 < 4; axis_nb2++){
+                        _AImapValues[(int)offset[0]+axis[axis_nb2][0]][(int)offset[2]+axis[axis_nb2][2]] += 120;   
+                    }
+                    
                     if ((maxTime - time) > maxTime/3){
                         _AImap[(int)offset[0]][(int)offset[2]] |= ControlsAI::cellType::WILLDIESOON;
                         cellVal += (maxTime - time)*5000;
@@ -265,7 +271,8 @@ void ComponentManager::computeAImap() {
             }
 
         } else if (auto obj2 = dynamic_cast<Player *>(obj)) {
-            _AImapValues[x][y] -= 10;
+            if (_boxCount == 0)
+                _AImapValues[x][y] -= 10;
         } else if (auto obj2 = dynamic_cast<Bomb *>(obj)) {
         } else if (auto obj2 = dynamic_cast<PowerUp *>(obj)) {
             if (!(_AImap[x][y] & ControlsAI::cellType::WILLDIE))
@@ -277,7 +284,7 @@ void ComponentManager::computeAImap() {
     // smooth the grid
     const auto &r1 = _AImapValues; 
     auto &r2 = buf; 
-    for (int i = 0; i < 32; i++){
+    for (int i = 0; i < 64; i++){
         for (int x = 1; x < r1.size()-1; x++) {
             for (int y = 1; y < r1[x].size()-1; y++) {
                 if (_AImap[x][y] & ControlsAI::cellType::BLOCKING)
@@ -306,7 +313,7 @@ void ComponentManager::computeAImap() {
                 if (_AImap[x][y] & (ControlsAI::WILLDIESOON))
                     r2[x][y] = r1[x][y]*0.99 + bestscore*0.01; //;//;
                 else
-                    r2[x][y] = r1[x][y]*0.9 + bestscore*0.1;// + some/count*0.001; //;//;
+                    r2[x][y] = r1[x][y]*0.95 + bestscore*0.05;// + some/count*0.001; //;//;
             }
         }
         _AImapValues = buf;

@@ -59,6 +59,7 @@ class ComponentManager
 
 
         // Camera
+        uint _boxCount;
         rl::Camera3d *_cam;
         rl::Vec3 _set_pos;
         rl::Vec3 _set_target;
