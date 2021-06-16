@@ -38,10 +38,11 @@ public:
     rl::Vec3 _direction = {0, 1, 0};
     rl::Vec3 _deadVec = {0, 0, 0};
 
+    uint _playerId = -1;
     bool _isKeyboard = true;
     bool _isKeyUsed = false;
     bool _isDead = false;
-    int _deathTime = 60;
+    int _deathTime = 300;
     int _explosionRadius = 1;
     float _scale;
     std::string _pathText;

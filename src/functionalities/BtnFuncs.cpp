@@ -261,10 +261,11 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
                 continue;
             if (go->_types[i] == 2) { // AI
                 PlayerAI *player = PlayerAI::factory(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
-                std::cout << "create IA for game" << std::endl;
+                player->_playerId = i;
                 win->_manager->addComponent(player, 3);
             } else { // PLAYER
                 Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
+                player->_playerId = i;
                 win->_manager->addComponent(player, 3);
             }
         }

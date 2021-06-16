@@ -79,8 +79,8 @@ void ControlsAI::simulate() {
         {0, 0, 0},
         {0, 0, -1},
         {-1, 0, 0},
-        {1, 0, 0},
         {0, 0, 1},
+        {1, 0, 0},
     };
 
     bool safe = true;
@@ -92,17 +92,20 @@ void ControlsAI::simulate() {
             best = map[(int)vec[0]][(int)vec[2]];
             bestID = axeID;
         }
-        if (_player->_manager->_boxCount)
+        if (_player->_manager->_boxCount){
             if (typeMap[(int)vec[0]][(int)vec[2]] & ControlsAI::cellType::WILLDIE)
                 safe = false;
-        else
+        } else {
             if (typeMap[(int)vec[0]][(int)vec[2]] & ControlsAI::cellType::WILLDIESOON)
                 safe = false;
+        }
     }
 
 
     rl::Vec3 target = {(float)(int)pos[0], 0, (float)(int)pos[2]};
     target += axis[bestID];
+    if (_player->_manager->_boxCount == 0)
+        bestID = 0;
 
     _axis = target - _player->_pos;
     _use = false;

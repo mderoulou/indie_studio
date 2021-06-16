@@ -168,6 +168,8 @@ void ComponentManager::computeAImap() {
     for (auto &vec : _AImapValues)
         vec.resize(_currentMapSize.y+1, 0); // standard cell attractiveness
     _boxCount = 0;
+    _playerCount = 0;
+    Player *player = 0;
     for (auto obj : _objs[3]) {
         if ((*obj)[0] < 0 || (*obj)[2] < 0)
             continue;
@@ -183,11 +185,26 @@ void ComponentManager::computeAImap() {
             _boxCount++;
         } else if (dynamic_cast<Player *>(obj)) {
             _AImap[x][y] |= ControlsAI::cellType::PLAYER;
+            _playerCount++;
+            player = dynamic_cast<Player *>(obj);
         } else if (dynamic_cast<Bomb *>(obj)) {
             _AImap[x][y] |= ControlsAI::cellType::BOMB | ControlsAI::cellType::WILLDIE;
         } else if (dynamic_cast<PowerUp *>(obj)) {
             _AImap[x][y] |= ControlsAI::cellType::POWERUP;
         }
+    }
+
+    if (_playerCount == 1) {    
+        _mm->playSound("winner.ogg", false);
+        std::cout << "player " << player->_playerId << std::endl;
+        // TODO VICTORY TRIGER
+        _objs[3].clear();
+        _settings._scene = 2;
+    } else if (_playerCount == 0) {
+        std::cout << "draw" << std::endl;
+        // TODO DRAW TRIGER
+        _objs[3].clear();
+        _settings._scene = 2;
     }
 
     for (auto obj : _objs[3]) {
@@ -202,7 +219,6 @@ void ComponentManager::computeAImap() {
             _AImapValues[x][y] += 500000000;
         } else if (auto obj2 = dynamic_cast<Box *>(obj)) {
             _AImapValues[x][y] += 500000000;
-
         } else if (auto obj2 = dynamic_cast<Player *>(obj)) {
         } else if (auto obj2 = dynamic_cast<Bomb *>(obj)) {
             _AImapValues[x][y] += 500000000;
@@ -272,7 +288,7 @@ void ComponentManager::computeAImap() {
 
         } else if (auto obj2 = dynamic_cast<Player *>(obj)) {
             if (_boxCount == 0)
-                _AImapValues[x][y] -= 10;
+                _AImapValues[x][y] -= 120;
         } else if (auto obj2 = dynamic_cast<Bomb *>(obj)) {
         } else if (auto obj2 = dynamic_cast<PowerUp *>(obj)) {
             if (!(_AImap[x][y] & ControlsAI::cellType::WILLDIE))
