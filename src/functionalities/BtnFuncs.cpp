@@ -33,6 +33,7 @@ void BF::pauseBtn(Bomberman *win, Btn *b, void *data)
 {
     (void)b;
     (void)data;
+    rl::Mouse::ShowCursor();
     switchScene(win, 4);
 }
 
@@ -40,6 +41,7 @@ void BF::unpauseBtn(Bomberman *win, Btn *b, void *data)
 {
     (void)b;
     (void)data;
+    rl::Mouse::HideCursor();
     switchScene(win, 3);
 }
 
@@ -266,6 +268,7 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
             }
         }
         countDown(win);
+        rl::Mouse::HideCursor();
         switchScene(win, 3);
     }
 }
@@ -365,5 +368,6 @@ void BF::loadGame(Bomberman *win, Btn *b, void *data)
     win->_manager->_objs[3].clear();
     win->loadMap();
     countDown(win);
+    rl::Mouse::HideCursor();
     switchScene(win, 3);
 }

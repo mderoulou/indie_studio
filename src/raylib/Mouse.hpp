@@ -19,6 +19,8 @@ class Mouse {
         static bool IsMouseButtonDown(int btn) { return (::IsMouseButtonDown(btn)); };
         static bool IsMouseButtonPressed(int btn) { return (::IsMouseButtonPressed(btn)); };
         static bool IsMouseButtonReleased(int btn) { return (::IsMouseButtonReleased(btn)); };
+        static void ShowCursor() { ::ShowCursor(); };
+        static void HideCursor() { ::HideCursor(); };
 };
 }
 
