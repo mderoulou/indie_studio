@@ -92,9 +92,12 @@ void ControlsAI::simulate() {
             best = map[(int)vec[0]][(int)vec[2]];
             bestID = axeID;
         }
-        if (typeMap[(int)vec[0]][(int)vec[2]] & ControlsAI::cellType::WILLDIESOON)
-            safe = false;
-
+        if (_player->_manager->_boxCount)
+            if (typeMap[(int)vec[0]][(int)vec[2]] & ControlsAI::cellType::WILLDIE)
+                safe = false;
+        else
+            if (typeMap[(int)vec[0]][(int)vec[2]] & ControlsAI::cellType::WILLDIESOON)
+                safe = false;
     }
 
 
