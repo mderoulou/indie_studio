@@ -36,7 +36,7 @@ class ComponentManager
         ComponentManager(Bomberman *_bomberman);
         ~ComponentManager();
 
-        void addComponent(AObject *obj, int index);
+        void addComponent(std::shared_ptr<AObject> obj, int index);
         void fillPhysXTree(int scene = -1);
         void clearComponents();
 
@@ -49,7 +49,7 @@ class ComponentManager
         int size() const { return _objs.size(); };
         Bomberman *_bomberman;
         MusicManager* _mm;
-        std::vector<std::vector<AObject *>> _objs;
+        std::vector<std::vector<std::shared_ptr<AObject>>> _objs;
         UniTree<AObject, rl::Vec3, 3> *_PhysXTree;
         Settings _settings;
         uint _frame = 0;

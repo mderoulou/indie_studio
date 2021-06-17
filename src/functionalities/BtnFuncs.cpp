@@ -260,11 +260,11 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
             if (!go->_types[i])
                 continue;
             if (go->_types[i] == 2) { // AI
-                PlayerAI *player = PlayerAI::factory(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
+                std::shared_ptr<PlayerAI> player = PlayerAI::factory(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
                 player->_playerId = i;
                 win->_manager->addComponent(player, 3);
             } else { // PLAYER
-                Player *player = new Player(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
+                std::shared_ptr<Player> player = std::make_shared<Player>(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
                 player->_playerId = i;
                 win->_manager->addComponent(player, 3);
             }
@@ -301,7 +301,7 @@ void BF::switchType(Bomberman *win, Btn *b, void *data)
 
     if (!opts)
         for (auto obj : win->_manager->_objs[win->_manager->_settings._scene])
-            if (GameOpt *t = dynamic_cast<GameOpt *>(obj))
+            if (GameOpt *t = dynamic_cast<GameOpt *>(obj.get()))
                 opts = t;
     if (!opts->_types[index])
         opts->_types[index] = 2;
@@ -323,7 +323,7 @@ void BF::switchSkin(Bomberman *win, Btn *b, void *data)
 
     if (!opts)
         for (auto obj : win->_manager->_objs[win->_manager->_settings._scene])
-            if (GameOpt *t = dynamic_cast<GameOpt *>(obj))
+            if (GameOpt *t = dynamic_cast<GameOpt *>(obj.get()))
                 opts = t;
     if (win->_manager->_settings._skins.size()) {
         for (int x = 0; x < win->_manager->_settings._skins.size(); x++)

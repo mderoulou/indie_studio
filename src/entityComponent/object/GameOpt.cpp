@@ -19,44 +19,44 @@ GameOpt::GameOpt(Bomberman *win, int scene, std::shared_ptr<rl::Font> font)
         { KeyboardKey::KEY_I, KeyboardKey::KEY_K, KeyboardKey::KEY_J, KeyboardKey::KEY_L, KeyboardKey::KEY_O, KeyboardKey::KEY_U}
     }
 {
-    Preview *preview = nullptr;
-    Btn *b = nullptr;
+    std::shared_ptr<Preview> preview = nullptr;
+    std::shared_ptr<Btn> b = nullptr;
     _scene = scene;
     _win = win;
     _font = font;
     for (int x = 0; x < 4; x++)
         _names.push_back("skin.png");
-    _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)0, win->_t._btn, _win->_t._ft), 2);
-    _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)1, _win->_t._btn, _win->_t._ft), 2);
-    _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)2, _win->_t._btn, _win->_t._ft), 2);
-    _win->_manager->addComponent(new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(304.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)3, _win->_t._btn, _win->_t._ft), 2);
+    _win->_manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)0, win->_t._btn, _win->_t._ft), 2);
+    _win->_manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)1, _win->_t._btn, _win->_t._ft), 2);
+    _win->_manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)2, _win->_t._btn, _win->_t._ft), 2);
+    _win->_manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(304.0, 60.0), "skin", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, win, &(BF::switchSkin), (void *)3, _win->_t._btn, _win->_t._ft), 2);
     
-    preview = new Preview(rl::Vec3(20, 0, -5), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
-    b = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)0, _win->_t._btn, _win->_t._ft);
+    preview = std::make_shared<Preview>(rl::Vec3(20, 0, -5), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
+    b = std::make_shared<Btn>(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-300.0, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)0, _win->_t._btn, _win->_t._ft);
     _btns.push_back(b);
     _previews.push_back(preview);
     _win->_manager->addComponent(b, 2);
     _win->_manager->addComponent(preview, 2);
     preview->_disabled = true;
     
-    preview = new Preview(rl::Vec3(21, 0, -1), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
-    b = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)1, _win->_t._btn, _win->_t._ft);
+    preview = std::make_shared<Preview>(rl::Vec3(21, 0, -1), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
+    b = std::make_shared<Btn>(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(-100.0, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)1, _win->_t._btn, _win->_t._ft);
     _btns.push_back(b);
     _previews.push_back(preview);
     _win->_manager->addComponent(b, 2);
     _win->_manager->addComponent(preview, 2);
     preview->_disabled = true;
     
-    preview = new Preview(rl::Vec3(21, 0, 3), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
-    b = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)2, _win->_t._btn, _win->_t._ft);
+    preview = std::make_shared<Preview>(rl::Vec3(21, 0, 3), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
+    b = std::make_shared<Btn>(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(104, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)2, _win->_t._btn, _win->_t._ft);
     _btns.push_back(b);
     _previews.push_back(preview);
     _win->_manager->addComponent(b, 2);
     _win->_manager->addComponent(preview, 2);
     preview->_disabled = true;
     
-    preview = new Preview(rl::Vec3(20, 0, 7), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
-    b = new Btn(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(304, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)3, _win->_t._btn, _win->_t._ft);
+    preview = std::make_shared<Preview>(rl::Vec3(20, 0, 7), 0.75, 2, 90, rl::Color(255,255,255,255), _win->_t._walking);
+    b = std::make_shared<Btn>(rl::Vec2(1.0/2, 5.0/20), rl::Vec2(304, 0.0), "None", 24, rl::Rectangle(400,0,196,40), _win->_t._click, 2, _win, &(BF::switchType), (void *)3, _win->_t._btn, _win->_t._ft);
     _btns.push_back(b);
     _previews.push_back(preview);
     _win->_manager->addComponent(b, 2);

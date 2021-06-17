@@ -29,7 +29,7 @@ ComponentManager::~ComponentManager()
     this->clearComponents();
 }
 
-void ComponentManager::addComponent(AObject *obj, int index)
+void ComponentManager::addComponent(std::shared_ptr<AObject> obj, int index)
 {
     obj->_manager = this;
     _objs[index].push_back(obj);
@@ -47,7 +47,7 @@ void ComponentManager::fillPhysXTree(int scene) {
     _PhysXTree = new UniTree<AObject, rl::Vec3, 3>(rl::Vec3(0, 0, 0), rl::Vec3(1024, 1024, 1024));
     for (auto &obj : _objs[scene])
         if (obj->_isSolid)
-            _PhysXTree->addData(obj);
+            _PhysXTree->addData(&*obj);
 }
 
 void ComponentManager::simulate()
@@ -58,7 +58,6 @@ void ComponentManager::simulate()
         // clear object
         if (obj->_toRemove) {
             _objs[_settings._scene].erase(_objs[_settings._scene].begin()+i);
-            delete obj;
             i--;
         }
     }
@@ -81,20 +80,20 @@ void ComponentManager::renderAll()
 {
     //std::cout << "[MANAGER] Rendering!" << std::endl;
     for (auto obj: _objs[6])
-        if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
+        if (Object2D *obj2 = dynamic_cast<Object2D *>(obj.get()))
             obj->render(_cam);
     
     for (auto obj : _objs[_settings._scene])
-        if (Object2D *obj2 = dynamic_cast<Object2D *>(obj))
+        if (Object2D *obj2 = dynamic_cast<Object2D *>(obj.get()))
             obj->render(_cam);
 
     _cam->beginMode();
     for (auto obj: _objs[6])
-        if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
+        if (Object3D *obj2 = dynamic_cast<Object3D *>(obj.get()))
             obj->render(_cam);
     
     for (auto obj : _objs[_settings._scene])
-        if (Object3D *obj2 = dynamic_cast<Object3D *>(obj))
+        if (Object3D *obj2 = dynamic_cast<Object3D *>(obj.get()))
             obj->render(_cam);
     _cam->endMode();
 }
@@ -146,7 +145,7 @@ void ComponentManager::manageCamera()
 void ComponentManager::computeAImap() {
     _currentMapSize = {0, 0};
     for (auto obj : _objs[3]) {
-        if (!dynamic_cast<Floor *>(obj))
+        if (!dynamic_cast<Floor *>(obj.get()))
             continue;
 
 
@@ -179,18 +178,18 @@ void ComponentManager::computeAImap() {
         int y = round(pos[2]);
         if (x > _currentMapSize.x || y > _currentMapSize.y)
             continue;
-        if (dynamic_cast<Wall *>(obj)) {
+        if (dynamic_cast<Wall *>(obj.get())) {
             _AImap[x][y] |= ControlsAI::cellType::WALL;
-        } else if (dynamic_cast<Box *>(obj)) {
+        } else if (dynamic_cast<Box *>(obj.get())) {
             _AImap[x][y] |= ControlsAI::cellType::BOX;
             _boxCount++;
-        } else if (dynamic_cast<Player *>(obj)) {
+        } else if (dynamic_cast<Player *>(obj.get())) {
             _AImap[x][y] |= ControlsAI::cellType::PLAYER;
             _playerCount++;
-            player = dynamic_cast<Player *>(obj);
-        } else if (dynamic_cast<Bomb *>(obj)) {
+            player = dynamic_cast<Player *>(obj.get());
+        } else if (dynamic_cast<Bomb *>(obj.get())) {
             _AImap[x][y] |= ControlsAI::cellType::BOMB | ControlsAI::cellType::WILLDIE;
-        } else if (dynamic_cast<PowerUp *>(obj)) {
+        } else if (dynamic_cast<PowerUp *>(obj.get())) {
             _AImap[x][y] |= ControlsAI::cellType::POWERUP;
         }
     }
@@ -216,14 +215,14 @@ void ComponentManager::computeAImap() {
         int y = round(pos[2]);
         if (x > _currentMapSize.x || y > _currentMapSize.y)
             continue;
-        if (auto obj2 = dynamic_cast<Wall *>(obj)) {
+        if (auto obj2 = dynamic_cast<Wall *>(obj.get())) {
             _AImapValues[x][y] += 50000000;
-        } else if (auto obj2 = dynamic_cast<Box *>(obj)) {
+        } else if (auto obj2 = dynamic_cast<Box *>(obj.get())) {
             _AImapValues[x][y] += 50000000;
-        } else if (auto obj2 = dynamic_cast<Player *>(obj)) {
+        } else if (auto obj2 = dynamic_cast<Player *>(obj.get())) {
             if (_boxCount == 0)
                 _AImapValues[x][y] += -120;
-        } else if (auto obj2 = dynamic_cast<Bomb *>(obj)) {
+        } else if (auto obj2 = dynamic_cast<Bomb *>(obj.get())) {
             _AImapValues[x][y] += 50000000;
             int explosionRadius = obj2->_explosionRadius;
             int time = obj2->_time;
@@ -253,7 +252,7 @@ void ComponentManager::computeAImap() {
                     _AImap[(int)offset[0]][(int)offset[2]] |= ControlsAI::cellType::WILLDIE;
                 }
             }
-        } else if (auto obj2 = dynamic_cast<PowerUp *>(obj)) {
+        } else if (auto obj2 = dynamic_cast<PowerUp *>(obj.get())) {
         }
     }
 
@@ -266,8 +265,8 @@ void ComponentManager::computeAImap() {
         int y = round(pos[2]);
         if (x > _currentMapSize.x || y > _currentMapSize.y)
             continue;
-        if (auto obj2 = dynamic_cast<Wall *>(obj)) {
-        } else if (auto obj2 = dynamic_cast<Box *>(obj)) {
+        if (auto obj2 = dynamic_cast<Wall *>(obj.get())) {
+        } else if (auto obj2 = dynamic_cast<Box *>(obj.get())) {
             if (!(_AImap[x+1][y] & ControlsAI::cellType::WILLDIE)){
                 _AImap[x+1][y] |= ControlsAI::cellType::WILLDAMGE;
                 if (_AImapValues[x+1][y] > -240)
@@ -289,11 +288,11 @@ void ComponentManager::computeAImap() {
                     _AImapValues[x][y-1] -= 30;
             }
 
-        } else if (auto obj2 = dynamic_cast<Player *>(obj)) {
+        } else if (auto obj2 = dynamic_cast<Player *>(obj.get())) {
             if (_boxCount == 0)
                 _AImapValues[x][y] -= 120;
-        } else if (auto obj2 = dynamic_cast<Bomb *>(obj)) {
-        } else if (auto obj2 = dynamic_cast<PowerUp *>(obj)) {
+        } else if (auto obj2 = dynamic_cast<Bomb *>(obj.get())) {
+        } else if (auto obj2 = dynamic_cast<PowerUp *>(obj.get())) {
             if (!(_AImap[x][y] & ControlsAI::cellType::WILLDIE))
                 _AImapValues[x][y] = -240;
         }

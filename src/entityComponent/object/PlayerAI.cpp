@@ -30,21 +30,21 @@ PlayerAI::PlayerAI(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector
 {
 }
 
-PlayerAI *PlayerAI::factory(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models) {
+std::shared_ptr<PlayerAI> PlayerAI::factory(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models) {
     std::cout << "load IA" << std::endl;
     int type;
     *obj >> type;
     std::shared_ptr<ControlsAI> controls = std::make_shared<ControlsAI>();
-    PlayerAI *p = new PlayerAI(obj, models, controls);
+    std::shared_ptr<PlayerAI> p = std::make_shared<PlayerAI>(obj, models, controls);
     controls->setPlayer(p);
     return p;
 }
 
-PlayerAI *PlayerAI::factory(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText) {
+std::shared_ptr<PlayerAI> PlayerAI::factory(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText) {
     std::cout << "create IA" << std::endl;
     
     std::shared_ptr<ControlsAI> controls = std::make_shared<ControlsAI>();
-    PlayerAI *p = new PlayerAI(pos, scale, color, scene, controls, models, pathText);
+    std::shared_ptr<PlayerAI> p = std::make_shared<PlayerAI>(pos, scale, color, scene, controls, models, pathText);
     controls->setPlayer(p);
     return p;
 }
@@ -64,13 +64,15 @@ ControlsAI::ControlsAI() :
 {
 }
 
-void ControlsAI::setPlayer(PlayerAI *player) {
+void ControlsAI::setPlayer(std::shared_ptr<PlayerAI> player) {
     _player = player;
 }
 
 #define PYTAGORE(x, y, z) (pow((float)(x)*(x)+(y)*(y)+(z)*(z), 0.5))
 
 void ControlsAI::simulate() {
+    if (_player->_isDead)
+        return;
     _frame = _player->_manager->_frame;
     rl::Vec3 pos = _player->boudingBoxCenter() + rl::Vec3(0.5, 0, 0.5);
     const auto &map = _player->_manager->_AImapValues;
@@ -82,6 +84,11 @@ void ControlsAI::simulate() {
         {0, 0, 1},
         {1, 0, 0},
     };
+
+    int x = (int)pos[0];
+    int y = (int)pos[2];
+    if (x < 1 || y < 1 || x > map.size()-2 || y > map[0].size()-2)
+        return;
 
     bool safe = true;
     float best = map[(int)pos[0]][(int)pos[2]];

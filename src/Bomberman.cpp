@@ -75,7 +75,7 @@ void Bomberman::generateMap(int type)
     // Create the ground
     for (int i = 0; i < x; i += 1) {
         for (int j = 0; j < y; j += 1) {
-            _manager->addComponent(new Floor(rl::Vec3(i, -1.0f, j),
+            _manager->addComponent(std::make_shared<Floor>(rl::Vec3(i, -1.0f, j),
                             rl::Vec3(1.02f, 1.02f, 1.02f),
                             rl::Color(200, 200, 200, 255), 3, _t._sb), 3);
         }
@@ -85,7 +85,7 @@ void Bomberman::generateMap(int type)
     for (int xx = 0; xx < x; xx += 1){
         for (int yy = 0; yy < y; yy += 1){
             if (((xx+1) % 2 && (yy+1) % 2) || xx == 0 || xx == x-1 || yy == 0 || yy == y-1){
-                _manager->addComponent(new Wall(rl::Vec3(xx, 0.0f, yy),
+                _manager->addComponent(std::make_shared<Wall>(rl::Vec3(xx, 0.0f, yy),
                     rl::Vec3(1.02f, 1.02f, 1.02f),
                     rl::Color(255, 255, 255, 255), 3, _t._sb), 3);
             } else {
@@ -93,7 +93,7 @@ void Bomberman::generateMap(int type)
                     for (auto &vec : spawnPoints)
                         if (PYTAGORE(vec.x - xx, vec.y - yy, 0) < 3)
                             goto skip;
-                    _manager->addComponent(new Box(rl::Vec3(xx, 0.0f, yy),
+                    _manager->addComponent(std::make_shared<Box>(rl::Vec3(xx, 0.0f, yy),
                         rl::Vec3(1.02f, 1.02f, 1.02f),
                         rl::Color(255, 255, 255, 255), 3, _t._wood), 3);
                     skip:;
@@ -108,9 +108,9 @@ void Bomberman::launch()
 {
     Skybox *skybox = new Skybox();
 
-    // _manager->_objs[3].clear();
-    // loadMap();
-    // _manager->_settings._scene = 3;
+    //_manager->_objs[3].clear();
+    //loadMap();
+    //_manager->_settings._scene = 3;
     
 
     while (!_win->ShouldClose() && !_ending) {
@@ -169,47 +169,47 @@ void Bomberman::createUI()
 {
     std::vector<std::string>sizes{"Map size: Small", "Map size: Medium", "Map size: Large"};
     // USED BY OTHERS :
-    MusicManager* musicManager = new MusicManager(this);
-    _manager->_mm = musicManager;
+    std::shared_ptr<MusicManager> musicManager = std::make_shared<MusicManager>(this);
+    _manager->_mm = musicManager.get();
     // HOME MENU :
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::playBtn), (void*)musicManager, _t._btn, _t._ft), 0);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Skins", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::skinBtn), 0, _t._btn, _t._ft), 0);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(104.0, 120.0), "Respository", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::repoLink), 0, _t._btn, _t._ft), 0);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::optBtn), 0, _t._btn, _t._ft), 0);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::quitBtn), 0, _t._btn, _t._ft), 0);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::playBtn), (void*)musicManager.get(), _t._btn, _t._ft), 0);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Skins", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::skinBtn), (void *)0, _t._btn, _t._ft), 0);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(104.0, 120.0), "Respository", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::repoLink), (void *)0, _t._btn, _t._ft), 0);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::optBtn), (void *)0, _t._btn, _t._ft), 0);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::quitBtn), (void *)0, _t._btn, _t._ft), 0);
     // OPTIONS MENU :
     #ifndef _WIN32
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), std::string("FullScreen: ") + (_manager->_settings._fScreen ? "ON" : "OFF"), 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::fullScreen), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), std::string("FullScreen: ") + (_manager->_settings._fScreen ? "ON" : "OFF"), 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::fullScreen), (void *)0, _t._btn, _t._ft), 1);
     #endif
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::resolutionBtn), 0, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), sizes[(int)_manager->_settings._sizeMap], 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::mapSize), 0, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Slider(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, std::string(std::string("Musics: ") + std::to_string((int)(_manager->_settings._mVol * 100))) + "%", this, &(BF::setMusic), (void*)musicManager, _t._btn, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Slider(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 240.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, std::string(std::string("Sounds: ") + std::to_string((int)(_manager->_settings._sVol * 100))) + "%", this, &(BF::setSound), (void*)musicManager, _t._btn, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, -60.0), "Save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::saveSettings), 0, _t._btn, _t._ft), 1);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::backBtn), 0, _t._btn, _t._ft), 1);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Resolution: 800 x 600", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::resolutionBtn), (void *)0, _t._btn, _t._ft), 1);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), sizes[(int)_manager->_settings._sizeMap], 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::mapSize), (void *)0, _t._btn, _t._ft), 1);
+    _manager->addComponent(std::make_shared<Slider>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, std::string(std::string("Musics: ") + std::to_string((int)(_manager->_settings._mVol * 100))) + "%", this, &(BF::setMusic), (void*)musicManager.get(), _t._btn, _t._btn, _t._ft), 1);
+    _manager->addComponent(std::make_shared<Slider>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 240.0), 24, rl::Rectangle(1040, 0, 300, 40), rl::Rectangle(1340, 0, 16, 40), 1, std::string(std::string("Sounds: ") + std::to_string((int)(_manager->_settings._sVol * 100))) + "%", this, &(BF::setSound), (void*)musicManager.get(), _t._btn, _t._btn, _t._ft), 1);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, -60.0), "Save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::saveSettings), (void *)0, _t._btn, _t._ft), 1);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 1, this, &(BF::backBtn), (void *)0, _t._btn, _t._ft), 1);
     // SKINS MENU :
-    Preview* preview = new Preview(rl::Vec3(21, -0.5, 3), 1.2, 5, 90, rl::Color(255, 255, 255, 255), _t._walking);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596, 0, 40, 40), _t._click, 5, this, &(BF::addSkin), 0, _t._btn, _t._ft), 5);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596, 0, 40, 40), _t._click, 5, this, &(BF::removeSkin), 0, _t._btn, _t._ft), 5);
-    _manager->addComponent(new Input(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-50.0, 0.0), _manager->_settings._optSkin, 16, 5, 24, this, _t._btn, _t._ft), 5);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(270.0, 0.0), "Load Preview", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 5, this, &(BF::loadSkin), (void*)preview, _t._btn, _t._ft), 5);
+    std::shared_ptr<Preview> preview = std::make_shared<Preview>(rl::Vec3(21, -0.5, 3), 1.2, 5, 90, rl::Color(255, 255, 255, 255), _t._walking);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-340.0, 0.0), "+", 24, rl::Rectangle(596, 0, 40, 40), _t._click, 5, this, &(BF::addSkin), (void *)0, _t._btn, _t._ft), 5);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-290.0, 0.0), "-", 24, rl::Rectangle(596, 0, 40, 40), _t._click, 5, this, &(BF::removeSkin), (void *)0, _t._btn, _t._ft), 5);
+    _manager->addComponent(std::make_shared<Input>(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(-50.0, 0.0), _manager->_settings._optSkin, 16, 5, 24, this, _t._btn, _t._ft), 5);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 4.0 / 20), rl::Vec2(270.0, 0.0), "Load Preview", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 5, this, &(BF::loadSkin), (void*)preview.get(), _t._btn, _t._ft), 5);
     _manager->addComponent(preview, 5);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 5, this, &(BF::backBtn), 0, _t._btn, _t._ft), 5);
-    _manager->addComponent(new List(rl::Vec2(1.0 / 2, 7.0 / 20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins), &(BF::previewSkin), preview, _t._ft, true, 4), 5);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 5, this, &(BF::backBtn), (void *)0, _t._btn, _t._ft), 5);
+    _manager->addComponent(std::make_shared<List>(rl::Vec2(1.0 / 2, 7.0 / 20), rl::Vec2(-350, 0.0), rl::Vec2(0.0, 35.0), 24, 5, this, &(_manager->_settings._skins), &(BF::previewSkin), preview.get(), _t._ft, true, 4), 5);
     //GAME LOBBY :
-    GameOpt* go = new GameOpt(this, 2, _t._ft);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, -60.0), "Load from save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 2, this, &(BF::loadGame), (void*)go, _t._btn, _t._ft), 2);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(104.0, 0.0), "Fight", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 2, this, &(BF::launchGame), (void*)go, _t._btn, _t._ft), 2);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 2, this, &(BF::backBtn), 0, _t._btn, _t._ft), 2);
+    std::shared_ptr<GameOpt> go = std::make_shared<GameOpt>(this, 2, _t._ft);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, -60.0), "Load from save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 2, this, &(BF::loadGame), (void*)go.get(), _t._btn, _t._ft), 2);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(104.0, 0.0), "Fight", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 2, this, &(BF::launchGame), (void*)go.get(), _t._btn, _t._ft), 2);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(-100.0, 0.0), "Back", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 2, this, &(BF::backBtn), (void *)0, _t._btn, _t._ft), 2);
     _manager->addComponent(go, 2);
     //PAUSE MENU:
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::unpauseBtn), 0, _t._btn, _t._ft), 4);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::saveBtn), 0, _t._btn, _t._ft), 4);
-    _manager->addComponent(new Btn(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), "Quit", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::homeBtn), 0, _t._btn, _t._ft), 4);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::unpauseBtn), (void *)0, _t._btn, _t._ft), 4);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::saveBtn), (void *)0, _t._btn, _t._ft), 4);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), "Quit", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::homeBtn), (void *)0, _t._btn, _t._ft), 4);
 
     // ALL MENUS :
     _manager->addComponent(musicManager, 6);
-    _manager->addComponent(new EscManager(this, -1), 6);
+    _manager->addComponent(std::make_shared<EscManager>(this, -1), 6);
 }
 
 void Bomberman::setupWin()
@@ -318,20 +318,20 @@ bool Bomberman::loadMap()
         switch (type) {
             case ByteObject::PLAYER:
                 //std::cout << "load Player" << std::endl;
-                _manager->addComponent(new Player(obj, _t._walking, std::make_shared<KeyBoard>(-1, keys[playerCount])), 3);
+                _manager->addComponent(std::make_shared<Player>(obj, _t._walking, std::make_shared<KeyBoard>(-1, keys[playerCount])), 3);
                 playerCount++;
                 break;
             case ByteObject::WALL:
                 //std::cout << "load Wall" << std::endl;
-                _manager->addComponent(new Wall(obj, _t._sb), 3);
+                _manager->addComponent(std::make_shared<Wall>(obj, _t._sb), 3);
                 break;
             case ByteObject::FLOOR:
                 //std::cout << "load Floor" << std::endl;
-                _manager->addComponent(new Floor(obj, _t._sb), 3);
+                _manager->addComponent(std::make_shared<Floor>(obj, _t._sb), 3);
                 break;
             case ByteObject::BOX:
                 //std::cout << "load Box" << std::endl;
-                _manager->addComponent(new Box(obj, _t._wood), 3);
+                _manager->addComponent(std::make_shared<Box>(obj, _t._wood), 3);
                 break;
             case ByteObject::PLAYERAI:
                 //std::cout << "load IA" << std::endl;

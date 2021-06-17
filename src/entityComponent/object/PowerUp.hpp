@@ -23,7 +23,7 @@ public:
     virtual void apllyToPlayer(Player *p);
     void simulate() override;
 
-    static PowerUp *factory(std::shared_ptr<ByteObject> &obj, Bomberman *b);
+    static std::shared_ptr<PowerUp> factory(std::shared_ptr<ByteObject> &obj, Bomberman *b);
 
     float _scale;
     float _rotation = 0;

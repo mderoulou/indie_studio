@@ -26,17 +26,17 @@ Box::~Box()
 bool Box::explode(Bomb *){
     _toRemove = true;
 
-    Particle *p = new Particle(_pos + _size*(0.2/2), _size*0.8, rl::Color(200, 200, 200, 255), _scene, _texture, 120);
+    std::shared_ptr<Particle> p = std::make_shared<Particle>(_pos + _size*(0.2/2), _size*0.8, rl::Color(200, 200, 200, 255), _scene, _texture, 120);
     _manager->addComponent(p, _scene);
 
     int r = rand() % 9;
-    PowerUp *powerUp;
+    std::shared_ptr<PowerUp> powerUp;
     if (r == 0) {
-        powerUp = new PowerBombsPower(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_size);
+        powerUp = std::make_shared<PowerBombsPower>(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_size);
     } else if (r == 1) {
-        powerUp = new PowerBombsCount(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_bomb);
+        powerUp = std::make_shared<PowerBombsCount>(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_bomb);
     } else if (r == 2) {
-        powerUp = new PowerSpeed(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_speed);
+        powerUp = std::make_shared<PowerSpeed>(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_speed);
     } else {
         goto noPowerUp;
     }

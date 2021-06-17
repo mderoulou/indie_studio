@@ -20,8 +20,8 @@ class PlayerAI : public Player
         PlayerAI(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<Controls> controls, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText);
         PlayerAI(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::shared_ptr<Controls> controls);
 
-        static PlayerAI *factory(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
-        static PlayerAI *factory(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText);
+        static std::shared_ptr<PlayerAI> factory(std::shared_ptr<ByteObject> &obj, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models);
+        static std::shared_ptr<PlayerAI> factory(rl::Vec3 pos, float scale, rl::Color color, int scene, std::shared_ptr<std::vector<std::shared_ptr<rl::Model>>> models, std::string pathText);
 
         std::shared_ptr<ByteObject> dump() override;
     private:
@@ -30,7 +30,7 @@ class PlayerAI : public Player
 class ControlsAI : public Controls {
     public:
         ControlsAI();
-        void setPlayer(PlayerAI *player);
+        void setPlayer(std::shared_ptr<PlayerAI> player);
         void simulate();
 
         float isKeyUp() override;
@@ -41,7 +41,7 @@ class ControlsAI : public Controls {
         int isKeyOther() override {return 0;};
 
 
-        PlayerAI *_player;
+        std::shared_ptr<PlayerAI> _player;
         uint _frame = 0;
         rl::Vec3 _axis = {0, 0, 0};
         bool _use = false;

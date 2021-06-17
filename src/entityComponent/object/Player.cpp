@@ -66,7 +66,7 @@ void Player::die() {
             (float)(rand()%128-64.0)/64,
             (float)(rand()%128-64.0)/64,
             (float)(rand()%128-64.0)/64};
-        Particle *p = new Particle(boudingBoxCenter()+rl::Vec3(0, 0.2, 0), 0.1, rl::Color(255, 50, 50, 255), _scene, _manager->_bomberman->_t._tnt_a, rand()%120+60);
+        std::shared_ptr<Particle> p = std::make_shared<Particle>(boudingBoxCenter()+rl::Vec3(0, 0.2, 0), 0.1, rl::Color(255, 50, 50, 255), _scene, _manager->_bomberman->_t._tnt_a, rand()%120+60);
         p->_v[0] = randvec[0];
         p->_v[1] = abs(randvec[1])*2;
         p->_v[2] = randvec[2];
@@ -132,7 +132,7 @@ void Player::simulate()
             (float)(rand()%128-64.0)/64,
             (float)(rand()%128-64.0)/64,
             (float)(rand()%128-64.0)/64};
-        Particle *p = new Particle(_pos+rl::Vec3(0, 0.2, 0), 0.1, rl::Color(255, 50, 50, 255), _scene, _manager->_bomberman->_t._tnt_a, rand()%120+60);
+        std::shared_ptr<Particle> p = std::make_shared<Particle>(_pos+rl::Vec3(0, 0.2, 0), 0.1, rl::Color(255, 50, 50, 255), _scene, _manager->_bomberman->_t._tnt_a, rand()%120+60);
         p->_v[0] = randvec[0];
         p->_v[1] = abs(randvec[1])*2;
         p->_v[2] = randvec[2];
@@ -284,7 +284,7 @@ void Player::handleEvent()
         return;
     if (_controller && _controller->isKeyUse()) {
         if (!_isKeyUsed && _bombCount < _maxBombCount){
-            this->_manager->addComponent(new Bomb(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this, _explosionRadius), _scene);
+            this->_manager->addComponent(std::make_shared<Bomb>(_pos, 0.2, rl::Color(255, 255, 255, 255), _scene, 180, _manager->_bomberman->_t._tnt_a, this, _explosionRadius), _scene);
         }
         _isKeyUsed = true;
     } else {

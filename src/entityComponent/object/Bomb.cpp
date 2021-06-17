@@ -69,7 +69,7 @@ void Bomb::simulate()
             {0, 0, -1},
         };
 
-        Particle *p = new Particle(centered_pos-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(255, 255, 255, 255), _scene, _manager->_bomberman->_t._smoke, rand()%60+60);
+        std::shared_ptr<Particle> p = std::make_shared<Particle>(centered_pos-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(255, 255, 255, 255), _scene, _manager->_bomberman->_t._smoke, rand()%60+60);
         _manager->addComponent(p, _scene);
 
         for (int axis_nb = 0; axis_nb < 4; axis_nb++){
@@ -87,7 +87,7 @@ void Bomb::simulate()
                 if (wilbreak)
                     goto next;
                 if (i > 0){
-                    Particle *p = new Particle(offset-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(255, 255, 255, 255), _scene, _manager->_bomberman->_t._smoke, rand()%60+60);
+                    std::shared_ptr<Particle> p = std::make_shared<Particle>(offset-rl::Vec3(0, 2-_scale, 0), 0.4, rl::Color(255, 255, 255, 255), _scene, _manager->_bomberman->_t._smoke, rand()%60+60);
                     _manager->addComponent(p, _scene);
                 }
             }
@@ -98,7 +98,7 @@ void Bomb::simulate()
                 (float)(rand()%128-64.0)/64,
                 (float)(rand()%128-64.0)/64,
                 (float)(rand()%128-64.0)/64};
-            Particle *p = new Particle(_pos + randvec, 0.1, rl::Color(255, 255, 255, 255), _scene, _model, rand()%120+60);
+            std::shared_ptr<Particle> p = std::make_shared<Particle>(_pos + randvec, 0.1, rl::Color(255, 255, 255, 255), _scene, _model, rand()%120+60);
             p->_v[0] = randvec[0];
             p->_v[1] = abs(randvec[1]);
             p->_v[2] = randvec[2];

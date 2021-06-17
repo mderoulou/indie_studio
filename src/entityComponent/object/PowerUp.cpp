@@ -27,19 +27,19 @@ PowerUp::~PowerUp()
 {
 }
 
-PowerUp *PowerUp::factory(std::shared_ptr<ByteObject> &obj, Bomberman *b) {
+std::shared_ptr<PowerUp> PowerUp::factory(std::shared_ptr<ByteObject> &obj, Bomberman *b) {
     int type;
     *obj >> type;
     if (type == PowerUp::type::BOMBCOUNT) {
-        return new PowerBombsCount(obj, b->_t._power_bomb);
+        return std::make_shared<PowerBombsCount>(obj, b->_t._power_bomb);
     } else if (type == PowerUp::type::BOMBPOWER) {
-        return new PowerBombsPower(obj, b->_t._power_size);
+        return std::make_shared<PowerBombsPower>(obj, b->_t._power_size);
     } else if (type == PowerUp::type::SPEED) {
-        return new PowerSpeed(obj, b->_t._power_speed);
+        return std::make_shared<PowerSpeed>(obj, b->_t._power_speed);
     } else {
         std::cerr << "invalid powerup type" << std::endl;
     }
-    return new PowerUp(obj, b->_t._smoke);
+    return std::make_shared<PowerUp>(obj, b->_t._smoke);
 }
 
 void PowerUp::makeObj(std::shared_ptr<rl::Model> model)
