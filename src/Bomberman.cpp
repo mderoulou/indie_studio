@@ -52,9 +52,9 @@ Bomberman::Bomberman()
 
 Bomberman::~Bomberman()
 {
-    rl::Sound::CloseAudioDevice();
     delete _win;
     delete _manager;
+    rl::Sound::CloseAudioDevice();
 }
 
 #define PYTAGORE(x, y, z) (pow((float)(x)*(x)+(y)*(y)+(z)*(z), 0.5))
