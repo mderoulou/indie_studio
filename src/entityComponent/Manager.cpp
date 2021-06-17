@@ -198,7 +198,9 @@ void ComponentManager::computeAImap() {
         _mm->playSound("winner.ogg", false);
         std::cout << "player " << player->_playerId << std::endl;
         // TODO VICTORY TRIGER
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         _objs[3].clear();
+        rl::Mouse::ShowCursor();
         _settings._scene = 2;
     } else if (_playerCount == 0 && _settings._scene == 3) {
         std::cout << "draw" << std::endl;
