@@ -21,7 +21,7 @@ Preview::Preview(rl::Vec3 pos, float scale, int scene, float rotation, rl::Color
     _color.b = color.b;
     _scale = scale;
     _rotation = rotation;//-170
-    _texture = std::make_shared<rl::Texture>("../assets/skins/skin.png");
+    _texture = std::make_shared<rl::Texture>("assets/skins/skin.png");
     _models = models;
     _disabled = false;
 }

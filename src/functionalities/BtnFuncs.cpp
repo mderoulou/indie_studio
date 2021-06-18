@@ -141,7 +141,7 @@ void BF::addSkin(Bomberman *win, Btn *b, void *data)
         std::cerr << "Skin limit reached !" << std::endl;
         return;
     }
-    cmd << "curl https://minecraft.tools/download-skin/" << win->_manager->_settings._optSkin << " -o ../assets/skins/" << win->_manager->_settings._optSkin << ".png";
+    cmd << "curl https://minecraft.tools/download-skin/" << win->_manager->_settings._optSkin << " -o assets/skins/" << win->_manager->_settings._optSkin << ".png";
     #ifdef __linux__
         ret = system(cmd.str().c_str());
         (void)ret;
@@ -163,7 +163,7 @@ void BF::removeSkin(Bomberman *win, Btn *b, void *data)
 
     (void)b;
     (void)data;
-    cmd << "../assets/skins/" << win->_manager->_settings._optSkin << ".png";
+    cmd << "assets/skins/" << win->_manager->_settings._optSkin << ".png";
     if (std::remove(cmd.str().c_str()) != 0) {
         std::cerr << "Unable to remove file ! Does it exists really ?" << std::endl;
         return;
@@ -188,7 +188,7 @@ void BF::loadSkin(Bomberman *win, Btn *b, void *data)
     (void)data;
     if (!win->_manager->_settings._optSkin.size())
         return;
-    cmd << "curl https://minecraft.tools/download-skin/" << win->_manager->_settings._optSkin << " -o ../assets/preview.png";
+    cmd << "curl https://minecraft.tools/download-skin/" << win->_manager->_settings._optSkin << " -o assets/preview.png";
     #ifdef __linux__
         ret = system(cmd.str().c_str());
         (void)ret;
@@ -199,12 +199,12 @@ void BF::loadSkin(Bomberman *win, Btn *b, void *data)
         std::cerr << "Sorry ! This functionnality is not available on your OS!" << std::endl;
         return;
     #endif
-    ptr->setTexture("../assets/preview.png");
+    ptr->setTexture("assets/preview.png");
 }
 
 void BF::loadAll(Bomberman *win)
 {
-    for (const auto &entry : std::filesystem::directory_iterator("../assets/skins/"))
+    for (const auto &entry : std::filesystem::directory_iterator("assets/skins/"))
         if (win->_manager->_settings._skins.size() <= 10 && entry.path().filename().string()[0] != '.')
             win->_manager->_settings._skins.push_back(std::string(entry.path().filename().string().c_str()));
 }
@@ -224,7 +224,7 @@ void BF::previewSkin(Bomberman *win, void *data, std::string str)
     Preview *ptr = (Preview *)data;
 
     (void)win;
-    ptr->setTexture(std::string(std::string("../assets/skins/") + str) + ".png");
+    ptr->setTexture(std::string(std::string("assets/skins/") + str) + ".png");
 }
 
 void countDown(Bomberman* win)
@@ -260,11 +260,11 @@ void BF::launchGame(Bomberman *win, Btn *b, void *data)
             if (!go->_types[i])
                 continue;
             if (go->_types[i] == 2) { // AI
-                std::shared_ptr<PlayerAI> player = PlayerAI::factory(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
+                std::shared_ptr<PlayerAI> player = PlayerAI::factory(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, win->_t._walking, std::string("assets/skins/") + go->_names[i]);
                 player->_playerId = i;
                 win->_manager->addComponent(player, 3);
             } else { // PLAYER
-                std::shared_ptr<Player> player = std::make_shared<Player>(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, std::string("../assets/skins/") + go->_names[i]);
+                std::shared_ptr<Player> player = std::make_shared<Player>(spawnPoints[i], 0.4f, rl::Color(255, 255, 255, 255), 3, go->_controllers[i], win->_t._walking, std::string("assets/skins/") + go->_names[i]);
                 player->_playerId = i;
                 win->_manager->addComponent(player, 3);
             }
@@ -334,16 +334,16 @@ void BF::switchSkin(Bomberman *win, Btn *b, void *data)
         if (sindex != -1) {
             std::cout << sindex << std::endl;
             opts->_names[index] = win->_manager->_settings._skins[(sindex + 1) % (win->_manager->_settings._skins.size())];
-            opts->_previews[index]->setTexture(std::string("../assets/skins/") + opts->_names[index]);
+            opts->_previews[index]->setTexture(std::string("assets/skins/") + opts->_names[index]);
             b->_text = opts->_names[index].substr(0, opts->_names[index].size() - 4);
         } else {
             opts->_names[index] = win->_manager->_settings._skins[0];
-            opts->_previews[index]->setTexture(std::string("../assets/skins/") + opts->_names[index]);
+            opts->_previews[index]->setTexture(std::string("assets/skins/") + opts->_names[index]);
             b->_text = opts->_names[index].substr(0, opts->_names[index].size() - 4);
         }
     } else {
         opts->_names[index] = "skin.png";
-        opts->_previews[index]->setTexture(std::string("../assets/skins/") + opts->_names[index]);
+        opts->_previews[index]->setTexture(std::string("assets/skins/") + opts->_names[index]);
         b->_text = "skin";
     }
 }

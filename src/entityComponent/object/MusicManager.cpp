@@ -13,12 +13,12 @@
 MusicManager::MusicManager(Bomberman *win)
 {
     _win = win;
-    for (const auto &entry : std::filesystem::directory_iterator("../assets/musics/"))
+    for (const auto &entry : std::filesystem::directory_iterator("assets/musics/"))
         if (entry.path().extension().string() == ".mp3")
             _musics.push_back(entry.path().filename().string());
-    for (const auto &entry : std::filesystem::directory_iterator("../assets/voices/"))
+    for (const auto &entry : std::filesystem::directory_iterator("assets/voices/"))
         if (entry.path().extension().string() == ".ogg") {
-            _sounds[entry.path().filename().string()] = std::make_unique<rl::Sound>(std::string("../assets/voices/") + entry.path().filename().string());
+            _sounds[entry.path().filename().string()] = std::make_unique<rl::Sound>(std::string("assets/voices/") + entry.path().filename().string());
         }
     _music = nullptr;
     _scene = -1;
@@ -44,9 +44,9 @@ void MusicManager::playMusic()
         }
         if (!rl::Sound::IsAudioDeviceReady())
             return;
-            _music = new rl::Music(std::string(std::string("../assets/musics/") + _musics[id]));
+            _music = new rl::Music(std::string(std::string("assets/musics/") + _musics[id]));
             _music->play();
-            std::cout << "Playing :" << std::string(std::string("../assets/musics/") + _musics[id]) << std::endl;
+            std::cout << "Playing :" << std::string(std::string("assets/musics/") + _musics[id]) << std::endl;
     } catch (...) {
         std::cerr << "Unable to play music! Passing ..." << std::endl;
     }

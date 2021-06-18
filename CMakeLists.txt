@@ -54,6 +54,8 @@ if (WIN32)
     SET(CMAKE_BUILD_TYPE RELEASE)
 endif()
 
+set(EXECUTABLE_OUTPUT_PATH ..)
+
 # -I
 
 #include_directories(include)

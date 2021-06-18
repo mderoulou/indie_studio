@@ -35,8 +35,8 @@ Bomberman::Bomberman()
     SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     std::srand(time(NULL));
     _win = new rl::Window(800, 600, "Indie Studio");
-    _win->setWindowIcon(rl::Image("../assets/logo.png"));
-    std::unique_ptr<rl::Texture> logo = std::make_unique<rl::Texture>("../assets/menus/noui.png");
+    _win->setWindowIcon(rl::Image("assets/logo.png"));
+    std::unique_ptr<rl::Texture> logo = std::make_unique<rl::Texture>("assets/menus/noui.png");
     while (!_win->ShouldClose()) {
         _win->beginDrawing();
         _win->clearBackground(rl::Color(255, 255, 255, 255));
@@ -134,31 +134,31 @@ void Bomberman::preLoad()
     loadSettings();
     rl::Sound::InitAudioDevice(); // Init audio
 
-    _t._btn = std::make_shared<rl::Texture>("../assets/menus/btns.png");
-    _t._ft = std::make_shared<rl::Font>("../assets/minecraftia.ttf");
+    _t._btn = std::make_shared<rl::Texture>("assets/menus/btns.png");
+    _t._ft = std::make_shared<rl::Font>("assets/minecraftia.ttf");
 
-    _t._sb = std::make_shared<rl::Texture>("../assets/block/stone-bricks.png");
+    _t._sb = std::make_shared<rl::Texture>("assets/block/stone-bricks.png");
     _t._sb_mod = std::make_shared<rl::Model>(_t._cube_mesh);
     _t._sb_mod->setMaterialTexture(0, _t._sb);
     
-    _t._wood = std::make_shared<rl::Texture>("../assets/block/wood.png");
+    _t._wood = std::make_shared<rl::Texture>("assets/block/wood.png");
     _t._wood_mod = std::make_shared<rl::Model>(_t._cube_mesh);
     _t._wood_mod->setMaterialTexture(0, _t._wood);
     
-    _t._tnt_a = std::make_shared<rl::Model>("../assets/block/tnt.glb");
-    _t._power_speed = std::make_shared<rl::Model>("../assets/block/speed.glb");
-    _t._power_bomb = std::make_shared<rl::Model>("../assets/block/bomb.glb");
-    _t._power_size = std::make_shared<rl::Model>("../assets/block/explo.glb");
-    _t._smoke = std::make_shared<rl::Model>("../assets/block/smoke.glb");
-    _t._click = std::make_shared<rl::Sound>("../assets/musics/click.wav");
+    _t._tnt_a = std::make_shared<rl::Model>("assets/block/tnt.glb");
+    _t._power_speed = std::make_shared<rl::Model>("assets/block/speed.glb");
+    _t._power_bomb = std::make_shared<rl::Model>("assets/block/bomb.glb");
+    _t._power_size = std::make_shared<rl::Model>("assets/block/explo.glb");
+    _t._smoke = std::make_shared<rl::Model>("assets/block/smoke.glb");
+    _t._click = std::make_shared<rl::Sound>("assets/musics/click.wav");
     _t._walking = std::make_shared<std::vector<std::shared_ptr<rl::Model>>>();
     std::ostringstream objPath("");
 
     for (int i = 1; i < 41; i++) {
         if (i < 10)
-            objPath << "../assets/steve-obj/anims/steve_0" << i << ".glb";
+            objPath << "assets/steve-obj/anims/steve_0" << i << ".glb";
         else
-            objPath << "../assets/steve-obj/anims/steve_" << i << ".glb";
+            objPath << "assets/steve-obj/anims/steve_" << i << ".glb";
         _t._walking->push_back(std::make_shared<rl::Model>(objPath.str().c_str()));
         objPath.str("");
         objPath.clear();

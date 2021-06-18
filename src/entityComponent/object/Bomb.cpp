@@ -32,8 +32,8 @@ Bomb::~Bomb() {
 bool Bomb::explode(Bomb *other) {
     rl::Vec3 d = _pos - other->_pos;
     float norm = pow(d[0]*d[0]+d[1]*d[1]+d[2]*d[2], 0.5);
-    d[1] += 0.5;
     d /= norm;
+    d[1] = 0.4;
     _v += d/2;
     return false;
 }
