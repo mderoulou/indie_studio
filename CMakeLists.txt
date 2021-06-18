@@ -97,6 +97,7 @@ src/entityComponent/object/Bomb.cpp
 src/entityComponent/object/Particle.cpp
 src/entityComponent/object/MusicManager.cpp
 src/entityComponent/object/EscManager.cpp
+src/entityComponent/object/Text.cpp
 src/entityComponent/Object.cpp
 src/entityComponent/ByteObject.cpp
 src/entityComponent/object/GameOpt.cpp

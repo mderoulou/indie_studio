@@ -100,5 +100,6 @@ public:
 #include "object/Floor.hpp"
 #include "object/Particle.hpp"
 #include "object/PlayerAI.hpp"
+#include "object/Text.hpp"
 
 #endif

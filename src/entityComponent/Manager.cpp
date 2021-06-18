@@ -196,15 +196,17 @@ void ComponentManager::computeAImap() {
 
     if (_playerCount == 1 && _settings._scene == 3) {    
         _mm->playSound("winner.ogg", false);
-        std::cout << "player " << player->_playerId << std::endl;
+        std::cout << "Player " << player->_playerId << " won!" << std::endl;
         // TODO VICTORY TRIGER
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         _objs[3].clear();
         rl::Mouse::ShowCursor();
         _settings._scene = 2;
     } else if (_playerCount == 0 && _settings._scene == 3) {
-        std::cout << "draw" << std::endl;
+        _mm->playSound("tie.ogg", false);
+        std::cout << "It's a tie!" << std::endl;
         // TODO DRAW TRIGER
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         _objs[3].clear();
         _settings._scene = 2;
     }
