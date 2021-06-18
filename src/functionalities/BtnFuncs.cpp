@@ -148,6 +148,9 @@ void BF::addSkin(Bomberman *win, Btn *b, void *data)
     #elif _WIN32
         ret = system(cmd.str().c_str());
         (void)ret;
+    #elif __APPLE__
+        ret = system(cmd.str().c_str());
+        (void)ret;
     #else
         std::cerr << "Sorry ! This functionnality is not available on your OS!" << std::endl;
         return;

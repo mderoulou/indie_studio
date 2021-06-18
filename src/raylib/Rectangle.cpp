@@ -7,7 +7,7 @@
 
 #include "Rectangle.hpp"
 
-rl::Rectangle::Rectangle(float x = 0, float y = 0, float width = 0, float height = 0)
+rl::Rectangle::Rectangle(float x, float y, float width, float height)
     : ::Rectangle{x, y, width, height}
 {
 }

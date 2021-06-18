@@ -17,7 +17,7 @@ namespace rl {
 class Rectangle : public ::Rectangle
 {
     public:
-        Rectangle(float x, float y, float width, float height);
+        Rectangle(float = 0, float = 0, float = 0, float = 0);
         Rectangle(const Rectangle &rect);
         ~Rectangle() {};
 
