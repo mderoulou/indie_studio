@@ -52,6 +52,7 @@ if (UNIX)
 endif()
 if (WIN32)
     SET(CMAKE_BUILD_TYPE RELEASE)
+    file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/../Release)
 endif()
 
 set(EXECUTABLE_OUTPUT_PATH ..)
