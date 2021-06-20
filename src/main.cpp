@@ -13,7 +13,7 @@ int main(void)
     try {
         Bomberman game;
         #ifdef __linux__
-        //signal(SIGSEGV, sighandler);
+        signal(SIGSEGV, sighandler);
         #endif
         game.launch();
     } catch (...) {
