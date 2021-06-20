@@ -14,6 +14,7 @@
 #include "Vector.hpp"
 #include "Color.hpp"
 #include <memory>
+#include <chrono>
 
 namespace rl {
 
@@ -38,6 +39,7 @@ class Model
     private:
         ::Model _model;
         bool _isSkyBox;
+        std::chrono::time_point<std::chrono::high_resolution_clock> _time;
 };
 
 class ModelAnimation

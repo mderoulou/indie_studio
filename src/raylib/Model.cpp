@@ -78,12 +78,15 @@ void rl::Model::makeItSkybox(std::string pathSharderVs, std::string pathSharderF
                                             TextFormat(pathSharderFs.c_str(), GLSL_VERSION));
 
     const int a[1] = {MATERIAL_MAP_CUBEMAP};
-    const int b[1] = {0};
-    const int c[1] = {0};
+    const float b[1] = {0};
 
-    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "environmentMap"), a, SHADER_UNIFORM_INT);
-    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "doGamma"), b, SHADER_UNIFORM_INT);
-    SetShaderValue(_model.materials[0].shader, GetShaderLocation(_model.materials[0].shader, "vflipped"), c, SHADER_UNIFORM_INT);
+    _time = std::chrono::high_resolution_clock::now();
+
+    int eLoc = GetShaderLocation(_model.materials[0].shader, "env");
+    int tLoc = GetShaderLocation(_model.materials[0].shader, "time");
+
+    SetShaderValue(_model.materials[0].shader, eLoc, a, SHADER_UNIFORM_SAMPLER2D);
+    SetShaderValue(_model.materials[0].shader, tLoc, b, SHADER_UNIFORM_FLOAT);
 
     ::Image img = LoadImage(pathImg.c_str());
     _model.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = LoadTextureCubemap(img, CUBEMAP_LAYOUT_AUTO_DETECT);
@@ -93,6 +96,13 @@ void rl::Model::makeItSkybox(std::string pathSharderVs, std::string pathSharderF
 void rl::Model::drawSkybox()
 {
     Vector3 vec = { 0, 0, 0 };
+    auto now = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> diff = now - _time;
+    const float a[1] = {diff.count()};
+
+    int tLoc = GetShaderLocation(_model.materials[0].shader, "time");
+
+    SetShaderValue(_model.materials[0].shader, tLoc, a, SHADER_UNIFORM_FLOAT);
     DrawModel(_model, vec, 1.0f, WHITE);
 }
 
