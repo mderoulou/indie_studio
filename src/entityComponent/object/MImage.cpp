@@ -23,7 +23,7 @@ MImage::MImage(const std::string &path,
 
 void MImage::render(rl::Camera3d *cam)
 {
-    float x = ((float)_win->_win->getScreenWidth() / 2.0) * _pos.x + _offset.x - (float)_img->getTexture().width / 2.0;
-    float y = ((float)_win->_win->getScreenHeight() / 2.0) * _pos.y + _offset.y - (float)_img->getTexture().height / 2.0; 
+    float x = ((float)_win->_win->getScreenWidth()) * _pos.x + _offset.x - (float)_img->getTexture().width / 2.0;
+    float y = ((float)_win->_win->getScreenHeight()) * _pos.y + _offset.y - (float)_img->getTexture().height / 2.0; 
     _img->draw((int)x, (int)y, _c);
 }

@@ -8,7 +8,7 @@
 #include "Manager.hpp"
 
 ComponentManager::ComponentManager(Bomberman *bomberman)
-    : _objs(7)
+    : _objs(8)
 {
     _cam = new rl::Camera3d(rl::Vec3(1.0f, 1.0f, 1.0f),
                             rl::Vec3(4.0f, 1.5f, 1.0f),

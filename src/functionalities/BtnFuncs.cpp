@@ -403,13 +403,11 @@ void BF::helpBtn(Bomberman *win, Btn *b, void *data)
     (void)data;
     (void)b;
     switchScene(win, 7);
-    win->_manager->addComponent(std::make_shared<MImage>("assets/menus/help.png", win, rl::Vec2(1.0/2.0, 1.0/2.0), rl::Vec2(0.0, 0.0)), 7);
 }
 
 void BF::leaveHelp(Bomberman *win, Btn *b, void *data)
 {
     (void)data;
     (void)b;
-    win->_manager->_objs[7].clear();
     switchScene(win, 0);
 }

@@ -213,7 +213,8 @@ void Bomberman::createUI()
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::saveBtn), (void *)0, _t._btn, _t._ft), 4);
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), "Quit", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::homeBtn), (void *)0, _t._btn, _t._ft), 4);
     // HELP MENU :
-    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 7, this, &(BF::leaveHelp), (void *)0, _t._btn, _t._ft), 5);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 7, this, &(BF::leaveHelp), (void *)0, _t._btn, _t._ft), 7);
+    _manager->addComponent(std::make_shared<MImage>("assets/menus/help.png", this, rl::Vec2(0.5, 0.5), rl::Vec2(0, 0)), 7);
 
     // ALL MENUS :
     _manager->addComponent(musicManager, 6);
