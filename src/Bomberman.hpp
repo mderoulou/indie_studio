@@ -23,6 +23,8 @@ class allTexture
     public:
         std::shared_ptr<rl::Texture> _btn; // Btn texture
         std::shared_ptr<rl::Texture> _sb; // StoneBrick texture
+        std::shared_ptr<rl::Texture> _redstone; // Redstone texture
+        std::shared_ptr<rl::Texture> _dirt; // Dirt texture
         std::shared_ptr<rl::Model> _sb_mod;
         std::shared_ptr<rl::Texture> _wood; // wood texture
         std::shared_ptr<rl::Model> _wood_mod;

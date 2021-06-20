@@ -13,7 +13,7 @@
 class Skybox : public Object3D
 {
 public:
-    Skybox();
+    Skybox(Bomberman *win);
 
     void handleEvent() override {};
     void move(rl::Vec3 move) override {};
@@ -24,6 +24,7 @@ public:
     std::shared_ptr<rl::Model> _skybox;
     std::shared_ptr<rl::Shader> _shader;
 private:
+    Bomberman *_m;
 };
 
 #endif
