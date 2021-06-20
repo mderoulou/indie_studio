@@ -29,6 +29,8 @@ Skybox::Skybox(Bomberman *m)
                             "assets/shader/skybox/skybox.png");
 }
 
+#include <iostream>
+
 void Skybox::render(rl::Camera3d *cam)
 {
     cam->beginMode();
@@ -36,7 +38,7 @@ void Skybox::render(rl::Camera3d *cam)
     rlDisableDepthMask();
     rlDrawRenderBatchActive();
     rlDisableDepthTest();
-    (*_skybox).drawSkybox(rl::Vec2{(float) _m->_manager->_settings._width, (float) _m->_manager->_settings._height});
+    (*_skybox).drawSkybox(rl::Vec2{(float) _m->_win->getScreenWidth(), (float) _m->_win->getScreenHeight()});
     rlDrawRenderBatchActive();
     rlEnableBackfaceCulling();
     rlEnableDepthMask();
