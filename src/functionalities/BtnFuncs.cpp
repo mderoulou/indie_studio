@@ -373,6 +373,7 @@ void BF::switchSkin(Bomberman *win, Btn *b, void *data)
 void BF::saveBtn(Bomberman *win, Btn *b, void *data)
 {
     win->saveMap();
+    switchScene(win, 0);
 }
 
 void BF::homeBtn(Bomberman *win, Btn *b, void *data)
@@ -384,6 +385,7 @@ void BF::homeBtn(Bomberman *win, Btn *b, void *data)
 void BF::saveSettings(Bomberman *win, Btn *b, void *data)
 {
     win->saveSettings();
+    switchScene(win, 0);
 }
 
 void BF::loadGame(Bomberman *win, Btn *b, void *data)
