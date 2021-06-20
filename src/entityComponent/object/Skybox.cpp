@@ -18,8 +18,9 @@
     #define GLSL_VERSION            100
 #endif
 
-Skybox::Skybox()
+Skybox::Skybox(Bomberman *m)
 {
+    _m = m;
     _scene = 3;
     _mesh = std::make_shared<rl::Mesh>(10.0f, 10.0f, 10.0f);
     _skybox = std::make_shared<rl::Model>(*(_mesh.get()));
@@ -35,7 +36,7 @@ void Skybox::render(rl::Camera3d *cam)
     rlDisableDepthMask();
     rlDrawRenderBatchActive();
     rlDisableDepthTest();
-    (*_skybox).drawSkybox();
+    (*_skybox).drawSkybox(rl::Vec2{(float) _m->_manager->_settings._width, (float) _m->_manager->_settings._height});
     rlDrawRenderBatchActive();
     rlEnableBackfaceCulling();
     rlEnableDepthMask();
