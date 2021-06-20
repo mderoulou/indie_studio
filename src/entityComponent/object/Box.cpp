@@ -29,7 +29,7 @@ bool Box::explode(Bomb *){
     std::shared_ptr<Particle> p = std::make_shared<Particle>(_pos + _size*(0.2/2), _size*0.8, rl::Color(200, 200, 200, 255), _scene, _texture, 120);
     _manager->addComponent(p, _scene);
 
-    int r = rand() % 3;
+    int r = rand() % 9;
     std::shared_ptr<PowerUp> powerUp;
     if (r == 0) {
         powerUp = std::make_shared<PowerBombsPower>(boudingBoxCenter(), 3, _manager->_bomberman->_t._power_size);
