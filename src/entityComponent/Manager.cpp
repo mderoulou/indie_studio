@@ -115,10 +115,8 @@ void ComponentManager::moveCamera(bool dynamic)
         rl::Vec3 pos = _cam->getPosition();
         rl::Vec3 target = _cam->getTarget();
 
-        v_pos += (_set_pos - v_pos*50-pos)*0.001;
-        v_target += (_set_target - v_target*50-target)*0.001;
-
-        // TODO: Make a traveling
+        v_pos    += (_set_pos    - v_pos    * 50 - pos   ) * 0.001;
+        v_target += (_set_target - v_target * 50 - target) * 0.001;
 
         _cam->setTarget( target + v_target);
         _cam->moveCamera(pos    + v_pos);
@@ -142,7 +140,7 @@ void ComponentManager::manageCamera()
 {
     int size = 0;
 
-    if (_settings._scene == 3) {
+    if (_settings._scene == 3 || _settings._scene == 4) {
         size = 11 + 6 * _settings._sizeMap;
         _set_pos = rl::Vec3(size / 2,  size * 1.3, (size / 2) + 0.5);
         _set_target = rl::Vec3(size / 2,  0, size / 2);
