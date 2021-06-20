@@ -106,7 +106,8 @@ void Bomberman::generateMap(int type)
 
 void Bomberman::launch()
 {
-    Skybox *skybox = new Skybox();
+    _skybox = new Skybox();
+
 
     //_manager->_objs[3].clear();
     //loadMap();
@@ -117,7 +118,7 @@ void Bomberman::launch()
         _win->beginDrawing();
         ClearBackground(Color{255, 255, 255, 255});
         _win->clearBackground(rl::Color(255, 255, 255, 255));
-        skybox->render(_manager->_cam);
+        _skybox->render(_manager->_cam);
         _t._ft->drawFPS(5, 25);
         _manager->manageCamera();
         _manager->handleEvent();

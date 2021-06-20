@@ -233,14 +233,30 @@ void BF::previewSkin(Bomberman *win, void *data, std::string str)
     ptr->setTexture(std::string(std::string("assets/skins/") + str) + ".png");
 }
 
+
+void runGraphique(Bomberman* bomberman) {
+    bomberman->_win->beginDrawing();
+    ClearBackground(Color{255, 255, 255, 255});
+    bomberman->_win->clearBackground(rl::Color(255, 255, 255, 255));
+    bomberman->_skybox->render(bomberman->_manager->_cam);
+    bomberman->_t._ft->drawFPS(5, 25);
+    bomberman->_manager->manageCamera();
+    bomberman->_manager->renderAll();
+    bomberman->_win->endDrawing();
+
+}
+
 void countDown(Bomberman* win)
 {
     win->_manager->_mm->playSound("3.ogg", false);
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    for (int i = 0; i < 60; i++)
+        runGraphique(win);
     win->_manager->_mm->playSound("2.ogg", false);
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    for (int i = 0; i < 60; i++)
+        runGraphique(win);
     win->_manager->_mm->playSound("1.ogg", false);
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    for (int i = 0; i < 60; i++)
+        runGraphique(win);
     win->_manager->_mm->playSound("fight.ogg", false);
 }
 

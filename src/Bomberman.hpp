@@ -37,6 +37,8 @@ class allTexture
         rl::Mesh _cube_mesh = {1, 1, 1};
 };
 
+class Skybox;
+
 class Bomberman
 {
     public:
@@ -49,6 +51,7 @@ class Bomberman
         allTexture _t;
         rl::Window *_win;
         bool _ending = false;
+        Skybox *_skybox;
         void saveMap();
         void saveSettings();
         bool loadMap();
