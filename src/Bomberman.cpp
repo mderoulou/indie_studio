@@ -274,12 +274,6 @@ void Bomberman::saveMap()
     if (!file.is_open()) return;
     uint magic = 0x12345678; // MAGIIICCCCC
     file.write((char *)&magic, sizeof(magic));   
-    file.write((char *)&_manager->_cam->position, sizeof(_manager->_cam->position));
-    file.write((char *)&_manager->_cam->target, sizeof(_manager->_cam->target));
-    file.write((char *)&_manager->_cam->up, sizeof(_manager->_cam->up));
-    file.write((char *)&_manager->_cam->fovy, sizeof(_manager->_cam->fovy));
-    file.write((char *)&_manager->_cam->projection, sizeof(_manager->_cam->projection));
-    file.write((char *)&_manager->_cam->_isStarted, sizeof(_manager->_cam->_isStarted));
 
     file << _manager->_objs[3].size();
     for (auto &obj : _manager->_objs[3]) {
@@ -300,12 +294,7 @@ bool Bomberman::loadMap()
         std::cerr << "Bad Magic Number "<< magic << std::endl;
         return false;
     }
-    file.read((char *)&_manager->_cam->position, sizeof(_manager->_cam->position));
-    file.read((char *)&_manager->_cam->target, sizeof(_manager->_cam->target));
-    file.read((char *)&_manager->_cam->up, sizeof(_manager->_cam->up));
-    file.read((char *)&_manager->_cam->fovy, sizeof(_manager->_cam->fovy));
-    file.read((char *)&_manager->_cam->projection, sizeof(_manager->_cam->projection));
-    file.read((char *)&_manager->_cam->_isStarted, sizeof(_manager->_cam->_isStarted));
+
 
     std::vector<std::vector<int>> keys{ 
         {KeyboardKey::KEY_W, KeyboardKey::KEY_S, KeyboardKey::KEY_A, KeyboardKey::KEY_D, KeyboardKey::KEY_E, KeyboardKey::KEY_Q},
