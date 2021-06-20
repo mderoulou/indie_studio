@@ -93,16 +93,23 @@ void rl::Model::makeItSkybox(std::string pathSharderVs, std::string pathSharderF
     UnloadImage(img);
 }
 
-void rl::Model::drawSkybox()
+#include <iostream>
+
+void rl::Model::drawSkybox(rl::Vec2 res)
 {
     Vector3 vec = { 0, 0, 0 };
     auto now = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = now - _time;
     const float a[1] = {diff.count()};
+    float screenSize[2] = { (float)res.x, (float)res.y };
 
     int tLoc = GetShaderLocation(_model.materials[0].shader, "time");
+    int rLoc = GetShaderLocation(_model.materials[0].shader, "res");
+
+    std::cout << screenSize[0] << " " << screenSize[1] << std::endl;
 
     SetShaderValue(_model.materials[0].shader, tLoc, a, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(_model.materials[0].shader, rLoc, screenSize, SHADER_UNIFORM_VEC2);
     DrawModel(_model, vec, 1.0f, WHITE);
 }
 

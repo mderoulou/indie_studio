@@ -108,7 +108,7 @@ void Bomberman::generateMap(int type)
 
 void Bomberman::launch()
 {
-    _skybox = new Skybox();
+    _skybox = new Skybox(this);
 
 
     //_manager->_objs[3].clear();
