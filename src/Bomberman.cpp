@@ -336,7 +336,7 @@ bool Bomberman::loadMap()
                 break;
             case ByteObject::FLOOR:
                 //std::cout << "load Floor" << std::endl;
-                _manager->addComponent(std::make_shared<Floor>(obj, _t._sb), 3);
+                _manager->addComponent(std::make_shared<Floor>(obj, _t._dirt), 3);
                 break;
             case ByteObject::BOX:
                 //std::cout << "load Box" << std::endl;
