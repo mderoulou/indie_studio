@@ -77,7 +77,7 @@ void Bomberman::generateMap(int type)
         for (int j = 0; j < y; j += 1) {
             _manager->addComponent(std::make_shared<Floor>(rl::Vec3(i, -1.0f, j),
                             rl::Vec3(1.02f, 1.02f, 1.02f),
-                            rl::Color(200, 200, 200, 255), 3, _t._sb), 3);
+                            rl::Color(255, 255, 255, 255), 3, _t._dirt), 3);
         }
     }
 
@@ -136,6 +136,8 @@ void Bomberman::preLoad()
     rl::Sound::InitAudioDevice(); // Init audio
 
     _t._btn = std::make_shared<rl::Texture>("assets/menus/btns.png");
+    _t._redstone = std::make_shared<rl::Texture>("assets/block/redstone_block.png");
+    _t._dirt = std::make_shared<rl::Texture>("assets/block/dirt.png");
     _t._ft = std::make_shared<rl::Font>("assets/minecraftia.ttf");
 
     _t._sb = std::make_shared<rl::Texture>("assets/block/stone-bricks.png");
