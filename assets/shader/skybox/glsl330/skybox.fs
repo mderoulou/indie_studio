@@ -14,7 +14,7 @@ const float LACUNARITY = 2.0;
 
 float rand(vec2 pos)
 {
-    return (fract(sin(dot(floor(pos), vec2(12.3862 * time, 24.233 * time))) * 41234.23456784));
+    return (fract(sin(dot(floor(pos), vec2(12.3862, 24.233))) * 41234.23456784));
 }
 
 float noise(vec2 pos)
@@ -49,8 +49,9 @@ float fract_brown_motion(vec2 pos)
 
 void main()
 {
-    vec2 st = gl_FragCoord.xy / res.xy * 3.0;
     vec3 color = vec3(0.0);
+
+    vec2 st = gl_FragCoord.xy / res.xy * 1.0;
     st.x += time / 1.0 - gl_FragCoord.x / 600.0;
     st.y += time / 4.0 + gl_FragCoord.y / 400.0;
 
@@ -67,7 +68,17 @@ void main()
     color = mix(vec3(0.1, 0.6, 0.6), vec3(0.6, 0.6, 0.4), clamp((f*f)*4.0,0.0,1.0));
     color = mix(color, vec3(0.1, 0.1, 0.1), clamp(length(q), 0.0, 1.0));
     color = mix(color, vec3(1., 1., 1.0), clamp(length(r.x), 0.0, 1.0));
-    //color = mix(color, texture(env, fragPosition).rgb, 0.5);
+    color = mix(color, texture(env, fragPosition).rgb, 0.5);
 
-    gl_FragColor = vec4(vec3(fract_brown_motion(gl_FragCoord.xy)), 1.0);//vec4((f*f*f+.6*f*f+.5*f)*color,2.0 * f);
+    gl_FragColor = vec4((f*f*f+.6*f*f+.5*f)*color, 2.0 * f);
+
+    //vec4(vec3(fract_brown_motion(gl_FragCoord.xy / res.xy)), 1.0);
+    //
+    //vec4(vec3(q.xy, 0), 1.0);
+
+
+    /*vec2 l = vec2(0.5, 0.5);
+    vec2 pos = (gl_FragCoord.xy / res.xy) - l;
+    gl_FragColor = vec4(vec3(length(pos)), 1.0);*/
+
 }
