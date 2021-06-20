@@ -29,8 +29,6 @@ Skybox::Skybox(Bomberman *m)
                             "assets/shader/skybox/skybox.png");
 }
 
-#include <iostream>
-
 void Skybox::render(rl::Camera3d *cam)
 {
     cam->beginMode();
