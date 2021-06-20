@@ -39,6 +39,8 @@ namespace BF {
     void homeBtn(Bomberman *win, Btn *b, void *data);
     void saveSettings(Bomberman *win, Btn *b, void *data);
     void loadGame(Bomberman *win, Btn *b, void *data);
+    void helpBtn(Bomberman *win, Btn *b, void *data);
+    void leaveHelp(Bomberman *win, Btn *b, void *data);
 }
 
 #endif /* !BTNFUNCS_HPP_ */

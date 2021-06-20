@@ -19,7 +19,7 @@ EscManager::EscManager(Bomberman *win, int scene)
 void EscManager::handleEvent()
 {
     int copy = _win->_manager->_settings._scene;
-    void (*ptr[])(Bomberman *, Btn *, void *) = {0, &(BF::backBtn), &(BF::backBtn), &(BF::pauseBtn), &(BF::unpauseBtn), &(BF::backBtn) };
+    void (*ptr[])(Bomberman *, Btn *, void *) = {0, &(BF::backBtn), &(BF::backBtn), &(BF::pauseBtn), &(BF::unpauseBtn), &(BF::backBtn), &(BF::backBtn), &(BF::backBtn)};
 
     if (rl::KeyBoard::IsKeyReleased(256) && copy != 0)
         (*ptr[copy])(_win, 0, 0);

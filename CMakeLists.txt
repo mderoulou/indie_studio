@@ -93,6 +93,7 @@ src/entityComponent/object/PowerUp.cpp
 src/entityComponent/object/Skybox.cpp
 src/entityComponent/object/Btn.cpp
 src/entityComponent/object/Input.cpp
+src/entityComponent/object/MImage.cpp
 src/entityComponent/object/Slider.cpp
 src/entityComponent/object/PlayerAI.cpp
 src/entityComponent/object/List.cpp

@@ -27,6 +27,8 @@
 *   3 => GAME           *
 *   4 => PAUSE          *
 *   5 => SKIN MENU      *
+*   6 => ALL MENU       *
+*   7 => HELP MENU      *
 *                       *
 \***********************/
 
@@ -177,6 +179,7 @@ void Bomberman::createUI()
     // HOME MENU :
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::playBtn), (void*)musicManager.get(), _t._btn, _t._ft), 0);
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Skins", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::skinBtn), (void *)0, _t._btn, _t._ft), 0);
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "How to Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::helpBtn), (void *)0, _t._btn, _t._ft), 0);
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(104.0, 120.0), "Respository", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::repoLink), (void *)0, _t._btn, _t._ft), 0);
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(-100.0, 120.0), "Options", 24, rl::Rectangle(400, 0, 196, 40), _t._click, 0, this, &(BF::optBtn), (void *)0, _t._btn, _t._ft), 0);
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 180.0), "Quit Game", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 0, this, &(BF::quitBtn), (void *)0, _t._btn, _t._ft), 0);
@@ -209,6 +212,9 @@ void Bomberman::createUI()
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 0.0), "Play", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::unpauseBtn), (void *)0, _t._btn, _t._ft), 4);
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 60.0), "Save", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::saveBtn), (void *)0, _t._btn, _t._ft), 4);
     _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 5.0 / 20), rl::Vec2(0.0, 120.0), "Quit", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 4, this, &(BF::homeBtn), (void *)0, _t._btn, _t._ft), 4);
+    // HELP MENU :
+    _manager->addComponent(std::make_shared<Btn>(rl::Vec2(1.0 / 2, 19.0 / 20), rl::Vec2(0.0, 0.0), "Done", 24, rl::Rectangle(0, 0, 400, 40), _t._click, 7, this, &(BF::leaveHelp), (void *)0, _t._btn, _t._ft), 7);
+    _manager->addComponent(std::make_shared<MImage>("assets/menus/help.png", this, rl::Vec2(0.5, 0.5), rl::Vec2(0, 0)), 7);
 
     // ALL MENUS :
     _manager->addComponent(musicManager, 6);
@@ -330,7 +336,7 @@ bool Bomberman::loadMap()
                 break;
             case ByteObject::FLOOR:
                 //std::cout << "load Floor" << std::endl;
-                _manager->addComponent(std::make_shared<Floor>(obj, _t._sb), 3);
+                _manager->addComponent(std::make_shared<Floor>(obj, _t._dirt), 3);
                 break;
             case ByteObject::BOX:
                 //std::cout << "load Box" << std::endl;

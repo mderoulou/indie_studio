@@ -393,7 +393,21 @@ void BF::loadGame(Bomberman *win, Btn *b, void *data)
     win->_manager->_objs[3].clear();
     if (!win->loadMap())
         return;
+    switchScene(win, 3);
     countDown(win);
     rl::Mouse::HideCursor();
-    switchScene(win, 3);
+}
+
+void BF::helpBtn(Bomberman *win, Btn *b, void *data)
+{
+    (void)data;
+    (void)b;
+    switchScene(win, 7);
+}
+
+void BF::leaveHelp(Bomberman *win, Btn *b, void *data)
+{
+    (void)data;
+    (void)b;
+    switchScene(win, 0);
 }
